@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0.0",
+  "repository": "fefferman-clay-navier-stokes",
+  "author": "Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718)",
+  "license": "Apache-2.0",
+  "technologies": {
+    "titan_audit_doi": "10.5281/zenodo.23630648",
+    "sealguard_doi": "10.5281/zenodo.23631670",
+    "sentinel_gate_doi": "10.5281/zenodo.23632766"
+  },
+  "merkle_root_sha256": "1c1459da2215dfb57a3f7336333a93817cf1afedeecade7183a48d219097ab5c",
+  "sentinel_gate_receipt": {
+    "engine": "Sentinel Gate v1.0.0 (DOI: 10.5281/zenodo.23632766)",
+    "author": "Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718)",
+    "action_type": "seal_and_attest_public_release",
+    "action_id": "1c1459da2215dfb57a3f7336333a93817cf1afedeecade7183a48d219097ab5c",
+    "permitted": true,
+    "reason": "PERMITTED_DETERMINISTIC_POLICY",
+    "receipt_sha256": "f2b52ccdcec4b90f9a9fe11ec2f2800c51b623df30e40d95e524420bd4c47617"
+  },
+  "files": {
+    ".gitignore": {
+      "sha256": "8ec770330af8d7a78735e64d96ccc881826ff77eb7d0d34af9c9d51f8e35169b",
+      "bytes": 87
+    },
+    ".zenodo.json": {
+      "sha256": "a75eff5e1e74e7365625a2f5f15de96908e2ec0332e9cccd75789237e0243cd5",
+      "bytes": 2379
+    },
+    "AxiomAudit.lean": {
+      "sha256": "2488b4204775c7387306adde7d6da201d7579034f437430028c81964f45be807",
+      "bytes": 3017
+    },
+    "CITATION.cff": {
+      "sha256": "15d42202915dc8e6e8e703a7ec8ef32a3b97a3f5ac4d00cef81a692060198122",
+      "bytes": 611
+    },
+    "FeffermanClayNS/Defs.lean": {
+      "sha256": "ddfb24a4ef6b20360a46a17615495c495dd3e1e7289b263a8b913c3940792e89",
+      "bytes": 173047
+    },
+    "FeffermanClayNS/FeffermanStatements.lean": {
+      "sha256": "d11de75b4185f29910cd586a3c7d3437a9c75171560eedea4c6838de9bbde7cd",
+      "bytes": 19310
+    },
+    "FeffermanClayNS/HighSetDepletionAndBKM.lean": {
+      "sha256": "60d5e2f538279b6282d898087cb0eee661c50efd5314196a230358b693ca1f69",
+      "bytes": 15535
+    },
+    "FeffermanClayNS/TorusStrainExclusion.lean": {
+      "sha256": "b1ac49854ae417047e9e11f0389a1dc97cfd26d47298bc54070da5579000beaf",
+      "bytes": 13294
+    },
+    "FeffermanClayNS.lean": {
+      "sha256": "b86237a3b729f6242d562bd142683fe38ae21fb1b6af431ff12c08111975b4a5",
+      "bytes": 1713
+    },
+    "Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf": {
+      "sha256": "7126bf9b8badac3c06b3f87ab2591dec18001d0339e2e8f9ef2c0104f7c37c2a",
+      "bytes": 116442
+    },
+    "LICENSE": {
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "bytes": 11358
+    },
+    "NOTICE": {
+      "sha256": "54f96e1a287d314e72d6a2f64e63fb7264faa08774c3367dd05345c3c7bdc586",
+      "bytes": 409
+    },
+    "README.md": {
+      "sha256": "21453f139c1ba68b862959be6fa877bf70ca5df1af37cbf964a6855f3b816f17",
+      "bytes": 10644
+    },
+    "audit/TITAN_AUDIT_CERTIFICATE.json": {
+      "sha256": "d8693f6b14f7b7a0c32b5aeaef69384cefd0385ffa07fe8a3542c2d390d13998",
+      "bytes": 4179
+    },
+    "audit/TITAN_AUDIT_REPORT.md": {
+      "sha256": "2da40ba7e62347acc3476beb7363aad447f7fc7c92fad04824d1fe6ad9fff434",
+      "bytes": 1667
+    },
+    "audit/report.json": {
+      "sha256": "d8693f6b14f7b7a0c32b5aeaef69384cefd0385ffa07fe8a3542c2d390d13998",
+      "bytes": 4179
+    },
+    "audit/report.md": {
+      "sha256": "2da40ba7e62347acc3476beb7363aad447f7fc7c92fad04824d1fe6ad9fff434",
+      "bytes": 1667
+    },
+    "ci/titan-audit-and-sealguard.yml": {
+      "sha256": "bff40a3f4424a15e7cc2b9ac5c51e9c3d6bef914ef3e1f421ce73fa167e11124",
+      "bytes": 508
+    },
+    "ip_pipeline/seal_and_verify.py": {
+      "sha256": "77864093021cdf5a80124ac294842fd09bdd8b9adc5a54af329db0c290ffa6e6",
+      "bytes": 7477
+    },
+    "lake-manifest.json": {
+      "sha256": "b81d814b7d2d2d2821b03ed679324d5e7ec7da674e0a977352d01c88cbe8ccb8",
+      "bytes": 3165
+    },
+    "lakefile.lean": {
+      "sha256": "b29bf98eca7387a62b41ebf13169cabc9f32dea660c53a4113188ed221c095c7",
+      "bytes": 656
+    },
+    "lean-toolchain": {
+      "sha256": "1098ca8368e0db12138f33b070187e1f6527984ae0451a587b20e3e661f96a76",
+      "bytes": 29
+    },
+    "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf": {
+      "sha256": "7126bf9b8badac3c06b3f87ab2591dec18001d0339e2e8f9ef2c0104f7c37c2a",
+      "bytes": 116442
+    },
+    "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.tex": {
+      "sha256": "162d3886873a6997520660af1aca6a7767aa2ef0a19b20cd5ba1638c03143f65",
+      "bytes": 28419
+    }
+  }
+}

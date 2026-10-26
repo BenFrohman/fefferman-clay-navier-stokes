@@ -1,0 +1,18 @@
+name: Lean 4 Kernel Axiom Audit, Titan-Audit & SealGuard Provenance Gate
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+      - name: Run In-Kernel Axiom & Zero-Sorry Audit
+        run: lake env lean AxiomAudit.lean
+      - name: Verify SealGuard Merkle Root & Sentinel-Gate Policy Receipt
+        run: python3 ip_pipeline/seal_and_verify.py --verify

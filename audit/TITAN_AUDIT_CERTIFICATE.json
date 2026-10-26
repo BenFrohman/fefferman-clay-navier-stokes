@@ -1,0 +1,131 @@
+{
+  "tool": {
+    "name": "titan-audit",
+    "version": "1.0.0",
+    "author": "Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718)",
+    "doi": "10.5281/zenodo.23630648"
+  },
+  "project": {
+    "path": "/workspace/fefferman-clay-navier-stokes",
+    "name": "fefferman-clay-navier-stokes",
+    "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
+    "git_head": null
+  },
+  "build": {
+    "requested": false
+  },
+  "axiom_audit": {
+    "ran": true,
+    "exit_code": 0,
+    "errors": [],
+    "modules": 5,
+    "theorems": 184,
+    "clean_theorems": 184,
+    "nonstandard": [],
+    "per_module": {
+      "FeffermanClayNS.Defs": {
+        "theorems": 143,
+        "nonstandard": 0
+      },
+      "FeffermanClayNS.TorusStrainExclusion": {
+        "theorems": 19,
+        "nonstandard": 0
+      },
+      "FeffermanClayNS.FeffermanStatements": {
+        "theorems": 13,
+        "nonstandard": 0
+      },
+      "FeffermanClayNS.HighSetDepletionAndBKM": {
+        "theorems": 9,
+        "nonstandard": 0
+      }
+    }
+  },
+  "source_scan": {
+    "forbidden": [],
+    "vacuity_heuristics": [
+      {
+        "kind": "real_iSup_without_BddAbove",
+        "file": "FeffermanClayNS/Defs.lean",
+        "line": 2290,
+        "decl": "Tstar",
+        "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
+        "in_build": true
+      },
+      {
+        "kind": "real_iSup_without_BddAbove",
+        "file": "FeffermanClayNS/Defs.lean",
+        "line": 2801,
+        "decl": "vorticity_sup_norm",
+        "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
+        "in_build": true
+      },
+      {
+        "kind": "real_iSup_without_BddAbove",
+        "file": "FeffermanClayNS/Defs.lean",
+        "line": 2815,
+        "decl": "strain_sup_norm",
+        "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
+        "in_build": true
+      }
+    ],
+    "counts": {
+      "real_iSup_without_BddAbove": 3
+    }
+  },
+  "tree": {
+    "sha256": "76738ff08b99b5e1cf1799fd4a6aaba6307de79d1a8cd158209fa4b305c02538",
+    "files": 9,
+    "entries": [
+      {
+        "path": "AxiomAudit.lean",
+        "sha256": "2488b4204775c7387306adde7d6da201d7579034f437430028c81964f45be807"
+      },
+      {
+        "path": "FeffermanClayNS.lean",
+        "sha256": "b86237a3b729f6242d562bd142683fe38ae21fb1b6af431ff12c08111975b4a5"
+      },
+      {
+        "path": "FeffermanClayNS/Defs.lean",
+        "sha256": "ddfb24a4ef6b20360a46a17615495c495dd3e1e7289b263a8b913c3940792e89"
+      },
+      {
+        "path": "FeffermanClayNS/FeffermanStatements.lean",
+        "sha256": "d11de75b4185f29910cd586a3c7d3437a9c75171560eedea4c6838de9bbde7cd"
+      },
+      {
+        "path": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
+        "sha256": "60d5e2f538279b6282d898087cb0eee661c50efd5314196a230358b693ca1f69"
+      },
+      {
+        "path": "FeffermanClayNS/TorusStrainExclusion.lean",
+        "sha256": "b1ac49854ae417047e9e11f0389a1dc97cfd26d47298bc54070da5579000beaf"
+      },
+      {
+        "path": "lake-manifest.json",
+        "sha256": "b81d814b7d2d2d2821b03ed679324d5e7ec7da674e0a977352d01c88cbe8ccb8"
+      },
+      {
+        "path": "lakefile.lean",
+        "sha256": "b29bf98eca7387a62b41ebf13169cabc9f32dea660c53a4113188ed221c095c7"
+      },
+      {
+        "path": "lean-toolchain",
+        "sha256": "1098ca8368e0db12138f33b070187e1f6527984ae0451a587b20e3e661f96a76"
+      }
+    ],
+    "method": "sha256 of 'sha256  path\\n' lines, sorted by path, over *.lean (excluding .lake/.git) + lakefile/manifest/toolchain"
+  },
+  "verdict": {
+    "status": "PASS_WITH_WARNINGS",
+    "reasons": [],
+    "vacuity_warnings_in_build": 3
+  },
+  "generated_at_utc": "2026-10-26T00:00:47+00:00",
+  "signature": {
+    "alg": "ed25519",
+    "public_key_b64": "c7BnJCTBz91GSJfR9q9g7XaE9b8u6r2wfKeXGzYuwKs=",
+    "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
+    "value_b64": "RUMuO9V0zGhJLod297NY3R3jqhaNTyTYmg9Z7tdaxAh/HMBImdxGqoEUfA4+kjTkWRjgzEOoBgx6MpXPSediBg=="
+  }
+}

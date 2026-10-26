@@ -1,0 +1,42 @@
+{
+  "title": "Formalizing Fefferman's Official Periodic Navier-Stokes Problem (B) in Lean 4: Global Linear Strain Exclusion on T3, Biot-Savart Direction Depletion Identities, and Conditional Reductions via Beale-Kato-Majda",
+  "upload_type": "software",
+  "description": "Self-contained Lean 4 formalization (leanprover/lean4:v4.30.0-rc1, Mathlib 4, 184 kernel-verified theorems across 5 modules with zero sorry and zero non-standard axioms outside [propext, Classical.choice, Quot.sound]) of Charles L. Fefferman's official periodic 3D incompressible Navier-Stokes problem statement (Statement (B) on R^3/Z^3), together with unconditional proofs of global linear background strain exclusion on T^3 (z3_periodic_linear_eq_zero, burgersLinearStrain_not_z3_periodic), pointwise Biot-Savart direction-alignment depletion identities (biot_savart_det_aligned_eq_zero, biot_savart_det_difference_identity), parabolic lambda^6 scaling identities, the cubic comparison ODE ceiling (comparison_ode_ceiling), and explicit CONDITIONAL reductions (clay_B_exact_of_periodic_tether_bound, clay_B_exact_of_torus_direction_depletion) whose analytic hypotheses (PeriodicDirectionDepletionBound, PeriodicTetherClosingBound, PeriodicBKMContinuation) remain OPEN and are stated explicitly as hypotheses. Note: Torus periodicity rules out only a global linear background strain; localized Burgers-like vortex structures can still form locally on T^3, so this repository does NOT claim an unconditional solution of Clay Problem (B) or (A).",
+  "creators": [
+    {
+      "name": "Frohman, Benjamin Stanley",
+      "orcid": "0009-0006-7068-3718"
+    }
+  ],
+  "license": "Apache-2.0",
+  "access_right": "open",
+  "keywords": [
+    "Lean 4",
+    "Navier-Stokes equations",
+    "Fefferman periodic problem B",
+    "Beale-Kato-Majda",
+    "Constantin-Fefferman direction depletion",
+    "formal verification",
+    "conditional reduction",
+    "Titan Audit",
+    "SealGuard"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.23630648",
+      "relation": "isSupplementedBy",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.23631670",
+      "relation": "isSupplementedBy",
+      "scheme": "doi"
+    },
+    {
+      "identifier": "10.5281/zenodo.23632766",
+      "relation": "isSupplementedBy",
+      "scheme": "doi"
+    }
+  ],
+  "doi": "10.5281/zenodo.23652841"
+}

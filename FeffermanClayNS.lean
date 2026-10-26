@@ -1,0 +1,34 @@
+/-
+Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Benjamin Stanley Frohman
+-/
+
+module
+
+public import FeffermanClayNS.Defs
+public import FeffermanClayNS.FeffermanStatements
+public import FeffermanClayNS.TorusStrainExclusion
+public import FeffermanClayNS.HighSetDepletionAndBKM
+
+-- Kernel axiom checks on primary exported theorems:
+#print axioms FeffermanClayNS.clay_B_exact_of_with_energy
+#print axioms FeffermanClayNS.library_huniq_unsatisfiable_at_zero
+#print axioms FeffermanClayNS.repaired_huniq_at_zero
+#print axioms FeffermanClayNS.z3_periodic_linear_eq_zero
+#print axioms FeffermanClayNS.burgersLinearStrain_not_z3_periodic
+#print axioms FeffermanClayNS.cross3_self
+#print axioms FeffermanClayNS.det3_self_right
+#print axioms FeffermanClayNS.biot_savart_det_aligned_eq_zero
+#print axioms FeffermanClayNS.aligned_vorticity_stretching_integrand_zero
+#print axioms FeffermanClayNS.biot_savart_det_difference_identity
+#print axioms FeffermanClayNS.navier_stokes_vorticity_dt_scaling_exponent
+#print axioms FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6
+#print axioms FeffermanClayNS.unnormalized_quartic_scaling_mismatch
+#print axioms FeffermanClayNS.unmodified_max_rate_of_cubic_source
+#print axioms FeffermanClayNS.viscous_direction_dissipation_bridge
+#print axioms FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity
+#print axioms FeffermanClayNS.comparison_ode_ceiling
+#print axioms FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion
+#print axioms FeffermanClayNS.clay_B_exact_of_periodic_tether_bound
+#print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion

@@ -1,0 +1,12 @@
+/.lake/
+/build/
+*.olean
+*.ilean
+*.c
+*.trace
+*.aux
+*.log
+*.out
+*.toc
+__pycache__/
+*.pyc

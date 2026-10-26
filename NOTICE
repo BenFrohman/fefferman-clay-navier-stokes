@@ -1,0 +1,6 @@
+Fefferman Clay Periodic Navier-Stokes Formalization in Lean 4
+Copyright (c) 2026 Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718). All rights reserved.
+
+This product includes software and formal mathematical proofs developed by
+Benjamin Stanley Frohman, verified with Titan Audit (DOI: 10.5281/zenodo.23630648),
+SealGuard (DOI: 10.5281/zenodo.23631670), and Sentinel Gate (DOI: 10.5281/zenodo.23632766).
