@@ -9,7 +9,7 @@
     "path": "/workspace/fefferman-clay-navier-stokes",
     "name": "fefferman-clay-navier-stokes",
     "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
-    "git_head": "6ab1908fcb87cca6b82092562cb9c782bdcbf070"
+    "git_head": "6954ea6de11b01d465e392643204300581259f3f"
   },
   "build": {
     "requested": false
@@ -19,8 +19,8 @@
     "exit_code": 0,
     "errors": [],
     "modules": 6,
-    "theorems": 186,
-    "clean_theorems": 186,
+    "theorems": 208,
+    "clean_theorems": 208,
     "nonstandard": [],
     "per_module": {
       "FeffermanClayNS.Defs": {
@@ -32,7 +32,7 @@
         "nonstandard": 0
       },
       "FeffermanClayNS.FinalProductTheorem": {
-        "theorems": 2,
+        "theorems": 24,
         "nonstandard": 0
       },
       "FeffermanClayNS.FeffermanStatements": {
@@ -78,12 +78,12 @@
     }
   },
   "tree": {
-    "sha256": "29754576745707f41d64f41097c093fa29d253d5278eecf8f57508793a115f1a",
+    "sha256": "8b0ce83c0df2724bdff9f7c137ec9f71a00ac488d27074b99945ffda2a795d9f",
     "files": 10,
     "entries": [
       {
         "path": "AxiomAudit.lean",
-        "sha256": "d3b24541201c1cad220d4ddfc54fe95e3f541824a847b93e700c89d1985ce5b3"
+        "sha256": "da7a2acf1076fa644df287faab1df16e50a2b6984c6c37ad330c5a8632f38fdc"
       },
       {
         "path": "FeffermanClayNS.lean",
@@ -99,7 +99,7 @@
       },
       {
         "path": "FeffermanClayNS/FinalProductTheorem.lean",
-        "sha256": "a614024099d936b0284201fd9db63bc10103191770e85729eac38d811f3189a0"
+        "sha256": "7c1de2a6796f681125bc334a56a46fa681f64714fcc72a4f69f438420c845aa9"
       },
       {
         "path": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
@@ -129,11 +129,11 @@
     "reasons": [],
     "vacuity_warnings_in_build": 3
   },
-  "generated_at_utc": "2026-10-28T00:51:50+00:00",
+  "generated_at_utc": "2026-10-28T22:04:10+00:00",
   "signature": {
     "alg": "ed25519",
     "public_key_b64": "ZOyujV1yUEldQRZEDhmXCHa4ikWGfcTD+meZYssNLpo=",
     "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
-    "value_b64": "PDn5n/L4Jt4s/hQ+H/7R5spo5Te1diKOhF4PQyZV4E6ZX8OQAOg9uLw7ACn3IUjTGmckarUFdaklxiqHsltZBA=="
+    "value_b64": "cxbHJCjqU8SH6fjrZkyPySr7HOsEuVmy12TH1oKI28NhKqL2UCpuxKlAiX/zF5ZshqfzkGqKpXSHQ7K0OAhaAw=="
   }
 }

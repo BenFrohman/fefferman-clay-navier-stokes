@@ -3,7 +3,7 @@
 **Author:** Benjamin Stanley Frohman ([ORCID: 0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))  
 **Zenodo DOI (v1.1.0):** [`10.5281/zenodo.23717083`](https://doi.org/10.5281/zenodo.23717083) | **Concept DOI:** [`10.5281/zenodo.23652840`](https://doi.org/10.5281/zenodo.23652840) | **v1.0.0 DOI:** [`10.5281/zenodo.23652841`](https://doi.org/10.5281/zenodo.23652841)  
 **License:** Apache-2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)  
-**Toolchain:** `leanprover/lean4:v4.30.0-rc1` + Mathlib 4 (`2632/2632` build jobs, **186 theorems across 6 modules**, **0 `sorry`**, **0 non-standard axioms**)  
+**Toolchain:** `leanprover/lean4:v4.30.0-rc1` + Mathlib 4 (`2632/2632` build jobs, **208 theorems across 6 modules**, **0 `sorry`**, **0 non-standard axioms**)  
 **Paper PDF:** [`Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf`](Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf)
 
 ---
@@ -35,11 +35,11 @@ This repository states **only the theorems it proves explicitly and unconditiona
 
 ---
 
-## Exact Breakdown: Modules and Unconditionally Proved Theorems (`186 theorems`, `0 sorry`)
+## Exact Breakdown: Modules and Unconditionally Proved Theorems (`208 theorems`, `0 sorry`)
 
 | Module | Declaration | Status | Description |
 |---|---|---|---|
-| `FinalProductTheorem.lean` | `fefferman_periodic_ns_exact_reduction_product_theorem`, `first_remaining_gap_bochner_polar_damping_at_max` | **PROVED (Unconditional, 2 theorems)** | Master 5-conjunct product theorem ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$) and spatial-maximum Bochner–polar reduction. |
+| `FinalProductTheorem.lean` | `fefferman_periodic_ns_exact_reduction_product_theorem`, `vorticity_sup_norm_eq_of_isSpatialMax`, `polar_pythagoras_3d_sum`, `bochner_laplacian_3d_identity`, `concrete_bochner_polar_viscous_damping_at_max`, `nonzero_periodic_smooth_solution_exists`, `beltrami_lamb_vector_cross3_zero`, `near_field_stretching_absorbed_by_viscous_direction_damping`, `constantin_fefferman_near_far_cutoff_bridge` | **PROVED (Unconditional, 24 theorems)** | Master 5-conjunct product theorem ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$), Stage 2 `BddAbove`/`sSup` pinning at attained spatial maxima, Stage 3 concrete 3D vector Bochner & polar Pythagoras identities, Stage 4 non-zero smooth periodic flow inhabitation & Beltrami Lamb-vector vanishing, and Stage 5 Constantin–Fefferman near/far Biot–Savart cutoff bridge. |
 | `FeffermanStatements.lean` | `Clay_B_exact ν`, `isZ3Periodic_iff_unit_shifts`, `clay_B_exact_of_with_energy`, `library_huniq_unsatisfiable_at_zero`, `stepField_not_physical`, `repaired_hInt`, `repaired_huniq_at_zero` | **PROVED (Unconditional, 13 theorems)** | Verbatim Lean 4 encoding of Fefferman (2006) Statement (B) on $\mathbb{R}^3/\mathbb{Z}^3$, unit-shift equivalence, energy reduction, and step-jump exclusion. |
 | `TorusStrainExclusion.lean` | `z3_periodic_linear_eq_zero`, `burgersLinearStrain_not_z3_periodic`, `biot_savart_det_aligned_eq_zero`, `aligned_vorticity_stretching_integrand_zero`, `biot_savart_det_difference_identity`, `navier_stokes_scaling_homogeneity_deg6`, `unnormalized_quartic_scaling_mismatch` | **PROVED (Unconditional, 19 theorems)** | Global linear strain exclusion on $\mathbb{T}^3$, Biot–Savart direction-difference determinant identity, and $\lambda^6$ parabolic scaling homogeneity. |
 | `HighSetDepletionAndBKM.lean` | `unmodified_max_rate_of_cubic_source`, `viscous_direction_dissipation_bridge`, `scale_invariant_cubic_rate_of_direction_coercivity`, `comparison_ode_ceiling`, `periodicTetherClosingBound_of_directionDepletion`, `clay_B_exact_of_periodic_tether_bound`, `clay_B_exact_of_torus_direction_depletion` | **PROVED (Unconditional, 9 theorems)** | Reduction from direction-curvature coercivity to $M' \le C_{\mathrm{CZ}}M^2 - \kappa'' M^3$, first-exit-time ODE ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$, and conditional reductions to `Clay_B_exact ν`. |
@@ -54,8 +54,8 @@ FeffermanClayNS.TorusStrainExclusion: theorems=19 nonstandard=0
 FeffermanClayNS.HighSetDepletionAndBKM: theorems=9 nonstandard=0
 FeffermanClayNS.FeffermanStatements: theorems=13 nonstandard=0
 FeffermanClayNS.Defs: theorems=143 nonstandard=0
-FeffermanClayNS.FinalProductTheorem: theorems=2 nonstandard=0
-TOTAL theorems=186 nonstandard=0
+FeffermanClayNS.FinalProductTheorem: theorems=24 nonstandard=0
+TOTAL theorems=208 nonstandard=0
 'FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 

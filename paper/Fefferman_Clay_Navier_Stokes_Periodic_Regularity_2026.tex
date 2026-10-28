@@ -54,7 +54,7 @@ ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\\
 \maketitle
 
 \begin{abstract}
-We present a self-contained Lean~4 formalization (\texttt{leanprover/lean4:v4.30.0-rc1}, Mathlib~4, 186 kernel-verified theorems across 6 modules with zero \texttt{sorry} and zero non-standard axioms outside \texttt{[propext, Classical.choice, Quot.sound]}) of Charles~L. Fefferman's official periodic 3D incompressible Navier--Stokes problem statement (\emph{Existence and Smoothness of the Navier--Stokes Equation}, Clay Mathematics Institute, 2006, Statement~(B) on $\mathbb{R}^3/\mathbb{Z}^3$) together with unconditional geometric/kinematic identities, spatial-maximum Bochner--polar reduction, and explicit \textbf{conditional reductions} to Beale--Kato--Majda continuation. In \texttt{FeffermanClayNS/FinalProductTheorem.lean}, all five unconditionally proved components are packaged into the single 5-conjunct master product theorem \texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem} ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$).
+We present a self-contained Lean~4 formalization (\texttt{leanprover/lean4:v4.30.0-rc1}, Mathlib~4, 208 kernel-verified theorems across 6 modules with zero \texttt{sorry} and zero non-standard axioms outside \texttt{[propext, Classical.choice, Quot.sound]}) of Charles~L. Fefferman's official periodic 3D incompressible Navier--Stokes problem statement (\emph{Existence and Smoothness of the Navier--Stokes Equation}, Clay Mathematics Institute, 2006, Statement~(B) on $\mathbb{R}^3/\mathbb{Z}^3$) together with unconditional geometric/kinematic identities, spatial-maximum Bochner--polar reduction, and explicit \textbf{conditional reductions} to Beale--Kato--Majda continuation. In \texttt{FeffermanClayNS/FinalProductTheorem.lean}, all five unconditionally proved components are packaged into the single 5-conjunct master product theorem \texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem} ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$).
 \end{abstract}
 
 \tableofcontents
@@ -83,14 +83,14 @@ For every viscosity $\nu \in \mathbb{R}$ on the 3-torus $\mathbb{T}^3 = \mathbb{
 
 \begin{table}[htbp]
 \centering
-\caption{Summary of Unconditionally Proved Theorems vs.\ Open Analytic Hypotheses in \texttt{FeffermanClayNS} (186 Theorems, 0 \texttt{sorry}).}
+\caption{Summary of Unconditionally Proved Theorems vs.\ Open Analytic Hypotheses in \texttt{FeffermanClayNS} (208 Theorems, 0 \texttt{sorry}).}
 \label{tab:status}
 \small
 \begin{tabular}{p{0.36\textwidth}p{0.18\textwidth}p{0.38\textwidth}}
 \toprule
 \textbf{Declaration / Mathematical Item} & \textbf{Status} & \textbf{Mathematical Meaning \& Scope} \\
 \midrule
-\texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem} (\texttt{FinalProductTheorem.lean}) & \textbf{PROVED} (Unconditional, 2 theorems) & Master 5-conjunct product theorem ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$) and spatial-maximum Bochner--polar reduction. \\
+\texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem} (\texttt{FinalProductTheorem.lean}) & \textbf{PROVED} (Unconditional, 24 theorems) & Master 5-conjunct product theorem ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$) and spatial-maximum Bochner--polar reduction. \\
 \addlinespace
 \texttt{Clay\_B\_exact~$\nu$}, \texttt{isZ3Periodic\_iff\_unit\_shifts}, \texttt{clay\_B\_exact\_of\_with\_energy} & \textbf{PROVED} (Unconditional) & Exact encoding of Fefferman's Statement~(B), unit-shift periodicity equivalence, and logical implication from the energy-bounded variant. \\
 \addlinespace
@@ -107,15 +107,15 @@ For every viscosity $\nu \in \mathbb{R}$ on the 3-torus $\mathbb{T}^3 = \mathbb{
 
 \section{Verbatim Lean 4 Kernel Audit and Cryptographic Attestation}
 
-Compiling the repository with \texttt{lake build \&\& lake env lean AxiomAudit.lean} executes an in-kernel traversal of the Lean~4 environment via \texttt{Lean.collectAxioms} across all 186 theorems in the 6 modules:
+Compiling the repository with \texttt{lake build \&\& lake env lean AxiomAudit.lean} executes an in-kernel traversal of the Lean~4 environment via \texttt{Lean.collectAxioms} across all 208 theorems in the 6 modules:
 
 \begin{lstlisting}[language=Lean4,caption={Verbatim output of \texttt{lake env lean AxiomAudit.lean} on \texttt{fefferman-clay-navier-stokes}.}]
 FeffermanClayNS.TorusStrainExclusion: theorems=19 nonstandard=0
 FeffermanClayNS.HighSetDepletionAndBKM: theorems=9 nonstandard=0
 FeffermanClayNS.FeffermanStatements: theorems=13 nonstandard=0
 FeffermanClayNS.Defs: theorems=143 nonstandard=0
-FeffermanClayNS.FinalProductTheorem: theorems=2 nonstandard=0
-TOTAL theorems=186 nonstandard=0
+FeffermanClayNS.FinalProductTheorem: theorems=24 nonstandard=0
+TOTAL theorems=208 nonstandard=0
 'FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem' depends on axioms: [propext, Classical.choice, Quot.sound]
 \end{lstlisting}
 
