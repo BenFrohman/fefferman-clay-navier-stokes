@@ -77,3 +77,13 @@ open Lean Elab Command
 #print axioms FeffermanClayNS.beltrami_amplitude_pos_and_bounded
 #print axioms FeffermanClayNS.near_field_stretching_absorbed_by_viscous_direction_damping
 #print axioms FeffermanClayNS.constantin_fefferman_near_far_cutoff_bridge
+
+-- Main Theorem (reduction) and Stage 6 calculus derivations
+#print axioms FeffermanClayNS.clay_reduces_to_direction_curvature_bound
+#print axioms Stage6.unit_direction_deriv_orthogonal
+#print axioms Stage6.polar_pythagoras_of_hasDerivAt
+#print axioms Stage6.bochner_leibniz_of_hasDerivAt
+#print axioms Stage6.shearU_heat
+#print axioms Stage6.shearV_heat
+#print axioms Stage6.shear_beltrami
+#print axioms Stage6.shear_nonconstant
