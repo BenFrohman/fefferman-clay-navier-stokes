@@ -9,7 +9,7 @@
     "path": "/workspace/fefferman-clay-navier-stokes",
     "name": "fefferman-clay-navier-stokes",
     "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
-    "git_head": null
+    "git_head": "9bd8a9675993cb973f66216de696b20f7c489b71"
   },
   "build": {
     "requested": false
@@ -18,9 +18,9 @@
     "ran": true,
     "exit_code": 0,
     "errors": [],
-    "modules": 5,
-    "theorems": 184,
-    "clean_theorems": 184,
+    "modules": 6,
+    "theorems": 186,
+    "clean_theorems": 186,
     "nonstandard": [],
     "per_module": {
       "FeffermanClayNS.Defs": {
@@ -29,6 +29,10 @@
       },
       "FeffermanClayNS.TorusStrainExclusion": {
         "theorems": 19,
+        "nonstandard": 0
+      },
+      "FeffermanClayNS.FinalProductTheorem": {
+        "theorems": 2,
         "nonstandard": 0
       },
       "FeffermanClayNS.FeffermanStatements": {
@@ -74,16 +78,16 @@
     }
   },
   "tree": {
-    "sha256": "76738ff08b99b5e1cf1799fd4a6aaba6307de79d1a8cd158209fa4b305c02538",
-    "files": 9,
+    "sha256": "29754576745707f41d64f41097c093fa29d253d5278eecf8f57508793a115f1a",
+    "files": 10,
     "entries": [
       {
         "path": "AxiomAudit.lean",
-        "sha256": "2488b4204775c7387306adde7d6da201d7579034f437430028c81964f45be807"
+        "sha256": "d3b24541201c1cad220d4ddfc54fe95e3f541824a847b93e700c89d1985ce5b3"
       },
       {
         "path": "FeffermanClayNS.lean",
-        "sha256": "b86237a3b729f6242d562bd142683fe38ae21fb1b6af431ff12c08111975b4a5"
+        "sha256": "c92dad1375f32a05a82f11e008d690741cbf3fc4bb841c69175fd1040a4085bd"
       },
       {
         "path": "FeffermanClayNS/Defs.lean",
@@ -92,6 +96,10 @@
       {
         "path": "FeffermanClayNS/FeffermanStatements.lean",
         "sha256": "d11de75b4185f29910cd586a3c7d3437a9c75171560eedea4c6838de9bbde7cd"
+      },
+      {
+        "path": "FeffermanClayNS/FinalProductTheorem.lean",
+        "sha256": "a614024099d936b0284201fd9db63bc10103191770e85729eac38d811f3189a0"
       },
       {
         "path": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
@@ -121,11 +129,11 @@
     "reasons": [],
     "vacuity_warnings_in_build": 3
   },
-  "generated_at_utc": "2026-10-26T00:00:47+00:00",
+  "generated_at_utc": "2026-10-27T23:57:50+00:00",
   "signature": {
     "alg": "ed25519",
     "public_key_b64": "c7BnJCTBz91GSJfR9q9g7XaE9b8u6r2wfKeXGzYuwKs=",
     "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
-    "value_b64": "RUMuO9V0zGhJLod297NY3R3jqhaNTyTYmg9Z7tdaxAh/HMBImdxGqoEUfA4+kjTkWRjgzEOoBgx6MpXPSediBg=="
+    "value_b64": "lUyauHAzqgvk4iwteY7VwVj46pJRB3/HiZB6sd5wlJgyXcrH/Lt12ImOgR6fe4MqwxV0Xip947xxdTHazD30Bw=="
   }
 }

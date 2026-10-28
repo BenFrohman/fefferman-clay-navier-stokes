@@ -8,15 +8,15 @@
     "sealguard_doi": "10.5281/zenodo.23631670",
     "sentinel_gate_doi": "10.5281/zenodo.23632766"
   },
-  "merkle_root_sha256": "1c1459da2215dfb57a3f7336333a93817cf1afedeecade7183a48d219097ab5c",
+  "merkle_root_sha256": "467025e4ee7680a6b0f24b7c27e4103d16c6b6622d2ae317dd20d8d2ecd9d9a1",
   "sentinel_gate_receipt": {
     "engine": "Sentinel Gate v1.0.0 (DOI: 10.5281/zenodo.23632766)",
     "author": "Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718)",
     "action_type": "seal_and_attest_public_release",
-    "action_id": "1c1459da2215dfb57a3f7336333a93817cf1afedeecade7183a48d219097ab5c",
+    "action_id": "467025e4ee7680a6b0f24b7c27e4103d16c6b6622d2ae317dd20d8d2ecd9d9a1",
     "permitted": true,
     "reason": "PERMITTED_DETERMINISTIC_POLICY",
-    "receipt_sha256": "f2b52ccdcec4b90f9a9fe11ec2f2800c51b623df30e40d95e524420bd4c47617"
+    "receipt_sha256": "2c68545fefc9de728010466fe5a67390f73fd03b79b774071ea866e7a6e1f0ea"
   },
   "files": {
     ".gitignore": {
@@ -28,8 +28,8 @@
       "bytes": 2379
     },
     "AxiomAudit.lean": {
-      "sha256": "2488b4204775c7387306adde7d6da201d7579034f437430028c81964f45be807",
-      "bytes": 3017
+      "sha256": "d3b24541201c1cad220d4ddfc54fe95e3f541824a847b93e700c89d1985ce5b3",
+      "bytes": 3239
     },
     "CITATION.cff": {
       "sha256": "15d42202915dc8e6e8e703a7ec8ef32a3b97a3f5ac4d00cef81a692060198122",
@@ -43,6 +43,10 @@
       "sha256": "d11de75b4185f29910cd586a3c7d3437a9c75171560eedea4c6838de9bbde7cd",
       "bytes": 19310
     },
+    "FeffermanClayNS/FinalProductTheorem.lean": {
+      "sha256": "a614024099d936b0284201fd9db63bc10103191770e85729eac38d811f3189a0",
+      "bytes": 12270
+    },
     "FeffermanClayNS/HighSetDepletionAndBKM.lean": {
       "sha256": "60d5e2f538279b6282d898087cb0eee661c50efd5314196a230358b693ca1f69",
       "bytes": 15535
@@ -52,12 +56,12 @@
       "bytes": 13294
     },
     "FeffermanClayNS.lean": {
-      "sha256": "b86237a3b729f6242d562bd142683fe38ae21fb1b6af431ff12c08111975b4a5",
-      "bytes": 1713
+      "sha256": "c92dad1375f32a05a82f11e008d690741cbf3fc4bb841c69175fd1040a4085bd",
+      "bytes": 379
     },
     "Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf": {
-      "sha256": "7126bf9b8badac3c06b3f87ab2591dec18001d0339e2e8f9ef2c0104f7c37c2a",
-      "bytes": 116442
+      "sha256": "ba1d909789ff34dfe8aeb5dbdeee507f308f015c08277ffa72ad3db36271e0ae",
+      "bytes": 89435
     },
     "LICENSE": {
       "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
@@ -68,24 +72,24 @@
       "bytes": 409
     },
     "README.md": {
-      "sha256": "21453f139c1ba68b862959be6fa877bf70ca5df1af37cbf964a6855f3b816f17",
-      "bytes": 10644
+      "sha256": "3d8255bc41a41832cb8f1c87d2305d67840b633d60bbf96a7ea913f2267ee155",
+      "bytes": 11029
     },
     "audit/TITAN_AUDIT_CERTIFICATE.json": {
-      "sha256": "d8693f6b14f7b7a0c32b5aeaef69384cefd0385ffa07fe8a3542c2d390d13998",
-      "bytes": 4179
+      "sha256": "ca2343477d9a36511071a87a20d0372654e42f3df0e95f0f169a8e8c7c8124f9",
+      "bytes": 4484
     },
     "audit/TITAN_AUDIT_REPORT.md": {
-      "sha256": "2da40ba7e62347acc3476beb7363aad447f7fc7c92fad04824d1fe6ad9fff434",
-      "bytes": 1667
+      "sha256": "f54b739d790ddf6f48da75d4390f9ef0660be314faece2cfca371c22d13eeda8",
+      "bytes": 1754
     },
     "audit/report.json": {
-      "sha256": "d8693f6b14f7b7a0c32b5aeaef69384cefd0385ffa07fe8a3542c2d390d13998",
-      "bytes": 4179
+      "sha256": "ca2343477d9a36511071a87a20d0372654e42f3df0e95f0f169a8e8c7c8124f9",
+      "bytes": 4484
     },
     "audit/report.md": {
-      "sha256": "2da40ba7e62347acc3476beb7363aad447f7fc7c92fad04824d1fe6ad9fff434",
-      "bytes": 1667
+      "sha256": "f54b739d790ddf6f48da75d4390f9ef0660be314faece2cfca371c22d13eeda8",
+      "bytes": 1754
     },
     "ci/titan-audit-and-sealguard.yml": {
       "sha256": "bff40a3f4424a15e7cc2b9ac5c51e9c3d6bef914ef3e1f421ce73fa167e11124",
@@ -108,12 +112,12 @@
       "bytes": 29
     },
     "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf": {
-      "sha256": "7126bf9b8badac3c06b3f87ab2591dec18001d0339e2e8f9ef2c0104f7c37c2a",
-      "bytes": 116442
+      "sha256": "ba1d909789ff34dfe8aeb5dbdeee507f308f015c08277ffa72ad3db36271e0ae",
+      "bytes": 89435
     },
     "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.tex": {
-      "sha256": "162d3886873a6997520660af1aca6a7767aa2ef0a19b20cd5ba1638c03143f65",
-      "bytes": 28419
+      "sha256": "c85c03d33c7f3240d186e07f23c04caf85729ee824b7244aa81b4fb05cd595a9",
+      "bytes": 13206
     }
   }
 }

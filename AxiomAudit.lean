@@ -39,6 +39,7 @@ open Lean Elab Command
     throwError "axiom audit FAILED: {bad.size} theorem(s) use non-standard axioms"
 
 -- Explicit #print axioms checks on all primary exported theorems:
+#print axioms FeffermanClayNS.isZ3Periodic_iff_unit_shifts
 #print axioms FeffermanClayNS.clay_B_exact_of_with_energy
 #print axioms FeffermanClayNS.library_huniq_unsatisfiable_at_zero
 #print axioms FeffermanClayNS.repaired_huniq_at_zero
@@ -53,9 +54,11 @@ open Lean Elab Command
 #print axioms FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6
 #print axioms FeffermanClayNS.unnormalized_quartic_scaling_mismatch
 #print axioms FeffermanClayNS.unmodified_max_rate_of_cubic_source
+#print axioms FeffermanClayNS.first_remaining_gap_bochner_polar_damping_at_max
 #print axioms FeffermanClayNS.viscous_direction_dissipation_bridge
 #print axioms FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity
 #print axioms FeffermanClayNS.comparison_ode_ceiling
 #print axioms FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion
 #print axioms FeffermanClayNS.clay_B_exact_of_periodic_tether_bound
 #print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion
+#print axioms FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem
