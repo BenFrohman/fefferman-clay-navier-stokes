@@ -9,7 +9,7 @@
     "path": "/workspace/fefferman-clay-navier-stokes",
     "name": "fefferman-clay-navier-stokes",
     "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
-    "git_head": "9bd8a9675993cb973f66216de696b20f7c489b71"
+    "git_head": "6ab1908fcb87cca6b82092562cb9c782bdcbf070"
   },
   "build": {
     "requested": false
@@ -129,11 +129,11 @@
     "reasons": [],
     "vacuity_warnings_in_build": 3
   },
-  "generated_at_utc": "2026-10-27T23:57:50+00:00",
+  "generated_at_utc": "2026-10-28T00:51:50+00:00",
   "signature": {
     "alg": "ed25519",
-    "public_key_b64": "c7BnJCTBz91GSJfR9q9g7XaE9b8u6r2wfKeXGzYuwKs=",
+    "public_key_b64": "ZOyujV1yUEldQRZEDhmXCHa4ikWGfcTD+meZYssNLpo=",
     "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
-    "value_b64": "lUyauHAzqgvk4iwteY7VwVj46pJRB3/HiZB6sd5wlJgyXcrH/Lt12ImOgR6fe4MqwxV0Xip947xxdTHazD30Bw=="
+    "value_b64": "PDn5n/L4Jt4s/hQ+H/7R5spo5Te1diKOhF4PQyZV4E6ZX8OQAOg9uLw7ACn3IUjTGmckarUFdaklxiqHsltZBA=="
   }
 }

@@ -1,7 +1,7 @@
 {
   "title": "Formalizing Fefferman's Official Periodic Navier-Stokes Problem (B) in Lean 4: Global Linear Strain Exclusion on T3, Biot-Savart Direction Depletion Identities, and Conditional Reductions via Beale-Kato-Majda",
   "upload_type": "software",
-  "description": "Self-contained Lean 4 formalization (leanprover/lean4:v4.30.0-rc1, Mathlib 4, 184 kernel-verified theorems across 5 modules with zero sorry and zero non-standard axioms outside [propext, Classical.choice, Quot.sound]) of Charles L. Fefferman's official periodic 3D incompressible Navier-Stokes problem statement (Statement (B) on R^3/Z^3), together with unconditional proofs of global linear background strain exclusion on T^3 (z3_periodic_linear_eq_zero, burgersLinearStrain_not_z3_periodic), pointwise Biot-Savart direction-alignment depletion identities (biot_savart_det_aligned_eq_zero, biot_savart_det_difference_identity), parabolic lambda^6 scaling identities, the cubic comparison ODE ceiling (comparison_ode_ceiling), and explicit CONDITIONAL reductions (clay_B_exact_of_periodic_tether_bound, clay_B_exact_of_torus_direction_depletion) whose analytic hypotheses (PeriodicDirectionDepletionBound, PeriodicTetherClosingBound, PeriodicBKMContinuation) remain OPEN and are stated explicitly as hypotheses. Note: Torus periodicity rules out only a global linear background strain; localized Burgers-like vortex structures can still form locally on T^3, so this repository does NOT claim an unconditional solution of Clay Problem (B) or (A).",
+  "description": "<p><strong>Single-Sentence Final Product Theorem (<code>FeffermanClayNS.FinalProductTheorem.fefferman_periodic_ns_exact_reduction_product_theorem</code>):</strong> For every viscosity &nu; &in; R on the 3-torus T<sup>3</sup> = R<sup>3</sup>/Z<sup>3</sup>, (Q<sub>1</sub>) spatial Z<sup>3</sup>-periodicity is equivalent to invariance under the three unit coordinate shifts f(x+e<sub>j</sub>) = f(x), and Fefferman's energy-bounded periodic statement implies his exact periodic statement (<code>Clay_B_exact_with_energy(&nu;) &rarr; Clay_B_exact(&nu;)</code>); (Q<sub>2</sub>) every Z<sup>3</sup>-periodic linear map L : R<sup>3</sup> &rarr; R<sup>3</sup> vanishes identically (L = 0), excluding any non-zero global linear Burgers background strain diag(&minus;&alpha;/2, &minus;&alpha;/2, &alpha;)x (&alpha; &ne; 0) on T<sup>3</sup>; (Q<sub>3</sub>) the Biot&ndash;Savart vortex-stretching determinant obeys det(&omega;(y), z, &omega;(x)) = det(&omega;(y)&minus;&omega;(x), z, &omega;(x)) and vanishes under collinear alignment &omega;(y) = c &omega;(x), while under parabolic rescaling u<sub>&lambda;</sub>(x,t) = &lambda; u(&lambda;x, &lambda;<sup>2</sup>t) both cubic stretching C<sub>CZ</sub>|&omega;<sub>&lambda;</sub>|<sup>3</sup> and viscous direction-curvature dissipation &nu;|&omega;<sub>&lambda;</sub>|<sup>2</sup>|&nabla;&xi;<sub>&lambda;</sub>|<sup>2</sup> scale homogeneously as &lambda;<sup>6</sup>; (Q<sub>4</sub>) at a spatial maximum x<sub>max</sub> where &lang;&omega;, (&omega;&middot;&nabla;)u&rang; &le; C<sub>CZ</sub>M<sup>3</sup>, &nu;&lang;&omega;, &Delta;&omega;&rang; &le; &minus;&nu;M<sup>2</sup>|&nabla;&xi;|<sup>2</sup>, and high-set direction-curvature coercivity |&nabla;&xi;(x<sub>max</sub>)|<sup>2</sup> &ge; c<sub>dir</sub>M holds, the maximum vorticity rate satisfies M'(t) &le; C<sub>CZ</sub>M(t)<sup>2</sup> &minus; (&nu;c<sub>dir</sub>)M(t)<sup>3</sup>, which forces the uniform Lyapunov ceiling M(t) &le; max(M(0), C<sub>CZ</sub>/(&nu;c<sub>dir</sub>)); and (Q<sub>5</sub>) whenever a periodic flow class satisfies the high-set direction-curvature depletion hypothesis <code>PeriodicDirectionDepletionBound(&nu;)</code> and classical periodic Beale&ndash;Kato&ndash;Majda continuation <code>PeriodicBKMContinuation(&nu;)</code>, Fefferman's periodic statement <code>Clay_B_exact(&nu;)</code> holds.</p><p>This standalone Lean 4 repository (<code>leanprover/lean4:v4.30.0-rc1</code>, Mathlib 4) contains <strong>186 kernel-verified theorems across 6 modules with 0 <code>sorry</code> and 0 custom axioms</strong> (depending only on <code>[propext, Classical.choice, Quot.sound]</code>), together with Ed25519-signed <code>titan-audit</code> and <code>sealguard</code> cryptographic certificates and the compiled monograph PDF.</p>",
   "creators": [
     {
       "name": "Frohman, Benjamin Stanley",
@@ -23,20 +23,22 @@
   ],
   "related_identifiers": [
     {
-      "identifier": "10.5281/zenodo.23630648",
-      "relation": "isSupplementedBy",
+      "identifier": "https://github.com/BenFrohman/fefferman-clay-navier-stokes",
+      "relation": "isSupplementTo",
+      "scheme": "url"
+    },
+    {
+      "identifier": "10.5281/zenodo.23652840",
+      "relation": "isVersionOf",
       "scheme": "doi"
     },
     {
-      "identifier": "10.5281/zenodo.23631670",
-      "relation": "isSupplementedBy",
-      "scheme": "doi"
-    },
-    {
-      "identifier": "10.5281/zenodo.23632766",
-      "relation": "isSupplementedBy",
+      "identifier": "10.5281/zenodo.23652841",
+      "relation": "isNewVersionOf",
       "scheme": "doi"
     }
   ],
-  "doi": "10.5281/zenodo.23652841"
+  "doi": "10.5281/zenodo.23652841",
+  "version": "1.1.0",
+  "publication_date": "2026-10-27"
 }

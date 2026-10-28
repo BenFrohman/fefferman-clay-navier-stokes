@@ -1,12 +1,22 @@
 cff-version: 1.2.0
-message: "If you use this Lean 4 formalization, please cite it as below."
-title: "Formalizing Fefferman's Official Periodic Navier-Stokes Problem (B) in Lean 4: Global Linear Strain Exclusion on T3, Biot-Savart Direction Depletion Identities, and Conditional Reductions via Beale-Kato-Majda"
+message: "If you use this Lean 4 formalization or paper, please cite it as below."
+title: "Formalizing Fefferman's Official Periodic Navier-Stokes Problem (B) in Lean 4: Global Linear Strain Exclusion on T^3, Biot-Savart Direction Depletion Identities, and Conditional Reductions via Beale-Kato-Majda"
 authors:
   - family-names: "Frohman"
     given-names: "Benjamin Stanley"
     orcid: "https://orcid.org/0009-0006-7068-3718"
-version: "1.0.0"
-date-released: "2026-10-25"
+version: "1.1.0"
+date-released: "2026-10-27"
 license: "Apache-2.0"
 repository-code: "https://github.com/BenFrohman/fefferman-clay-navier-stokes"
-doi: "10.5281/zenodo.23652841"
+doi: "10.5281/zenodo.23717083"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.23717083"
+    description: "Zenodo v1.1.0 Release DOI (with FinalProductTheorem.lean)"
+  - type: doi
+    value: "10.5281/zenodo.23652840"
+    description: "Zenodo Concept DOI (all versions)"
+  - type: doi
+    value: "10.5281/zenodo.23652841"
+    description: "Zenodo v1.0.0 Release DOI"
