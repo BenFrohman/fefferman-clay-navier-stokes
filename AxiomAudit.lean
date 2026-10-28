@@ -87,3 +87,9 @@ open Lean Elab Command
 #print axioms Stage6.shearV_heat
 #print axioms Stage6.shear_beltrami
 #print axioms Stage6.shear_nonconstant
+#print axioms FeffermanClayNS.clay_B_exact_of_hasDirectionCurvatureCoercivity
+#print axioms FeffermanClayNS.HasDirectionCurvatureCoercivity.clay_B_exact
+#print axioms Stage6.inner_eq_zero_of_hasDerivAt_of_norm_eq_one
+#print axioms Stage6.norm_polar_deriv_sq_eq_of_hasDerivAt
+#print axioms Stage6.hasDerivAt_inner_self_deriv_of_hasDerivAt
+#print axioms Stage6.isShearBeltramiMode
