@@ -2,10 +2,10 @@
 
 **Verdict: PASS_WITH_WARNINGS**
 
-- Generated (UTC): 2026-10-28T23:16:13+00:00
+- Generated (UTC): 2026-10-30T18:31:45+00:00
 - Tool: titan-audit 1.0.0 (Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718))
-- Toolchain: `leanprover/lean4:v4.30.0-rc1`  Git HEAD: `3abe9bcb0be7ebe9a397af765efaea097af83238`
-- Tree SHA-256: `6cc2ef08d941398c5bd910c33453148ad8a7e5be64d91903658b7c7b0b35b123` over 12 files
+- Toolchain: `leanprover/lean4:v4.30.0-rc1`  Git HEAD: `156ec72fdd601c3312b07c7f0c5dc5cd2f2a6515`
+- Tree SHA-256: `6a1ce795bd2313a0faf79a28012e71a7d0e5a48a70bcc53ad0775f60faf78621` over 12 files
 
 ## Build
 
@@ -13,11 +13,18 @@
 
 ## Axiom audit
 
-- Modules: 7  Theorems: 0  Clean (only propext/Classical.choice/Quot.sound): 0
+- Modules: 8  Theorems: 250  Clean (only propext/Classical.choice/Quot.sound): 250
 - Nonstandard: 0
 
 | Module | Theorems | Nonstandard |
 |---|---:|---:|
+| `FeffermanClayNS.Defs` | 143 | 0 |
+| `FeffermanClayNS.FeffermanStatements` | 13 | 0 |
+| `FeffermanClayNS.FinalProductTheorem` | 24 | 0 |
+| `FeffermanClayNS.HighSetDepletionAndBKM` | 12 | 0 |
+| `FeffermanClayNS.MainTheorem` | 4 | 0 |
+| `FeffermanClayNS.Stage6Calculus` | 35 | 0 |
+| `FeffermanClayNS.TorusStrainExclusion` | 19 | 0 |
 
 ## Source scan
 
@@ -34,5 +41,5 @@ Heuristics are advisory: a flag means *look here*, not *wrong*.
 
 ## Signature
 
-- ed25519 public key (base64): `ZOyujV1yUEldQRZEDhmXCHa4ikWGfcTD+meZYssNLpo=`
+- ed25519 public key (base64): `YoEHEghXFxrXvYKQoWQb+oDunzwdxBgpk03gxrdC7WI=`
 - Verify: `titan-audit verify report.json`
