@@ -9,7 +9,7 @@
     "path": "/workspace/fefferman-clay-navier-stokes",
     "name": "fefferman-clay-navier-stokes",
     "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
-    "git_head": "8ac440d5bcea80d9f7e52529ed758988ec2a92dd"
+    "git_head": "1869c1ac0d1fd61b076f66ffa059757a342c2968"
   },
   "build": {
     "requested": false
@@ -19,8 +19,8 @@
     "exit_code": 0,
     "errors": [],
     "modules": 8,
-    "theorems": 258,
-    "clean_theorems": 258,
+    "theorems": 269,
+    "clean_theorems": 269,
     "nonstandard": [],
     "per_module": {
       "FeffermanClayNS.Defs": {
@@ -36,7 +36,7 @@
         "nonstandard": 0
       },
       "FeffermanClayNS.HighSetDepletionAndBKM": {
-        "theorems": 15,
+        "theorems": 26,
         "nonstandard": 0
       },
       "FeffermanClayNS.FinalProductTheorem": {
@@ -83,23 +83,31 @@
       {
         "kind": "real_iSup_without_BddAbove",
         "file": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
-        "line": 366,
+        "line": 374,
         "decl": "periodicTstar",
+        "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
+        "in_build": true
+      },
+      {
+        "kind": "real_iSup_without_BddAbove",
+        "file": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
+        "line": 501,
+        "decl": "periodicTstarOriginal",
         "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
         "in_build": true
       }
     ],
     "counts": {
-      "real_iSup_without_BddAbove": 4
+      "real_iSup_without_BddAbove": 5
     }
   },
   "tree": {
-    "sha256": "eaa1cb3091fd459716555874665031ef7563a7aeb2727ed3dc5685c0663c6cd5",
+    "sha256": "65634766800aec9789f41682ed7b301bf3d0658daa7aabc17029d5b61799358a",
     "files": 12,
     "entries": [
       {
         "path": "AxiomAudit.lean",
-        "sha256": "7daeda223eb1ee38f867baa7d7afa860dcc43525d35f81464f93a4d6f0d18d97"
+        "sha256": "dba55faf24ce9393a3f950251bddf7e60df665556d672fa1a3ff7e165c55dfd0"
       },
       {
         "path": "FeffermanClayNS.lean",
@@ -111,7 +119,7 @@
       },
       {
         "path": "FeffermanClayNS/FeffermanStatements.lean",
-        "sha256": "d11de75b4185f29910cd586a3c7d3437a9c75171560eedea4c6838de9bbde7cd"
+        "sha256": "d99397adf9345497c4b6aef56b4daa63fb414e4e3d7703c952a5b7538823bb2d"
       },
       {
         "path": "FeffermanClayNS/FinalProductTheorem.lean",
@@ -119,7 +127,7 @@
       },
       {
         "path": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
-        "sha256": "f9367005b2e42501de0dce4e5dbc323c524fb0c33ce337e513e0b3b5cb794533"
+        "sha256": "1d66a3c7b91f85d567a086e9eccd441b993cdc1d91862f19ee88ab9999e38fe3"
       },
       {
         "path": "FeffermanClayNS/MainTheorem.lean",
@@ -151,13 +159,13 @@
   "verdict": {
     "status": "PASS_WITH_WARNINGS",
     "reasons": [],
-    "vacuity_warnings_in_build": 4
+    "vacuity_warnings_in_build": 5
   },
-  "generated_at_utc": "2026-10-30T19:03:51+00:00",
+  "generated_at_utc": "2026-10-30T19:19:09+00:00",
   "signature": {
     "alg": "ed25519",
     "public_key_b64": "YoEHEghXFxrXvYKQoWQb+oDunzwdxBgpk03gxrdC7WI=",
     "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
-    "value_b64": "c+1qW88V1hz3mNKksmg0oHD+afSpHumgIisk4/Sv3opyWyR8PIX7y0+uVQbScgVouk842E1AVXAwmgEXcqRkAA=="
+    "value_b64": "plUrYmO1jZJD4bc1F0Qglwf5udDW7exyqcWJucCDPWUGQxe0bcmmDsIc7S+bOwcsCv7In4Z25FvkK/fPZTDtDg=="
   }
 }
