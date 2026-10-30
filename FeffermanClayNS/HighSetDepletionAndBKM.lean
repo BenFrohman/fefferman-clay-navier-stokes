@@ -320,22 +320,114 @@ public theorem periodicFiniteTimeVorticityBound_of_uniform (ν : ℝ)
   obtain ⟨Y, hY, hb⟩ := h u₀ hu₀
   exact ⟨Y, hY, fun u p hsol t ht => hb T u p hsol t ht⟩
 
-/-- **Proved:** finite-horizon BKM continuation implies the uniform-input form. -/
-public theorem periodicBKMContinuation_of_finiteTime (ν : ℝ)
+/-- **Proved (scaffolding):** finite-horizon continuation implies the uniform-input form. Both
+forms quantify only over solutions that already exist on `[0, T]`, so they place the whole
+continuation content in the hypothesis; see `periodicFiniteTimeBound_vacuous`. -/
+public theorem periodicBKMContinuation_of_finiteTime_scaffold (ν : ℝ)
     (h : PeriodicBKMContinuationFiniteTime ν) :
     PeriodicBKMContinuation ν := by
   intro hν u₀ hu₀ hunif
   obtain ⟨Y, hY, hb⟩ := hunif
   exact h hν u₀ hu₀ (fun T _hT => ⟨Y, hY, fun u p hsol t ht => hb T u p hsol t ht⟩)
 
-/-- **Conditional Reduction Theorem 3 (`clay_B_exact_of_periodic_finite_time_bound`):**
-Conditional on `PeriodicFiniteTimeVorticityBound ν` (OPEN) and
-`PeriodicBKMContinuationFiniteTime ν` (classical), `Clay_B_exact ν` holds. -/
-public theorem clay_B_exact_of_periodic_finite_time_bound (ν : ℝ)
+/-- **Proved (scaffolding):** `Clay_B_exact` from `PeriodicFiniteTimeVorticityBound` and
+`PeriodicBKMContinuationFiniteTime`. The second hypothesis carries all of Statement (B). -/
+public theorem clay_B_exact_of_periodic_finite_time_bound_scaffold (ν : ℝ)
     (hFin : PeriodicFiniteTimeVorticityBound ν)
     (hBKM : PeriodicBKMContinuationFiniteTime ν) :
     Clay_B_exact ν := by
   intro hν u₀ hu₀
   exact hBKM hν u₀ hu₀ (hFin u₀ hu₀)
+
+/-- **Proved:** on a horizon where no periodic smooth solution exists, the finite-time vorticity
+bound holds with `C = 0`. The bound in `PeriodicFiniteTimeVorticityBound` therefore says nothing
+past the existence time. -/
+public theorem periodicFiniteTimeBound_vacuous (ν : ℝ) (u₀ : VelocityField) (T : ℝ)
+    (hnone : ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+      ¬ IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p) :
+    ∃ C : ℝ, 0 ≤ C ∧
+      ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+        IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p →
+        ∀ t ∈ Set.Icc (0 : ℝ) T, vorticity_sup_norm (vorticity (u t)) ≤ C :=
+  ⟨0, le_refl 0, fun u p hsol => absurd hsol (hnone u p)⟩
+
+/-! ### Periodic Beale–Kato–Majda step
+
+The maximal existence time `periodicTstar ν u₀` is the supremum, in `EReal`, of the horizons `T`
+on which a periodic smooth solution from `u₀` exists. Global existence is derived from
+`periodicTstar ν u₀ = ⊤` through the BKM criterion and BKM integrability. -/
+
+/-- Horizons on which a periodic smooth solution from `u₀` exists. -/
+@[expose] public def periodicExistenceTimes (ν : ℝ) (u₀ : VelocityField) : Set EReal :=
+  {s | ∃ T : ℝ, s = (T : EReal) ∧ ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+    IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p}
+
+/-- Maximal periodic existence time. -/
+@[expose] public noncomputable def periodicTstar (ν : ℝ) (u₀ : VelocityField) : EReal :=
+  sSup (periodicExistenceTimes ν u₀)
+
+/-- A pair `(u, p)` that is a periodic smooth solution on every `[0, T]` with `T < periodicTstar`. -/
+@[expose] public def IsPeriodicMaximalSolution (ν : ℝ) (u₀ : VelocityField)
+    (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
+  ∀ T : ℝ, (T : EReal) < periodicTstar ν u₀ →
+    IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p
+
+/-- **Classical (Kato 1972), not formalized:** positive local existence time. -/
+@[expose] public def PeriodicLocalExistence (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ → (0 : EReal) < periodicTstar ν u₀
+
+/-- **Classical (uniqueness and gluing), not formalized:** a single maximal solution. -/
+@[expose] public def PeriodicMaximalSolution (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
+    ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure), IsPeriodicMaximalSolution ν u₀ u p
+
+/-- **Classical (gluing on `[0, ∞)`), not formalized:** a maximal solution with
+`periodicTstar = ⊤` is a periodic smooth solution in the sense of Statement (B). -/
+@[expose] public def PeriodicGlobalOfTstarTop (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
+    ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+      IsPeriodicMaximalSolution ν u₀ u p → periodicTstar ν u₀ = ⊤ →
+      ∃ (u' : TimeDependentVelocity) (p' : TimeDependentPressure),
+        IsPeriodicSmoothSolution ν u₀ (fun _ _ => 0) u' p'
+
+/-- **Classical (Beale–Kato–Majda 1984), not formalized:** if `periodicTstar = T` is finite,
+`‖ω(t)‖_∞` is not integrable on `[0, T]` along the maximal solution. -/
+@[expose] public def PeriodicBKMCriterion (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
+    ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+      IsPeriodicMaximalSolution ν u₀ u p →
+      ∀ T : ℝ, periodicTstar ν u₀ = (T : EReal) →
+        ¬ IntegrableOn (fun t => vorticity_sup_norm (vorticity (u t))) (Set.Icc 0 T)
+
+/-- **OPEN:** `‖ω(t)‖_∞` is integrable on every `[0, T]` along the maximal solution. -/
+@[expose] public def PeriodicBKMIntegrability (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
+    ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+      IsPeriodicMaximalSolution ν u₀ u p →
+      ∀ T : ℝ, IntegrableOn (fun t => vorticity_sup_norm (vorticity (u t))) (Set.Icc 0 T)
+
+/-- **Proved:** `periodicTstar ν u₀ = ⊤` along a maximal solution, from local existence, the BKM
+criterion and BKM integrability. -/
+public theorem periodicTstar_eq_top_of_bkm (ν : ℝ) (hν : 0 < ν)
+    (hloc : PeriodicLocalExistence ν) (hcrit : PeriodicBKMCriterion ν)
+    (hint : PeriodicBKMIntegrability ν) (u₀ : VelocityField) (hu₀ : IsPeriodicSmoothInitialData u₀)
+    (u : TimeDependentVelocity) (p : TimeDependentPressure)
+    (hmax : IsPeriodicMaximalSolution ν u₀ u p) :
+    periodicTstar ν u₀ = ⊤ :=
+  ereal_eq_top_of_bkm _ _ (hloc hν u₀ hu₀) (hcrit hν u₀ hu₀ u p hmax)
+    (hint hν u₀ hu₀ u p hmax)
+
+/-- **Conditional Reduction Theorem 3 (`clay_B_exact_of_periodic_bkm`):**
+`Clay_B_exact ν` from the classical inputs `PeriodicLocalExistence`, `PeriodicMaximalSolution`,
+`PeriodicBKMCriterion`, `PeriodicGlobalOfTstarTop` and the OPEN `PeriodicBKMIntegrability`. -/
+public theorem clay_B_exact_of_periodic_bkm (ν : ℝ)
+    (hloc : PeriodicLocalExistence ν) (hmax : PeriodicMaximalSolution ν)
+    (hcrit : PeriodicBKMCriterion ν) (hglob : PeriodicGlobalOfTstarTop ν)
+    (hint : PeriodicBKMIntegrability ν) :
+    Clay_B_exact ν := by
+  intro hν u₀ hu₀
+  obtain ⟨u, p, hm⟩ := hmax hν u₀ hu₀
+  exact hglob hν u₀ hu₀ u p hm
+    (periodicTstar_eq_top_of_bkm ν hν hloc hcrit hint u₀ hu₀ u p hm)
 
 end FeffermanClayNS
