@@ -2815,12 +2815,24 @@ public theorem le_vorticity_sup_norm (ω : VorticityField) (x : T3)
 @[expose] public noncomputable def strain_sup_norm (u : VelocityField) : ℝ :=
   ⨆ x, ‖fderiv ℝ u x‖
 
+/-- **Pointwise strain-by-sup-vorticity bound** `‖Du(x)‖ ≤ C · ‖ω‖_∞`.
+
+This is **false in general**: the Biot–Savart / Riesz operators recovering `∇u` from `ω`
+are Calderón–Zygmund operators, bounded on `Lᵖ` for `1 < p < ∞` but **not** on `L∞`
+(CZ fails at `p = ∞`; the true bound carries a logarithmic loss). Every theorem that takes
+this `Prop` as a hypothesis is therefore conditional on a bound that is false in general;
+such theorems are linear-algebra consequences, not estimates for Navier–Stokes solutions. -/
+@[expose] public def PointwiseStrainSupBound (u : VelocityField) (ω : VorticityField)
+    (C : ℝ) (x : T3) : Prop :=
+  ‖fderiv ℝ u x‖ ≤ C * vorticity_sup_norm ω
+
 /-- Pointwise CZ/Biot–Savart bound `‖Du(x)‖ ≤ C_CZ ‖ω‖_∞` upgrades to
 `‖Du‖_∞ ≤ C_CZ ‖ω‖_∞`. Linear algebra on the supremum, not the Riesz
-theorem itself. -/
+theorem itself. Conditional on `PointwiseStrainSupBound`, which is false in
+general at `L∞`. -/
 public theorem strain_sup_le_of_CZ
     (u : VelocityField) (C_CZ : ℝ)
-    (hCZ : ∀ x, ‖fderiv ℝ u x‖ ≤ C_CZ * vorticity_sup_norm (curl u))
+    (hCZ : ∀ x, PointwiseStrainSupBound u (curl u) C_CZ x)
     (_hbdd : BddAbove (Set.range fun x => ‖fderiv ℝ u x‖)) :
     strain_sup_norm u ≤ C_CZ * vorticity_sup_norm (curl u) :=
   ciSup_le fun x => hCZ x
@@ -2830,7 +2842,7 @@ public theorem strain_sup_le_of_CZ
 public theorem convective_norm_le_of_CZ
     (ω u : VelocityField) (x : T3) (C_CZ : ℝ)
     (hu : DifferentiableAt ℝ u x)
-    (hCZ : ‖fderiv ℝ u x‖ ≤ C_CZ * vorticity_sup_norm ω) :
+    (hCZ : PointwiseStrainSupBound u ω C_CZ x) :
     ‖convective ω u x‖ ≤ C_CZ * vorticity_sup_norm ω * ‖ω x‖ := by
   have hnorm := convective_norm_le ω u x hu
   have hω : 0 ≤ ‖ω x‖ := norm_nonneg _
@@ -2844,7 +2856,7 @@ public theorem convective_norm_le_of_CZ
 public theorem stretching_inner_le
     (ω u : VelocityField) (x : T3) (C_CZ : ℝ)
     (hu : DifferentiableAt ℝ u x)
-    (hCZ : ‖fderiv ℝ u x‖ ≤ C_CZ * vorticity_sup_norm ω) :
+    (hCZ : PointwiseStrainSupBound u ω C_CZ x) :
     inner ℝ (ω x) (convective ω u x) ≤
       C_CZ * vorticity_sup_norm ω * ‖ω x‖ ^ 2 := by
   have hnorm := convective_norm_le ω u x hu
@@ -2865,7 +2877,7 @@ that is one power of `M` short for the density (it is the BKM ODE for
 public theorem stretching_inner_le_at_max
     (ω u : VelocityField) (x : T3) (C_CZ : ℝ)
     (hu : DifferentiableAt ℝ u x)
-    (hCZ : ‖fderiv ℝ u x‖ ≤ C_CZ * vorticity_sup_norm ω)
+    (hCZ : PointwiseStrainSupBound u ω C_CZ x)
     (hmax : ‖ω x‖ = vorticity_sup_norm ω) :
     inner ℝ (ω x) (convective ω u x) ≤
       C_CZ * vorticity_sup_norm ω ^ 3 := by
@@ -2883,7 +2895,7 @@ The factor `4` is the product rule on `|ω|⁴`; CZ is `stretching_inner_le`. -/
 public theorem stretching_quartic_le
     (ω u : VelocityField) (phi : T3 → ℝ) (x : T3) (C_CZ : ℝ)
     (hu : DifferentiableAt ℝ u x)
-    (hCZ : ‖fderiv ℝ u x‖ ≤ C_CZ * vorticity_sup_norm ω)
+    (hCZ : PointwiseStrainSupBound u ω C_CZ x)
     (hφ : 0 ≤ phi x) :
     4 * ‖ω x‖ ^ 2 * inner ℝ (ω x) (convective ω u x) * phi x ≤
       4 * C_CZ * vorticity_sup_norm ω * ‖ω x‖ ^ 4 * phi x := by
