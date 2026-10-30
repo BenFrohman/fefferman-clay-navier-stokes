@@ -53,21 +53,3 @@ theorem clay_reduces_to_direction_curvature_bound :
 end FeffermanClayNS
 
 end
-
-/-! ### Mathlib 4 `UpperCamelCase` / `conclusion_of_hypothesis` aliases for Stage 1–5 definitions -/
-
-/-- Mathlib `UpperCamelCase` alias for `Z3Periodic`. -/
-abbrev IsZ3Periodic (f : (Fin 3 → ℝ) → ℝ) : Prop := Z3Periodic f
-
-/-- Mathlib `conclusion_of_hypothesis` alias for `bochner_weitzenbock_pointwise`. -/
-alias inner_laplacian_eq_laplacian_half_norm_sq_sub_norm_grad_sq := bochner_weitzenbock_pointwise
-
-/-- Mathlib `conclusion_of_hypothesis` alias for `polar_grad_pythagoras`. -/
-alias norm_polar_grad_sq_eq := polar_grad_pythagoras
-
-/-- Mathlib `conclusion_of_hypothesis` alias for `AttainedSpatialMaximum.vorticity_sup_norm_eq`. -/
-theorem vorticity_sup_norm_eq_of_attainedSpatialMaximum
-    {ω : ℝ × (Fin 3 → ℝ) → (Fin 3 → ℝ)} {t : ℝ} {x₀ : Fin 3 → ℝ}
-    (h : AttainedSpatialMaximum ω t x₀) :
-    vorticity_sup_norm ω t = Vec3.norm (ω (t, x₀)) :=
-  h.vorticity_sup_norm_eq
