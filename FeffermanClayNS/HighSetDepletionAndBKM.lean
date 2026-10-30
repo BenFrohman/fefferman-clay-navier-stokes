@@ -233,7 +233,7 @@ public theorem periodicTetherClosingBound_of_directionDepletion (ν : ℝ)
   refine ⟨Y, hY_nonneg, ?_⟩
   intro T u p hsol t ht
   obtain ⟨hdiff, hode⟩ := htraj T u p hsol
-  have hu0_eq : u 0 = u₀ := funext hsol.2.2.2.2.2.2.2.1
+  have hu0_eq : u 0 = u₀ := funext hsol.2.2.2.2.2.2.2
   have hceil := comparison_ode_ceiling
     (fun s => vorticity_sup_norm (vorticity (u s))) T C_CZ κ'' hC_pos hκ_pos hdiff hode t ht
   simpa [Y, hu0_eq] using hceil
@@ -355,7 +355,15 @@ public theorem periodicFiniteTimeBound_vacuous (ν : ℝ) (u₀ : VelocityField)
 
 The maximal existence time `periodicTstar ν u₀` is the supremum, in `EReal`, of the horizons `T`
 on which a periodic smooth solution from `u₀` exists. Global existence is derived from
-`periodicTstar ν u₀ = ⊤` through the BKM criterion and BKM integrability. -/
+`periodicTstar ν u₀ = ⊤` through the BKM criterion and BKM integrability.
+
+Correction. Earlier versions used `IsPeriodicSmoothSolutionOnOriginal` (with an L²(ℝ³) clause),
+and `IsPeriodicMaximalSolution` quantified over all `T < periodicTstar`, including `T ≤ 0`. With
+those definitions `PeriodicLocalExistence ν` and `PeriodicMaximalSolution ν` are false for every
+`ν > 0` (proved below as `not_periodicLocalExistenceOriginal` and
+`not_periodicMaximalSolutionOriginal`). The definitions now use the corrected
+`IsPeriodicSmoothSolutionOn` and require maximality only for `0 < T`. The old ones are kept below
+as scaffolding with the suffix `Original`. -/
 
 /-- Horizons on which a periodic smooth solution from `u₀` exists. -/
 @[expose] public def periodicExistenceTimes (ν : ℝ) (u₀ : VelocityField) : Set EReal :=
@@ -366,23 +374,25 @@ on which a periodic smooth solution from `u₀` exists. Global existence is deri
 @[expose] public noncomputable def periodicTstar (ν : ℝ) (u₀ : VelocityField) : EReal :=
   sSup (periodicExistenceTimes ν u₀)
 
-/-- A pair `(u, p)` that is a periodic smooth solution on every `[0, T]` with `T < periodicTstar`. -/
+/-- A pair `(u, p)` that is a periodic smooth solution on every `[0, T]` with
+`0 < T < periodicTstar`. -/
 @[expose] public def IsPeriodicMaximalSolution (ν : ℝ) (u₀ : VelocityField)
     (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
-  ∀ T : ℝ, (T : EReal) < periodicTstar ν u₀ →
+  ∀ T : ℝ, 0 < T → (T : EReal) < periodicTstar ν u₀ →
     IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p
 
 /-- **Classical (Kato 1972), not formalized:** positive local existence time. -/
 @[expose] public def PeriodicLocalExistence (ν : ℝ) : Prop :=
   0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ → (0 : EReal) < periodicTstar ν u₀
 
-/-- **Classical (uniqueness and gluing), not formalized:** a single maximal solution. -/
+/-- **Classical (uniqueness and gluing):** a single maximal solution. Proved from velocity
+uniqueness in the companion repository `periodic-ns-classical-continuation`. -/
 @[expose] public def PeriodicMaximalSolution (ν : ℝ) : Prop :=
   0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
     ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure), IsPeriodicMaximalSolution ν u₀ u p
 
-/-- **Classical (gluing on `[0, ∞)`), not formalized:** a maximal solution with
-`periodicTstar = ⊤` is a periodic smooth solution in the sense of Statement (B). -/
+/-- A maximal solution with `periodicTstar = ⊤` is a periodic smooth solution in the sense of
+Statement (B). Proved below: `periodicGlobalOfTstarTop`. -/
 @[expose] public def PeriodicGlobalOfTstarTop (ν : ℝ) : Prop :=
   0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
     ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
@@ -417,17 +427,153 @@ public theorem periodicTstar_eq_top_of_bkm (ν : ℝ) (hν : 0 < ν)
   ereal_eq_top_of_bkm _ _ (hloc hν u₀ hu₀) (hcrit hν u₀ hu₀ u p hmax)
     (hint hν u₀ hu₀ u p hmax)
 
+lemma Icc_mem_nhdsWithin_Ici_prod (t : ℝ) (x : T3) :
+    Set.Icc (0 : ℝ) (t + 1) ×ˢ (Set.univ : Set T3) ∈
+      𝓝[Set.Ici (0 : ℝ) ×ˢ Set.univ] (t, x) := by
+  refine mem_nhdsWithin.2 ⟨Set.Iio (t + 1) ×ˢ Set.univ, isOpen_Iio.prod isOpen_univ,
+    ⟨by simp, trivial⟩, ?_⟩
+  rintro ⟨a, b⟩ ⟨⟨ha, -⟩, ha', -⟩
+  exact ⟨⟨ha', (show a < t + 1 from ha).le⟩, trivial⟩
+
+lemma hasDerivWithinAt_slice_Icc {T : ℝ} {u : TimeDependentVelocity}
+    (hu : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun q : ℝ × T3 => u q.1 q.2)
+      (Set.Icc (0 : ℝ) T ×ˢ Set.univ))
+    (x : T3) {t : ℝ} (ht : t ∈ Set.Icc (0 : ℝ) T) :
+    HasDerivWithinAt (fun s => u s x) (derivWithin (fun s => u s x) (Set.Icc (0 : ℝ) T) t)
+      (Set.Icc (0 : ℝ) T) t := by
+  have hc : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun s : ℝ => u s x) (Set.Icc (0 : ℝ) T) :=
+    hu.comp ((contDiff_id.prodMk contDiff_const).contDiffOn) (fun _ hs => ⟨hs, trivial⟩)
+  exact ((hc.differentiableOn (by simp)) t ht).hasDerivWithinAt
+
+/-- **Proved:** a pair that solves on every positive horizon solves Statement (B). -/
+public theorem isPeriodicSmoothSolution_of_forall_horizon {ν : ℝ} {u₀ : VelocityField}
+    {u : TimeDependentVelocity} {p : TimeDependentPressure}
+    (h : ∀ T : ℝ, 0 < T → IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p) :
+    IsPeriodicSmoothSolution ν u₀ (fun _ _ => 0) u p := by
+  have hS : ∀ t : ℝ, 0 ≤ t → IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) (t + 1) u p :=
+    fun t ht => h (t + 1) (by linarith)
+  have hmem : ∀ t : ℝ, 0 ≤ t → t ∈ Set.Icc (0 : ℝ) (t + 1) := fun t ht => ⟨ht, by linarith⟩
+  refine ⟨fun t ht => (hS t ht).2.1 t (hmem t ht), fun t ht => (hS t ht).2.2.1 t (hmem t ht),
+    ?_, ?_, ?_, fun t ht => (hS t ht).2.2.2.2.2.2.1 t (hmem t ht), (h 1 one_pos).2.2.2.2.2.2.2⟩
+  · rintro ⟨t, x⟩ ⟨ht, -⟩
+    exact ((hS t ht).2.2.2.1 (t, x) ⟨hmem t ht, trivial⟩).mono_of_mem_nhdsWithin
+      (Icc_mem_nhdsWithin_Ici_prod t x)
+  · rintro ⟨t, x⟩ ⟨ht, -⟩
+    exact ((hS t ht).2.2.2.2.1 (t, x) ⟨hmem t ht, trivial⟩).mono_of_mem_nhdsWithin
+      (Icc_mem_nhdsWithin_Ici_prod t x)
+  · intro t ht x
+    have hd := hasDerivWithinAt_slice_Icc (hS t ht).2.2.2.1 x (hmem t ht)
+    have hnhds : Set.Icc (0 : ℝ) (t + 1) ∈ 𝓝[Set.Ici (0 : ℝ)] t := by
+      refine mem_nhdsWithin.2 ⟨Set.Iio (t + 1), isOpen_Iio, by simp, ?_⟩
+      rintro a ⟨ha, ha'⟩
+      exact ⟨ha', (show a < t + 1 from ha).le⟩
+    have hd' := hd.mono_of_mem_nhdsWithin hnhds
+    rw [hd'.derivWithin ((uniqueDiffOn_Ici 0) t ht)]
+    exact (hS t ht).2.2.2.2.2.1 t (hmem t ht) x
+
+/-- **Proved:** `PeriodicGlobalOfTstarTop ν` holds for every `ν`. -/
+public theorem periodicGlobalOfTstarTop (ν : ℝ) : PeriodicGlobalOfTstarTop ν := by
+  intro _ u₀ _ u p hmax htop
+  exact ⟨u, p, isPeriodicSmoothSolution_of_forall_horizon
+    (fun T hT => hmax T hT (by rw [htop]; exact EReal.coe_lt_top T))⟩
+
 /-- **Conditional Reduction Theorem 3 (`clay_B_exact_of_periodic_bkm`):**
 `Clay_B_exact ν` from the classical inputs `PeriodicLocalExistence`, `PeriodicMaximalSolution`,
-`PeriodicBKMCriterion`, `PeriodicGlobalOfTstarTop` and the OPEN `PeriodicBKMIntegrability`. -/
+`PeriodicBKMCriterion` and the OPEN `PeriodicBKMIntegrability`. The global step is proved
+(`periodicGlobalOfTstarTop`). -/
 public theorem clay_B_exact_of_periodic_bkm (ν : ℝ)
     (hloc : PeriodicLocalExistence ν) (hmax : PeriodicMaximalSolution ν)
-    (hcrit : PeriodicBKMCriterion ν) (hglob : PeriodicGlobalOfTstarTop ν)
-    (hint : PeriodicBKMIntegrability ν) :
+    (hcrit : PeriodicBKMCriterion ν) (hint : PeriodicBKMIntegrability ν) :
     Clay_B_exact ν := by
   intro hν u₀ hu₀
   obtain ⟨u, p, hm⟩ := hmax hν u₀ hu₀
-  exact hglob hν u₀ hu₀ u p hm
+  exact periodicGlobalOfTstarTop ν hν u₀ hu₀ u p hm
     (periodicTstar_eq_top_of_bkm ν hν hloc hcrit hint u₀ hu₀ u p hm)
+
+/-! ### Scaffolding: the earlier (unsatisfiable) definitions and their refutation -/
+
+/-- Earlier existence horizons, using `IsPeriodicSmoothSolutionOnOriginal`. -/
+@[expose] public def periodicExistenceTimesOriginal (ν : ℝ) (u₀ : VelocityField) : Set EReal :=
+  {s | ∃ T : ℝ, s = (T : EReal) ∧ ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+    IsPeriodicSmoothSolutionOnOriginal ν u₀ (fun _ _ => 0) T u p}
+
+/-- Earlier maximal existence time. -/
+@[expose] public noncomputable def periodicTstarOriginal (ν : ℝ) (u₀ : VelocityField) : EReal :=
+  sSup (periodicExistenceTimesOriginal ν u₀)
+
+/-- Earlier maximality predicate (quantifies also over `T ≤ 0`). -/
+@[expose] public def IsPeriodicMaximalSolutionOriginal (ν : ℝ) (u₀ : VelocityField)
+    (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
+  ∀ T : ℝ, (T : EReal) < periodicTstarOriginal ν u₀ →
+    IsPeriodicSmoothSolutionOnOriginal ν u₀ (fun _ _ => 0) T u p
+
+/-- Earlier local existence statement. -/
+@[expose] public def PeriodicLocalExistenceOriginal (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
+    (0 : EReal) < periodicTstarOriginal ν u₀
+
+/-- Earlier maximal-solution statement. -/
+@[expose] public def PeriodicMaximalSolutionOriginal (ν : ℝ) : Prop :=
+  0 < ν → ∀ u₀ : VelocityField, IsPeriodicSmoothInitialData u₀ →
+    ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+      IsPeriodicMaximalSolutionOriginal ν u₀ u p
+
+/-- The constant velocity field `e₀`. -/
+public noncomputable def constE0 : VelocityField := fun _ => EuclideanSpace.single 0 1
+
+public theorem constE0_initialData : IsPeriodicSmoothInitialData constE0 := by
+  refine ⟨contDiff_const, ?_, ?_⟩
+  · intro x; simp [div, constE0]
+  · intro x k; rfl
+
+/-- **Proved:** a field equal to `e₀` at `t = 0` is never an `IsPhysicalNSSolution`. -/
+public theorem not_isPhysicalNSSolution_of_constE0 (u : TimeDependentVelocity)
+    (h0 : u 0 = constE0) : ¬ IsPhysicalNSSolution u := by
+  rintro ⟨-, -, hint, -, -⟩
+  have := hint 0 le_rfl
+  rw [h0] at this
+  simp [constE0, integrable_const_iff] at this
+  have h := MeasureTheory.measure_univ_of_isAddLeftInvariant (MeasureTheory.volume : Measure T3)
+  exact absurd h (measure_ne_top _ _)
+
+public theorem periodicExistenceTimesOriginal_constE0 (ν : ℝ) :
+    periodicExistenceTimesOriginal ν constE0 = ∅ := by
+  ext s
+  simp only [periodicExistenceTimesOriginal, Set.mem_setOf_eq, Set.mem_empty_iff_false, iff_false]
+  rintro ⟨T, -, u, p, hsol, hphys⟩
+  exact not_isPhysicalNSSolution_of_constE0 u (funext hsol.2.2.2.2.2.2.2) hphys
+
+/-- **Proved:** the earlier `PeriodicLocalExistenceOriginal ν` is false for every `ν > 0`. -/
+public theorem not_periodicLocalExistenceOriginal (ν : ℝ) (hν : 0 < ν) :
+    ¬ PeriodicLocalExistenceOriginal ν := by
+  intro h
+  have := h hν constE0 constE0_initialData
+  simp [periodicTstarOriginal, periodicExistenceTimesOriginal_constE0] at this
+
+/-- The zero pair solves on `[0, 1]` from zero data (corrected predicate). -/
+public theorem zero_isPeriodicSmoothSolutionOn (ν : ℝ) :
+    IsPeriodicSmoothSolutionOn ν 0 (fun _ _ => 0) 1 (fun _ => 0) (fun _ => 0) := by
+  refine ⟨one_pos, fun _ _ _ _ => rfl, fun _ _ _ _ => rfl, contDiffOn_const, contDiffOn_const,
+    ?_, ?_, fun _ => rfl⟩
+  · intro t _ x
+    simp [convective, laplacian, pressureGradient, gradient]
+  · intro t _ x
+    simp [div]
+
+public theorem zero_isPeriodicSmoothInitialData : IsPeriodicSmoothInitialData 0 := by
+  refine ⟨contDiff_const, ?_, fun _ _ => rfl⟩
+  intro x; simp [div]
+
+/-- **Proved:** the earlier `PeriodicMaximalSolutionOriginal ν` is false for every `ν > 0`: it
+asks for a solution on the horizon `T = -1`. -/
+public theorem not_periodicMaximalSolutionOriginal (ν : ℝ) (hν : 0 < ν) :
+    ¬ PeriodicMaximalSolutionOriginal ν := by
+  intro h
+  obtain ⟨u, p, hmax⟩ := h hν 0 zero_isPeriodicSmoothInitialData
+  have hmem : ((1 : ℝ) : EReal) ∈ periodicExistenceTimesOriginal ν 0 :=
+    ⟨1, rfl, _, _, zero_isPeriodicSmoothSolutionOn ν, isPhysicalNSSolution_zero⟩
+  have hlt : ((-1 : ℝ) : EReal) < periodicTstarOriginal ν 0 :=
+    lt_of_lt_of_le (EReal.coe_lt_coe_iff.2 (by norm_num)) (le_sSup hmem)
+  exact absurd (hmax (-1) hlt).1.1 (by norm_num)
 
 end FeffermanClayNS

@@ -66,6 +66,10 @@ open Lean Elab Command
 #print axioms FeffermanClayNS.periodicFiniteTimeBound_vacuous
 #print axioms FeffermanClayNS.periodicTstar_eq_top_of_bkm
 #print axioms FeffermanClayNS.clay_B_exact_of_periodic_bkm
+#print axioms FeffermanClayNS.periodicGlobalOfTstarTop
+#print axioms FeffermanClayNS.isPeriodicSmoothSolution_of_forall_horizon
+#print axioms FeffermanClayNS.not_periodicLocalExistenceOriginal
+#print axioms FeffermanClayNS.not_periodicMaximalSolutionOriginal
 #print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion
 #print axioms FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem
 #print axioms FeffermanClayNS.unitCube_nonempty

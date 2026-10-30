@@ -112,7 +112,10 @@ A pair `(u, p)` solving the Navier–Stokes system on `[0, ∞) × ℝ³` such t
   (∀ x : T3, u 0 x = u₀ x)
 
 /-- **Local-in-time periodic smooth solution on `[0, T] × (ℝ³ / ℤ³)`:**
-Restriction of Fefferman's periodic smooth solution conditions to a finite time horizon `[0, T]`. -/
+Restriction of Fefferman's periodic smooth solution conditions to a finite time horizon `[0, T]`.
+There is no L²(ℝ³) clause: a nonzero periodic field is never square-integrable on ℝ³. The energy
+over one period cell is finite automatically, since `u` is continuous and periodic.
+The earlier version with the L²(ℝ³) clause is `IsPeriodicSmoothSolutionOnOriginal`. -/
 @[expose] public def IsPeriodicSmoothSolutionOn
     (ν : ℝ) (u₀ : VelocityField) (f : ℝ → T3 → EuclideanSpace ℝ (Fin 3))
     (T : ℝ) (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
@@ -125,8 +128,15 @@ Restriction of Fefferman's periodic smooth solution conditions to a finite time 
     derivWithin (fun s => u s x) (Set.Icc (0 : ℝ) T) t + convective (u t) (u t) x =
       ν • laplacian (u t) x - pressureGradient (p t) x + f t x) ∧
   (∀ t ∈ Set.Icc (0 : ℝ) T, ∀ x : T3, div (u t) x = 0) ∧
-  (∀ x : T3, u 0 x = u₀ x) ∧
-  IsPhysicalNSSolution u
+  (∀ x : T3, u 0 x = u₀ x)
+
+/-- **Scaffolding (unsatisfiable for nonzero data):** the earlier local solution predicate, which
+also required `IsPhysicalNSSolution u` (L² over all of ℝ³). See
+`not_periodicLocalExistenceOriginal` in `HighSetDepletionAndBKM.lean`. -/
+@[expose] public def IsPeriodicSmoothSolutionOnOriginal
+    (ν : ℝ) (u₀ : VelocityField) (f : ℝ → T3 → EuclideanSpace ℝ (Fin 3))
+    (T : ℝ) (u : TimeDependentVelocity) (p : TimeDependentPressure) : Prop :=
+  IsPeriodicSmoothSolutionOn ν u₀ f T u p ∧ IsPhysicalNSSolution u
 
 /-- **Fefferman Equation (7) (Bounded kinetic energy):**
 `∫ ‖u(x, t)‖² dx < C` for all `t ≥ 0` (with explicit `Integrable` guard so Bochner
