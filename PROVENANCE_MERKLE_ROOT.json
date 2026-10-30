@@ -8,15 +8,15 @@
     "sealguard_doi": "10.5281/zenodo.23631670",
     "sentinel_gate_doi": "10.5281/zenodo.23632766"
   },
-  "merkle_root_sha256": "1c8b2a918737ac79a9c4c3114d69965a5204461fd0fb59d556ff8bf7adb0d6fb",
+  "merkle_root_sha256": "687ccc073b8e3c4c672489d02adaefd5fc58f509573c134722f217e59c44b9ed",
   "sentinel_gate_receipt": {
     "engine": "Sentinel Gate v1.0.0 (DOI: 10.5281/zenodo.23632766)",
     "author": "Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718)",
     "action_type": "seal_and_attest_public_release",
-    "action_id": "1c8b2a918737ac79a9c4c3114d69965a5204461fd0fb59d556ff8bf7adb0d6fb",
+    "action_id": "687ccc073b8e3c4c672489d02adaefd5fc58f509573c134722f217e59c44b9ed",
     "permitted": true,
     "reason": "PERMITTED_DETERMINISTIC_POLICY",
-    "receipt_sha256": "fe0d88738fa2c6877b06ef89df2b2a97f8858eedf43b181b743797a95bd575d6"
+    "receipt_sha256": "ae2a59cda543be6abfc70d363d5f2c25054b9e11eba3f6d5afffff56450a81fc"
   },
   "files": {
     ".gitignore": {
@@ -28,16 +28,16 @@
       "bytes": 3987
     },
     "AxiomAudit.lean": {
-      "sha256": "87d26cbbc2e8ce31c223270acd471ce4f345e221736e172e3d4b42a396d22b47",
-      "bytes": 5256
+      "sha256": "7daeda223eb1ee38f867baa7d7afa860dcc43525d35f81464f93a4d6f0d18d97",
+      "bytes": 5453
     },
     "CITATION.cff": {
       "sha256": "f31f46fd44e0a4c6c9907172f4bca516a48c3eda77520d7e0bfab9ca3181e0eb",
       "bytes": 962
     },
     "FeffermanClayNS/Defs.lean": {
-      "sha256": "ef1497625c558b564a05181c4ecaf0f4c19c2822d0ada2ec198bd8f06f073f91",
-      "bytes": 173761
+      "sha256": "bf3498e9cd24eb9146b736a274065b172e201358511ee94737f1768d03249ea3",
+      "bytes": 177837
     },
     "FeffermanClayNS/FeffermanStatements.lean": {
       "sha256": "d11de75b4185f29910cd586a3c7d3437a9c75171560eedea4c6838de9bbde7cd",
@@ -48,8 +48,8 @@
       "bytes": 31067
     },
     "FeffermanClayNS/HighSetDepletionAndBKM.lean": {
-      "sha256": "20a589fe9d12daf8d9684c38ee554516eb3c4f1187431037565cce6639ef0a4e",
-      "bytes": 18952
+      "sha256": "f9367005b2e42501de0dce4e5dbc323c524fb0c33ce337e513e0b3b5cb794533",
+      "bytes": 24635
     },
     "FeffermanClayNS/MainTheorem.lean": {
       "sha256": "bc2b8796be7d996b66828032ea08987607a4b2bc6527188e2138647c0ac00caa",
@@ -80,24 +80,24 @@
       "bytes": 409
     },
     "README.md": {
-      "sha256": "ff6b514f96ddd24030ab58dd4022d03c06836c0af262b2d35067172b74a30212",
-      "bytes": 17931
+      "sha256": "0d58947bbf69c9310ff22a8357b1c8458a932bcbe91c5c4b09d91e6973c10f90",
+      "bytes": 18516
     },
     "audit/TITAN_AUDIT_CERTIFICATE.json": {
-      "sha256": "8efb6bb329ad53c702d61a362da4f847654d81e1398f0e63983512e27aedeb29",
-      "bytes": 4997
+      "sha256": "cade230c7d9d2fc7ff0a4f69849a9dde9f9052141481ad75459ef6013b212e77",
+      "bytes": 5328
     },
     "audit/TITAN_AUDIT_REPORT.md": {
-      "sha256": "a04b7dfb7643154bc6d9b67ce8cbd8f0f8e65a206f120bddc8f39c976353cbc2",
-      "bytes": 1844
+      "sha256": "8b6e388e183bc07101a3be778dfa71686d475a7c1d47d637f15ba781a36af784",
+      "bytes": 2049
     },
     "audit/report.json": {
-      "sha256": "8efb6bb329ad53c702d61a362da4f847654d81e1398f0e63983512e27aedeb29",
-      "bytes": 4997
+      "sha256": "cade230c7d9d2fc7ff0a4f69849a9dde9f9052141481ad75459ef6013b212e77",
+      "bytes": 5328
     },
     "audit/report.md": {
-      "sha256": "a04b7dfb7643154bc6d9b67ce8cbd8f0f8e65a206f120bddc8f39c976353cbc2",
-      "bytes": 1844
+      "sha256": "8b6e388e183bc07101a3be778dfa71686d475a7c1d47d637f15ba781a36af784",
+      "bytes": 2049
     },
     "ci/titan-audit-and-sealguard.yml": {
       "sha256": "bff40a3f4424a15e7cc2b9ac5c51e9c3d6bef914ef3e1f421ce73fa167e11124",
@@ -120,12 +120,12 @@
       "bytes": 29
     },
     "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf": {
-      "sha256": "75a9a8c701ad933c29d7a2f45f11d705293ae6c75582089ad37b148e4d97e5b0",
-      "bytes": 90627
+      "sha256": "7c86200daeaa11b61ed92caa208d8d2379715bc1216d681263d4701d0c485493",
+      "bytes": 92875
     },
     "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.tex": {
-      "sha256": "2c56e414cc47eb08be18e79f93c770be4cb8d3f54a053b08d7882dd05ac9e96a",
-      "bytes": 13876
+      "sha256": "7f6611c536df0c14f041276a9b19941b7cc6b3f7748eb24cde6502427903bbdb",
+      "bytes": 14280
     }
   }
 }

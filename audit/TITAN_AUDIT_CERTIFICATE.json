@@ -6,10 +6,10 @@
     "doi": "10.5281/zenodo.23630648"
   },
   "project": {
-    "path": "/workspace/fin/fefferman-clay-navier-stokes",
+    "path": "/workspace/fefferman-clay-navier-stokes",
     "name": "fefferman-clay-navier-stokes",
     "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
-    "git_head": "156ec72fdd601c3312b07c7f0c5dc5cd2f2a6515"
+    "git_head": "8ac440d5bcea80d9f7e52529ed758988ec2a92dd"
   },
   "build": {
     "requested": false
@@ -19,12 +19,12 @@
     "exit_code": 0,
     "errors": [],
     "modules": 8,
-    "theorems": 250,
-    "clean_theorems": 250,
+    "theorems": 258,
+    "clean_theorems": 258,
     "nonstandard": [],
     "per_module": {
       "FeffermanClayNS.Defs": {
-        "theorems": 143,
+        "theorems": 148,
         "nonstandard": 0
       },
       "FeffermanClayNS.TorusStrainExclusion": {
@@ -35,16 +35,16 @@
         "theorems": 35,
         "nonstandard": 0
       },
+      "FeffermanClayNS.HighSetDepletionAndBKM": {
+        "theorems": 15,
+        "nonstandard": 0
+      },
       "FeffermanClayNS.FinalProductTheorem": {
         "theorems": 24,
         "nonstandard": 0
       },
       "FeffermanClayNS.FeffermanStatements": {
         "theorems": 13,
-        "nonstandard": 0
-      },
-      "FeffermanClayNS.HighSetDepletionAndBKM": {
-        "theorems": 12,
         "nonstandard": 0
       },
       "FeffermanClayNS.MainTheorem": {
@@ -59,7 +59,7 @@
       {
         "kind": "real_iSup_without_BddAbove",
         "file": "FeffermanClayNS/Defs.lean",
-        "line": 2290,
+        "line": 2291,
         "decl": "Tstar",
         "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
         "in_build": true
@@ -67,7 +67,7 @@
       {
         "kind": "real_iSup_without_BddAbove",
         "file": "FeffermanClayNS/Defs.lean",
-        "line": 2801,
+        "line": 2802,
         "decl": "vorticity_sup_norm",
         "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
         "in_build": true
@@ -75,23 +75,31 @@
       {
         "kind": "real_iSup_without_BddAbove",
         "file": "FeffermanClayNS/Defs.lean",
-        "line": 2815,
+        "line": 2816,
         "decl": "strain_sup_norm",
+        "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
+        "in_build": true
+      },
+      {
+        "kind": "real_iSup_without_BddAbove",
+        "file": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
+        "line": 366,
+        "decl": "periodicTstar",
         "detail": "Real iSup/sSup is 0 on unbounded ranges; downstream bounds on it may be vacuous unless BddAbove is required.",
         "in_build": true
       }
     ],
     "counts": {
-      "real_iSup_without_BddAbove": 3
+      "real_iSup_without_BddAbove": 4
     }
   },
   "tree": {
-    "sha256": "6a1ce795bd2313a0faf79a28012e71a7d0e5a48a70bcc53ad0775f60faf78621",
+    "sha256": "eaa1cb3091fd459716555874665031ef7563a7aeb2727ed3dc5685c0663c6cd5",
     "files": 12,
     "entries": [
       {
         "path": "AxiomAudit.lean",
-        "sha256": "87d26cbbc2e8ce31c223270acd471ce4f345e221736e172e3d4b42a396d22b47"
+        "sha256": "7daeda223eb1ee38f867baa7d7afa860dcc43525d35f81464f93a4d6f0d18d97"
       },
       {
         "path": "FeffermanClayNS.lean",
@@ -99,7 +107,7 @@
       },
       {
         "path": "FeffermanClayNS/Defs.lean",
-        "sha256": "ef1497625c558b564a05181c4ecaf0f4c19c2822d0ada2ec198bd8f06f073f91"
+        "sha256": "bf3498e9cd24eb9146b736a274065b172e201358511ee94737f1768d03249ea3"
       },
       {
         "path": "FeffermanClayNS/FeffermanStatements.lean",
@@ -111,7 +119,7 @@
       },
       {
         "path": "FeffermanClayNS/HighSetDepletionAndBKM.lean",
-        "sha256": "20a589fe9d12daf8d9684c38ee554516eb3c4f1187431037565cce6639ef0a4e"
+        "sha256": "f9367005b2e42501de0dce4e5dbc323c524fb0c33ce337e513e0b3b5cb794533"
       },
       {
         "path": "FeffermanClayNS/MainTheorem.lean",
@@ -143,13 +151,13 @@
   "verdict": {
     "status": "PASS_WITH_WARNINGS",
     "reasons": [],
-    "vacuity_warnings_in_build": 3
+    "vacuity_warnings_in_build": 4
   },
-  "generated_at_utc": "2026-10-30T18:31:45+00:00",
+  "generated_at_utc": "2026-10-30T19:03:51+00:00",
   "signature": {
     "alg": "ed25519",
     "public_key_b64": "YoEHEghXFxrXvYKQoWQb+oDunzwdxBgpk03gxrdC7WI=",
     "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
-    "value_b64": "/0FMFHPJTsmJ8aRQ1oJgdcfyGaXvJU5NNmgoABE2mmKCh+5pjmsbPzG6HFTfYRPwAL6RNpGCkhmCx8vTXDuaCQ=="
+    "value_b64": "c+1qW88V1hz3mNKksmg0oHD+afSpHumgIisk4/Sv3opyWyR8PIX7y0+uVQbScgVouk842E1AVXAwmgEXcqRkAA=="
   }
 }
