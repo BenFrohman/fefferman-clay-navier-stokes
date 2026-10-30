@@ -276,4 +276,66 @@ public theorem clay_B_exact_of_torus_direction_depletion (ν : ℝ)
   clay_B_exact_of_periodic_tether_bound ν
     (periodicTetherClosingBound_of_directionDepletion ν hDepl) hBKM
 
+/-! ### Finite-horizon form (what Statement (B) needs)
+
+Statement (B) asks for a smooth periodic solution on `[0, ∞)` with bounded energy. It does not
+ask for a bound on `‖ω(t)‖_∞` that is uniform in `t`. The Beale–Kato–Majda continuation only
+needs, for each horizon `T`, a bound `C(T)` on `[0, T]` that may depend on `T` and on `u₀`. -/
+
+/-- **Conditional Hypothesis 1c (`PeriodicFiniteTimeVorticityBound` — OPEN):**
+For every smooth, divergence-free, `ℤ³`-periodic initial datum `u₀` and every horizon `T ≥ 0`
+there is `C(T) ≥ 0` (depending on `T`, `u₀`, `ν`) with `‖ω(t)‖_∞ ≤ C(T)` for `t ∈ [0, T]` along any
+periodic smooth solution on `[0, T]`. -/
+@[expose] public def PeriodicFiniteTimeVorticityBound (ν : ℝ) : Prop :=
+  ∀ u₀ : VelocityField,
+    IsPeriodicSmoothInitialData u₀ →
+    ∀ T : ℝ, 0 ≤ T → ∃ C : ℝ, 0 ≤ C ∧
+      ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+        IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p →
+        ∀ t ∈ Set.Icc (0 : ℝ) T,
+          vorticity_sup_norm (vorticity (u t)) ≤ C
+
+/-- **Conditional Hypothesis 2' (`PeriodicBKMContinuationFiniteTime` — Classical PDE Input):**
+If every local periodic smooth solution from `u₀` obeys, on each horizon `[0, T]`, a bound
+`‖ω(t)‖_∞ ≤ C(T)`, then the solution extends to a global periodic smooth solution
+(Kato 1972 + Beale–Kato–Majda 1984 + parabolic bootstrap on `𝕋³`). This is the form in which
+BKM is classically stated; it implies the uniform-input `PeriodicBKMContinuation`. -/
+@[expose] public def PeriodicBKMContinuationFiniteTime (ν : ℝ) : Prop :=
+  0 < ν →
+  ∀ u₀ : VelocityField,
+    IsPeriodicSmoothInitialData u₀ →
+    (∀ T : ℝ, 0 ≤ T → ∃ C : ℝ, 0 ≤ C ∧
+      ∀ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+        IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p →
+        ∀ t ∈ Set.Icc (0 : ℝ) T,
+          vorticity_sup_norm (vorticity (u t)) ≤ C) →
+    ∃ (u : TimeDependentVelocity) (p : TimeDependentPressure),
+      IsPeriodicSmoothSolution ν u₀ (fun _ _ => 0) u p
+
+/-- **Proved:** the uniform ceiling implies the finite-horizon bound (`C(T) = Y`). -/
+public theorem periodicFiniteTimeVorticityBound_of_uniform (ν : ℝ)
+    (h : PeriodicTetherClosingBound ν) :
+    PeriodicFiniteTimeVorticityBound ν := by
+  intro u₀ hu₀ T _hT
+  obtain ⟨Y, hY, hb⟩ := h u₀ hu₀
+  exact ⟨Y, hY, fun u p hsol t ht => hb T u p hsol t ht⟩
+
+/-- **Proved:** finite-horizon BKM continuation implies the uniform-input form. -/
+public theorem periodicBKMContinuation_of_finiteTime (ν : ℝ)
+    (h : PeriodicBKMContinuationFiniteTime ν) :
+    PeriodicBKMContinuation ν := by
+  intro hν u₀ hu₀ hunif
+  obtain ⟨Y, hY, hb⟩ := hunif
+  exact h hν u₀ hu₀ (fun T _hT => ⟨Y, hY, fun u p hsol t ht => hb T u p hsol t ht⟩)
+
+/-- **Conditional Reduction Theorem 3 (`clay_B_exact_of_periodic_finite_time_bound`):**
+Conditional on `PeriodicFiniteTimeVorticityBound ν` (OPEN) and
+`PeriodicBKMContinuationFiniteTime ν` (classical), `Clay_B_exact ν` holds. -/
+public theorem clay_B_exact_of_periodic_finite_time_bound (ν : ℝ)
+    (hFin : PeriodicFiniteTimeVorticityBound ν)
+    (hBKM : PeriodicBKMContinuationFiniteTime ν) :
+    Clay_B_exact ν := by
+  intro hν u₀ hu₀
+  exact hBKM hν u₀ hu₀ (hFin u₀ hu₀)
+
 end FeffermanClayNS

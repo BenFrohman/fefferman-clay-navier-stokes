@@ -60,6 +60,9 @@ open Lean Elab Command
 #print axioms FeffermanClayNS.comparison_ode_ceiling
 #print axioms FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion
 #print axioms FeffermanClayNS.clay_B_exact_of_periodic_tether_bound
+#print axioms FeffermanClayNS.periodicFiniteTimeVorticityBound_of_uniform
+#print axioms FeffermanClayNS.periodicBKMContinuation_of_finiteTime
+#print axioms FeffermanClayNS.clay_B_exact_of_periodic_finite_time_bound
 #print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion
 #print axioms FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem
 #print axioms FeffermanClayNS.unitCube_nonempty
