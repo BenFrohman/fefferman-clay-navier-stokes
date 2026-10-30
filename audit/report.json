@@ -9,7 +9,7 @@
     "path": "/workspace/fefferman-clay-navier-stokes",
     "name": "fefferman-clay-navier-stokes",
     "lean_toolchain": "leanprover/lean4:v4.30.0-rc1",
-    "git_head": "1869c1ac0d1fd61b076f66ffa059757a342c2968"
+    "git_head": "a8188863ffdf09c30e3c0102f8f79bd3f28f74ef"
   },
   "build": {
     "requested": false
@@ -19,8 +19,8 @@
     "exit_code": 0,
     "errors": [],
     "modules": 8,
-    "theorems": 269,
-    "clean_theorems": 269,
+    "theorems": 247,
+    "clean_theorems": 247,
     "nonstandard": [],
     "per_module": {
       "FeffermanClayNS.Defs": {
@@ -32,7 +32,7 @@
         "nonstandard": 0
       },
       "FeffermanClayNS.Stage6Calculus": {
-        "theorems": 35,
+        "theorems": 16,
         "nonstandard": 0
       },
       "FeffermanClayNS.HighSetDepletionAndBKM": {
@@ -48,7 +48,7 @@
         "nonstandard": 0
       },
       "FeffermanClayNS.MainTheorem": {
-        "theorems": 4,
+        "theorems": 1,
         "nonstandard": 0
       }
     }
@@ -102,12 +102,12 @@
     }
   },
   "tree": {
-    "sha256": "65634766800aec9789f41682ed7b301bf3d0658daa7aabc17029d5b61799358a",
+    "sha256": "bd123b9220ad5488227a059389b90a548217b39f94ab403adb7ae503de9539bc",
     "files": 12,
     "entries": [
       {
         "path": "AxiomAudit.lean",
-        "sha256": "dba55faf24ce9393a3f950251bddf7e60df665556d672fa1a3ff7e165c55dfd0"
+        "sha256": "8d8357028af2aff8acac9bbd1080ecffad73f9693d2aeea7fab3ecb19d778b64"
       },
       {
         "path": "FeffermanClayNS.lean",
@@ -131,11 +131,11 @@
       },
       {
         "path": "FeffermanClayNS/MainTheorem.lean",
-        "sha256": "bc2b8796be7d996b66828032ea08987607a4b2bc6527188e2138647c0ac00caa"
+        "sha256": "8199db68ce7150fb6eec62d3bcacc114dda05c7dafc5898c5b5dcf4e454996d6"
       },
       {
         "path": "FeffermanClayNS/Stage6Calculus.lean",
-        "sha256": "3a73e6e04bd2cc9fa953caf8987d30ab66e2fa12849f9b9b6c6d7bf6739fdf80"
+        "sha256": "e51f5a3b0e1f72d7307a7df5ffb3c0909a429e647b25759f562bed88a85fccc5"
       },
       {
         "path": "FeffermanClayNS/TorusStrainExclusion.lean",
@@ -161,11 +161,11 @@
     "reasons": [],
     "vacuity_warnings_in_build": 5
   },
-  "generated_at_utc": "2026-10-30T19:19:09+00:00",
+  "generated_at_utc": "2026-10-30T19:44:59+00:00",
   "signature": {
     "alg": "ed25519",
     "public_key_b64": "YoEHEghXFxrXvYKQoWQb+oDunzwdxBgpk03gxrdC7WI=",
     "payload": "canonical JSON of report without 'signature' (sort_keys, compact, UTF-8)",
-    "value_b64": "plUrYmO1jZJD4bc1F0Qglwf5udDW7exyqcWJucCDPWUGQxe0bcmmDsIc7S+bOwcsCv7In4Z25FvkK/fPZTDtDg=="
+    "value_b64": "mVownkloVVQKXS/en5lcqCmmSULFS04qbg8zEd6A5140+T9mdRjW+1Wn+cbj/AvPGdG62OGmyKNnX+9nOAgUAQ=="
   }
 }

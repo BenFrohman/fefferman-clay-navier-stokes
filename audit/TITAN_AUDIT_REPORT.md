@@ -2,10 +2,10 @@
 
 **Verdict: PASS_WITH_WARNINGS**
 
-- Generated (UTC): 2026-10-30T19:19:09+00:00
+- Generated (UTC): 2026-10-30T19:44:59+00:00
 - Tool: titan-audit 1.0.0 (Benjamin Stanley Frohman (ORCID: 0009-0006-7068-3718))
-- Toolchain: `leanprover/lean4:v4.30.0-rc1`  Git HEAD: `1869c1ac0d1fd61b076f66ffa059757a342c2968`
-- Tree SHA-256: `65634766800aec9789f41682ed7b301bf3d0658daa7aabc17029d5b61799358a` over 12 files
+- Toolchain: `leanprover/lean4:v4.30.0-rc1`  Git HEAD: `a8188863ffdf09c30e3c0102f8f79bd3f28f74ef`
+- Tree SHA-256: `bd123b9220ad5488227a059389b90a548217b39f94ab403adb7ae503de9539bc` over 12 files
 
 ## Build
 
@@ -13,7 +13,7 @@
 
 ## Axiom audit
 
-- Modules: 8  Theorems: 269  Clean (only propext/Classical.choice/Quot.sound): 269
+- Modules: 8  Theorems: 247  Clean (only propext/Classical.choice/Quot.sound): 247
 - Nonstandard: 0
 
 | Module | Theorems | Nonstandard |
@@ -22,8 +22,8 @@
 | `FeffermanClayNS.FeffermanStatements` | 13 | 0 |
 | `FeffermanClayNS.FinalProductTheorem` | 24 | 0 |
 | `FeffermanClayNS.HighSetDepletionAndBKM` | 26 | 0 |
-| `FeffermanClayNS.MainTheorem` | 4 | 0 |
-| `FeffermanClayNS.Stage6Calculus` | 35 | 0 |
+| `FeffermanClayNS.MainTheorem` | 1 | 0 |
+| `FeffermanClayNS.Stage6Calculus` | 16 | 0 |
 | `FeffermanClayNS.TorusStrainExclusion` | 19 | 0 |
 
 ## Source scan
