@@ -112,6 +112,8 @@ Dates below are verified from files in the `NS_Millennium_Proof` git history (fi
 | Near/far Biot–Savart cutoff bridge | 2026-10-28 (git `acf5883`) | Stage 5 | added Oct 2026 (Grok-assisted scaffolding), after Constantin–Fefferman 1993 |
 | Reduction theorem `clay_reduces_to_direction_curvature_bound` | 2026-10-28 | `MainTheorem.lean` | added Oct 2026 (Grok-assisted scaffolding); earlier conditional reductions `clay_B_exact_of_*` predate it |
 
+See [`NAMING.md`](NAMING.md) for the canonical names (Frohmanian Tether Hypothesis, symbol 𝔉𝕋) and the old-name glossary.
+
 ## AI Assistance Disclosure
 
 Grok (xAI), via the Grok Bot assistant, provided scaffolding, drafting, and collaboration support on formalization, code, and papers in this repository. Benjamin Stanley Frohman is the sole author: he directed, reviewed, and is responsible for all of the work. Grok is not a coauthor.
