@@ -1,99 +1,242 @@
-/-
-Copyright (c) 2026 Benjamin Stanley Frohman. All rights reserved.
-Released under Apache 2.0 license as described in the file LICENSE.
-Authors: Benjamin Stanley Frohman
--/
-
--- In-Kernel Metaprogramming Axiom Audit (`Lean.collectAxioms` over `ConstantInfo.thmInfo`).
--- Run: `lake env lean AxiomAudit.lean`
--- Fails with non-zero exit if any theorem in the `FeffermanClayNS` module tree depends on
--- axioms outside {propext, Classical.choice, Quot.sound} (such as sorryAx or Lean.trustCompiler).
-
-import Lean
+-- Axiom audit: prints the axioms of every theorem/lemma in the project.
+-- CI fails unless each depends only on propext, Classical.choice, Quot.sound (or none).
 import FeffermanClayNS
+import FeffermanClayNS.Defs
+import FeffermanClayNS.FeffermanStatements
+import FeffermanClayNS.FinalProductTheorem
+import FeffermanClayNS.HighSetDepletionAndBKM
+import FeffermanClayNS.MainTheorem
+import FeffermanClayNS.Stage6Calculus
+import FeffermanClayNS.TorusStrainExclusion
 
-open Lean Elab Command
-
-#eval show CommandElabM Unit from do
-  let env ← getEnv
-  let mut stats : Std.HashMap Name (Nat × Nat) := {}
-  let mut bad : Array String := #[]
-  for (n, ci) in env.constants.toList do
-    if n.isInternal then continue
-    let some idx := env.getModuleIdxFor? n | continue
-    let mod := env.header.moduleNames[idx.toNat]!
-    unless (`FeffermanClayNS).isPrefixOf mod do continue
-    unless ci matches .thmInfo _ do continue
-    let axs ← liftCoreM <| Lean.collectAxioms n
-    let nonstd := axs.filter (fun a => a ∉ [``propext, ``Classical.choice, ``Quot.sound])
-    let (c, b) := stats.getD mod (0, 0)
-    stats := stats.insert mod (c + 1, if nonstd.isEmpty then b else b + 1)
-    unless nonstd.isEmpty do bad := bad.push s!"{n} : {nonstd}"
-  for (m, (c, b)) in stats.toList do
-    IO.println s!"{m}: theorems={c} nonstandard={b}"
-  for s in bad do
-    IO.println s
-  let total := stats.fold (fun acc _ (c, _) => acc + c) 0
-  IO.println s!"TOTAL theorems={total} nonstandard={bad.size}"
-  unless bad.isEmpty do
-    throwError "axiom audit FAILED: {bad.size} theorem(s) use non-standard axioms"
-
--- Explicit #print axioms checks on all primary exported theorems:
-#print axioms FeffermanClayNS.isZ3Periodic_iff_unit_shifts
+#print axioms NavierStokes3D.KatoLocalWitness.Tpos
+#print axioms NavierStokes3D.KatoLocalWitness.init
+#print axioms NavierStokes3D.KatoLocalWitness.pde
+#print axioms NavierStokes3D.KatoLocalWitness.phys
+#print axioms NavierStokes3D.KatoLocalWitness.smooth
+#print axioms NavierStokes3D.Tstar_eq_top_iff_forall_lt
+#print axioms NavierStokes3D.Tstar_eq_top_of_bkm
+#print axioms NavierStokes3D.Tstar_eq_top_of_katoRestartTime
+#print axioms NavierStokes3D.Tstar_eq_top_of_unbounded_existenceTimes
+#print axioms NavierStokes3D.Tstar_eq_top_of_uniform_restart
+#print axioms NavierStokes3D.Tstar_nonneg
+#print axioms NavierStokes3D.Tstar_pos_of_exists_smooth_solution
+#print axioms NavierStokes3D.Tstar_pos_of_kato_witness
+#print axioms NavierStokes3D.Tstar_zero_eq_top
+#print axioms NavierStokes3D.VorticityTransportRegularity.pressureC2
+#print axioms NavierStokes3D.VorticityTransportRegularity.spaceC1
+#print axioms NavierStokes3D.VorticityTransportRegularity.spaceC2
+#print axioms NavierStokes3D.VorticityTransportRegularity.spaceC3
+#print axioms NavierStokes3D.VorticityTransportRegularity.spacetimeC2
+#print axioms NavierStokes3D.beale_kato_majda
+#print axioms NavierStokes3D.beale_kato_majda_scaffold
+#print axioms NavierStokes3D.beale_kato_majda_scaffold_integrability_unused
+#print axioms NavierStokes3D.bkm_criterion_without_integrability_not_top
+#print axioms NavierStokes3D.contDiffAt_directionalCoord
+#print axioms NavierStokes3D.convective_coord
+#print axioms NavierStokes3D.convective_difference
+#print axioms NavierStokes3D.convective_energy_pairing_vanishes
+#print axioms NavierStokes3D.convective_eq_sum_directional
+#print axioms NavierStokes3D.convective_norm_le
+#print axioms NavierStokes3D.convective_norm_le_of_CZ
+#print axioms NavierStokes3D.convective_zero
+#print axioms NavierStokes3D.curl_add
+#print axioms NavierStokes3D.curl_add3
+#print axioms NavierStokes3D.curl_apply
+#print axioms NavierStokes3D.curl_convective
+#print axioms NavierStokes3D.curl_convective_div_free
+#print axioms NavierStokes3D.curl_gradient
+#print axioms NavierStokes3D.curl_laplacian
+#print axioms NavierStokes3D.curl_smul
+#print axioms NavierStokes3D.curl_time_deriv
+#print axioms NavierStokes3D.curl_zero
+#print axioms NavierStokes3D.cyclicLiePairing_expand
+#print axioms NavierStokes3D.deriv_euclidean_coord
+#print axioms NavierStokes3D.deriv_prod_fst_slice
+#print axioms NavierStokes3D.differentiableAt_convective_coord
+#print axioms NavierStokes3D.differentiableAt_coord
+#print axioms NavierStokes3D.differentiableAt_coord_of_differentiableAt_field
+#print axioms NavierStokes3D.differentiableAt_curl
+#print axioms NavierStokes3D.differentiableAt_curl_coord
+#print axioms NavierStokes3D.differentiableAt_directionalCoord
+#print axioms NavierStokes3D.differentiableAt_half_norm_sq
+#print axioms NavierStokes3D.differentiableAt_of_contDiffAt_coords
+#print axioms NavierStokes3D.differentiableAt_pressureGradient_coord
+#print axioms NavierStokes3D.differentiableAt_time_deriv_coord
+#print axioms NavierStokes3D.directionalCoord_convective
+#print axioms NavierStokes3D.directionalCoord_curl
+#print axioms NavierStokes3D.directionalCoord_laplacian
+#print axioms NavierStokes3D.directionalCoord_pressureGradient
+#print axioms NavierStokes3D.directionalCoord_smul
+#print axioms NavierStokes3D.directionalCoord_symm
+#print axioms NavierStokes3D.div_add
+#print axioms NavierStokes3D.div_add_smul
+#print axioms NavierStokes3D.div_const
+#print axioms NavierStokes3D.div_curl
+#print axioms NavierStokes3D.div_of_eq_curl
+#print axioms NavierStokes3D.div_smul
+#print axioms NavierStokes3D.div_smul_field
+#print axioms NavierStokes3D.div_zero_field
+#print axioms NavierStokes3D.energy_zero_of_gronwall
+#print axioms NavierStokes3D.energy_zero_of_gronwall_Icc
+#print axioms NavierStokes3D.eq_of_l2_energy_zero
+#print axioms NavierStokes3D.eq_zero_of_isPhysicalNSSolution_zero
+#print axioms NavierStokes3D.eq_zero_of_isPhysicalNSSolution_zero_all
+#print axioms NavierStokes3D.ereal_eq_top_of_bkm
+#print axioms NavierStokes3D.exists_mem_existenceTimes_gt_of_lt_Tstar
+#print axioms NavierStokes3D.fderiv_apply_fderiv
+#print axioms NavierStokes3D.fderiv_coord
+#print axioms NavierStokes3D.fderiv_directionalCoord
+#print axioms NavierStokes3D.fderiv_field_coord
+#print axioms NavierStokes3D.fderiv_prod_snd_slice
+#print axioms NavierStokes3D.gradient_coord
+#print axioms NavierStokes3D.inner_convective_eq_inner_grad_half_norm_sq
+#print axioms NavierStokes3D.inner_convective_le_strain
+#print axioms NavierStokes3D.inner_convective_product_rule
+#print axioms NavierStokes3D.inner_self_convective_eq_inner_grad_half_norm_sq
+#print axioms NavierStokes3D.integration_by_parts_of_vanishing_flux
+#print axioms NavierStokes3D.isPhysicalNSSolution_zero
+#print axioms NavierStokes3D.katoRestartTime_pos
+#print axioms NavierStokes3D.katoSobolevIndex_lt
+#print axioms NavierStokes3D.kato_Hs_bound_on_restart_interval
+#print axioms NavierStokes3D.kato_ponce_implies_quadratic
+#print axioms NavierStokes3D.kato_ponce_of_uniform_vorticity
+#print axioms NavierStokes3D.laplacian_coord
+#print axioms NavierStokes3D.laplacian_zero
+#print axioms NavierStokes3D.le_Tstar_of_mem_existenceTimes
+#print axioms NavierStokes3D.le_vorticity_sup_norm
+#print axioms NavierStokes3D.local_existence
+#print axioms NavierStokes3D.mem_existenceTimes
+#print axioms NavierStokes3D.mem_existenceTimes_add_of_kato_restart
+#print axioms NavierStokes3D.mem_existenceTimes_of_kato_witness
+#print axioms NavierStokes3D.mem_existenceTimes_zero
+#print axioms NavierStokes3D.navier_stokes_eq_zero
+#print axioms NavierStokes3D.ns_cauchy_eq_of_energy_gronwall
+#print axioms NavierStokes3D.ns_cauchy_of_energy_gronwall
+#print axioms NavierStokes3D.ns_cauchy_on_Icc_of_energy_gronwall
+#print axioms NavierStokes3D.ns_momentum_difference
+#print axioms NavierStokes3D.ns_pde_shift
+#print axioms NavierStokes3D.one_add_log_le_self
+#print axioms NavierStokes3D.parabolic_regularity_from_vorticity_bound
+#print axioms NavierStokes3D.pressureGradient_const
+#print axioms NavierStokes3D.pressureGradient_sub
+#print axioms NavierStokes3D.pressure_energy_pairing_vanishes
+#print axioms NavierStokes3D.reciprocal_of_quadratic_growth
+#print axioms NavierStokes3D.restart_of_kato_quantitative
+#print axioms NavierStokes3D.smoothness_below_Tstar_of_uniqueness
+#print axioms NavierStokes3D.smoothness_of_Tstar_top
+#print axioms NavierStokes3D.smoothness_on_restart_interval
+#print axioms NavierStokes3D.smul_coord
+#print axioms NavierStokes3D.strain_sup_le_of_CZ
+#print axioms NavierStokes3D.stretching_enstrophy_di_at_spatial_max
+#print axioms NavierStokes3D.stretching_inner_le
+#print axioms NavierStokes3D.stretching_inner_le_at_max
+#print axioms NavierStokes3D.stretching_pairing_le_at_spatial_max
+#print axioms NavierStokes3D.stretching_quartic_le
+#print axioms NavierStokes3D.sum_univ_fin3
+#print axioms NavierStokes3D.time_deriv_const
+#print axioms NavierStokes3D.time_deriv_shift
+#print axioms NavierStokes3D.time_deriv_sub
+#print axioms NavierStokes3D.time_space_mixed_partials
+#print axioms NavierStokes3D.transport_inner_vanishes_of_grad_zero
+#print axioms NavierStokes3D.transported_energy_pairing_vanishes
+#print axioms NavierStokes3D.transported_scalar_along_characteristic
+#print axioms NavierStokes3D.transported_scalar_maximum_principle
+#print axioms NavierStokes3D.uniqueness_of_existence_times_of_energy_gronwall
+#print axioms NavierStokes3D.vorticity_sup_norm_nonneg
+#print axioms NavierStokes3D.vorticity_transport
+#print axioms NavierStokes3D.vorticity_transport_at
+#print axioms NavierStokes3D.vorticity_transport_equation
+#print axioms NavierStokes3D.vorticity_transport_inner
+#print axioms gradient.congr_simp
 #print axioms FeffermanClayNS.clay_B_exact_of_with_energy
+#print axioms FeffermanClayNS.isZ3Periodic_iff_unit_shifts
 #print axioms FeffermanClayNS.library_huniq_unsatisfiable_at_zero
+#print axioms FeffermanClayNS.repaired_hInt
 #print axioms FeffermanClayNS.repaired_huniq_at_zero
-#print axioms FeffermanClayNS.z3_periodic_linear_eq_zero
-#print axioms FeffermanClayNS.burgersLinearStrain_not_z3_periodic
-#print axioms FeffermanClayNS.cross3_self
-#print axioms FeffermanClayNS.det3_self_right
-#print axioms FeffermanClayNS.biot_savart_det_aligned_eq_zero
-#print axioms FeffermanClayNS.aligned_vorticity_stretching_integrand_zero
-#print axioms FeffermanClayNS.biot_savart_det_difference_identity
-#print axioms FeffermanClayNS.navier_stokes_vorticity_dt_scaling_exponent
-#print axioms FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6
-#print axioms FeffermanClayNS.unnormalized_quartic_scaling_mismatch
-#print axioms FeffermanClayNS.unmodified_max_rate_of_cubic_source
-#print axioms FeffermanClayNS.first_remaining_gap_bochner_polar_damping_at_max
-#print axioms FeffermanClayNS.viscous_direction_dissipation_bridge
-#print axioms FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity
-#print axioms FeffermanClayNS.comparison_ode_ceiling
-#print axioms FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion
-#print axioms FeffermanClayNS.clay_B_exact_of_periodic_tether_bound
-#print axioms FeffermanClayNS.periodicFiniteTimeVorticityBound_of_uniform
-#print axioms FeffermanClayNS.periodicBKMContinuation_of_finiteTime_scaffold
-#print axioms FeffermanClayNS.clay_B_exact_of_periodic_finite_time_bound_scaffold
-#print axioms FeffermanClayNS.periodicFiniteTimeBound_vacuous
-#print axioms FeffermanClayNS.periodicTstar_eq_top_of_bkm
-#print axioms FeffermanClayNS.clay_B_exact_of_periodic_bkm
-#print axioms FeffermanClayNS.periodicGlobalOfTstarTop
-#print axioms FeffermanClayNS.isPeriodicSmoothSolution_of_forall_horizon
-#print axioms FeffermanClayNS.not_periodicLocalExistenceOriginal
-#print axioms FeffermanClayNS.not_periodicMaximalSolutionOriginal
-#print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion
-#print axioms FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem
-#print axioms FeffermanClayNS.unitCube_nonempty
+#print axioms FeffermanClayNS.repaired_huniq_shift_at_zero
+#print axioms FeffermanClayNS.stepField_not_physical
+#print axioms FeffermanClayNS.vorticity_sup_norm_zero_field
+#print axioms FeffermanClayNS.AttainedSpatialMaximum.attained
+#print axioms FeffermanClayNS.AttainedSpatialMaximum.upper_bound
+#print axioms FeffermanClayNS.AttainedSpatialMaximum.vorticity_sup_norm_eq
 #print axioms FeffermanClayNS.bddAbove_range_norm_of_attained_max
-#print axioms FeffermanClayNS.vorticity_sup_norm_eq_of_isSpatialMax
-#print axioms FeffermanClayNS.polar_pythagoras_directional_deriv
-#print axioms FeffermanClayNS.polar_pythagoras_3d_sum
+#print axioms FeffermanClayNS.beltrami_amplitude_pos_and_bounded
+#print axioms FeffermanClayNS.beltrami_lamb_vector_cross3_zero
 #print axioms FeffermanClayNS.bochner_laplacian_3d_identity
 #print axioms FeffermanClayNS.concrete_bochner_polar_viscous_damping_at_max
-#print axioms FeffermanClayNS.constVelocity_ne_zero
+#print axioms FeffermanClayNS.constVelocity_convective_zero
 #print axioms FeffermanClayNS.constVelocity_isPeriodicSmoothInitialData
 #print axioms FeffermanClayNS.constVelocity_isPeriodicSmoothSolution
-#print axioms FeffermanClayNS.nonzero_periodic_smooth_solution_exists
-#print axioms FeffermanClayNS.beltrami_lamb_vector_cross3_zero
-#print axioms FeffermanClayNS.beltrami_amplitude_pos_and_bounded
-#print axioms FeffermanClayNS.near_field_stretching_absorbed_by_viscous_direction_damping
+#print axioms FeffermanClayNS.constVelocity_isZ3Periodic
+#print axioms FeffermanClayNS.constVelocity_laplacian_zero
+#print axioms FeffermanClayNS.constVelocity_ne_zero
 #print axioms FeffermanClayNS.constantin_fefferman_near_far_cutoff_bridge
-
--- Main Theorem (reduction) and Stage 6 calculus derivations
+#print axioms FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem
+#print axioms FeffermanClayNS.first_remaining_gap_bochner_polar_damping_at_max
+#print axioms FeffermanClayNS.near_field_stretching_absorbed_by_viscous_direction_damping
+#print axioms FeffermanClayNS.nonzero_periodic_smooth_solution_exists
+#print axioms FeffermanClayNS.polar_pythagoras_3d_sum
+#print axioms FeffermanClayNS.polar_pythagoras_directional_deriv
+#print axioms FeffermanClayNS.unitCube_nonempty
+#print axioms FeffermanClayNS.vorticity_sup_norm_eq_of_isSpatialMax
+#print axioms FeffermanClayNS.clay_B_exact_of_periodic_bkm
+#print axioms FeffermanClayNS.clay_B_exact_of_periodic_finite_time_bound_scaffold
+#print axioms FeffermanClayNS.clay_B_exact_of_periodic_tether_bound
+#print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion
+#print axioms FeffermanClayNS.comparison_ode_ceiling
+#print axioms FeffermanClayNS.constE0_initialData
+#print axioms FeffermanClayNS.cubic_comparison_field_eq
+#print axioms FeffermanClayNS.cubic_comparison_field_neg_of_gt
+#print axioms FeffermanClayNS.isPeriodicSmoothSolution_of_forall_horizon
+#print axioms FeffermanClayNS.not_isPhysicalNSSolution_of_constE0
+#print axioms FeffermanClayNS.not_periodicLocalExistenceOriginal
+#print axioms FeffermanClayNS.not_periodicMaximalSolutionOriginal
+#print axioms FeffermanClayNS.periodicBKMContinuation_of_finiteTime_scaffold
+#print axioms FeffermanClayNS.periodicExistenceTimesOriginal_constE0
+#print axioms FeffermanClayNS.periodicFiniteTimeBound_vacuous
+#print axioms FeffermanClayNS.periodicFiniteTimeVorticityBound_of_uniform
+#print axioms FeffermanClayNS.periodicGlobalOfTstarTop
+#print axioms FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion
+#print axioms FeffermanClayNS.periodicTstar_eq_top_of_bkm
+#print axioms FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity
+#print axioms FeffermanClayNS.unmodified_max_rate_of_cubic_source
+#print axioms FeffermanClayNS.viscous_direction_dissipation_bridge
+#print axioms FeffermanClayNS.zero_isPeriodicSmoothInitialData
+#print axioms FeffermanClayNS.zero_isPeriodicSmoothSolutionOn
 #print axioms FeffermanClayNS.clay_reduces_to_direction_curvature_bound
-#print axioms Stage6.unit_direction_deriv_orthogonal
-#print axioms Stage6.polar_pythagoras_of_hasDerivAt
 #print axioms Stage6.bochner_leibniz_of_hasDerivAt
+#print axioms Stage6.hasDerivAt_half_norm_sq
+#print axioms Stage6.hasDerivAt_inner_self
+#print axioms Stage6.hasDerivAt_polar
+#print axioms Stage6.inner_deriv_zero_at_max
+#print axioms Stage6.polar_pythagoras_of_hasDerivAt
+#print axioms Stage6.real_iSup_eq_zero_of_not_bddAbove
+#print axioms Stage6.shearU_hasDerivAt_z
 #print axioms Stage6.shearU_heat
+#print axioms Stage6.shearV_hasDerivAt_z
 #print axioms Stage6.shearV_heat
 #print axioms Stage6.shear_beltrami
+#print axioms Stage6.shear_convective_and_div_zero
 #print axioms Stage6.shear_nonconstant
+#print axioms Stage6.shear_periodic
+#print axioms Stage6.unit_direction_deriv_orthogonal
+#print axioms FeffermanClayNS.aligned_vorticity_stretching_integrand_zero
+#print axioms FeffermanClayNS.biot_savart_det_aligned_eq_zero
+#print axioms FeffermanClayNS.biot_savart_det_difference_identity
+#print axioms FeffermanClayNS.burgersLinearStrain_coord
+#print axioms FeffermanClayNS.burgersLinearStrain_div_zero
+#print axioms FeffermanClayNS.burgersLinearStrain_not_z3_periodic
+#print axioms FeffermanClayNS.burgers_background_strain_not_z3_periodic
+#print axioms FeffermanClayNS.cross3_self
+#print axioms FeffermanClayNS.det3_self_right
+#print axioms FeffermanClayNS.linear_strain_not_z3_periodic
+#print axioms FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6
+#print axioms FeffermanClayNS.navier_stokes_vorticity_dt_scaling_exponent
+#print axioms FeffermanClayNS.t3_eq_sum_stdBasisVec
+#print axioms FeffermanClayNS.unnormalized_quartic_scaling_mismatch
+#print axioms FeffermanClayNS.z3_periodic_continuousLinear_eq_zero
+#print axioms FeffermanClayNS.z3_periodic_coord_diff_zero
+#print axioms FeffermanClayNS.z3_periodic_deriv_integral_unit_interval_zero
+#print axioms FeffermanClayNS.z3_periodic_linear_eq_zero
+#print axioms FeffermanClayNS.z3_periodic_unit_shift
