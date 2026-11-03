@@ -1,6 +1,6 @@
 # `fefferman-clay-navier-stokes` — Formalizing Fefferman's Official Periodic Navier–Stokes Problem (B) in Lean 4: Global Linear Strain Exclusion on $\mathbb{T}^3$, Biot–Savart Direction Depletion Identities, and Conditional Reductions via Beale–Kato–Majda
 
-[![Lean certificate](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml/badge.svg)](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml)
+[![certify.yml](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml/badge.svg?branch=main)](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml)
 
 **Author:** Benjamin Stanley Frohman ([ORCID: 0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))  
 **Zenodo DOI (v1.1.0):** [`10.5281/zenodo.23717083`](https://doi.org/10.5281/zenodo.23717083) | **Concept DOI:** [`10.5281/zenodo.23652840`](https://doi.org/10.5281/zenodo.23652840) | **v1.0.0 DOI:** [`10.5281/zenodo.23652841`](https://doi.org/10.5281/zenodo.23652841)  
