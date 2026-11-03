@@ -51,6 +51,7 @@ ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\\
 
 \date{October 27, 2026}
 
+\usepackage{url}
 \begin{document}
 \maketitle
 
@@ -123,6 +124,265 @@ FeffermanClayNS.FinalProductTheorem: theorems=24 nonstandard=0
 TOTAL theorems=208 nonstandard=0
 'FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem' depends on axioms: [propext, Classical.choice, Quot.sound]
 \end{lstlisting}
+
+\appendix
+\section{Verification certificate}\label{app:verification-certificate}
+
+The formal development was machine-checked as follows.
+
+{\raggedright
+\begin{itemize}
+\item Repository:\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes}}
+\item Verified commit:\\ {\footnotesize\texttt{1d5e04eb88727ba0400a0faa8cd3f0b4333d773d}}
+\item Lean toolchain: \texttt{leanprover/lean4:v4.30.0-rc1}
+\item Mathlib: tag \texttt{v4.30.0-rc1}, commit (from \texttt{lake-manifest.json})\\ {\footnotesize\texttt{0c154d67103f74be3a0f2c509f72ccbf5be9f2a7}}
+\item Continuous integration run (build, axiom audit, \texttt{sorry}/\texttt{axiom} scan; passed):\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/runs/41574094256}}
+\item SHA-256 of the GitHub source tarball of the verified commit, downloaded twice with identical result:\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes/archive/1d5e04eb88727ba0400a0faa8cd3f0b4333d773d.tar.gz}}\\
+{\footnotesize\texttt{bd4580341fe2206704b2be63c25d8273894346bd44051f60909b41ab8f3615f9}}
+\end{itemize}\par}
+
+The tarball hash refers to the verified commit rather than to a release tag, since a document cannot contain the hash of an archive that includes itself. The Lean sources are unchanged between that commit and the release tag.
+
+\textbf{The development contains no \texttt{sorry} and no user-declared axioms.} Every one of the 231 theorems and lemmas listed below depends only on Lean's standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (or on none). The table is the verbatim output of \texttt{lake env lean AxiomAudit.lean} (\texttt{\#print axioms}) on the verified commit.
+
+{\footnotesize
+\begin{longtable}{p{0.55\linewidth}p{0.38\linewidth}}
+\hline
+Lean declaration & \texttt{\#print axioms} \\
+\hline\endhead
+\path{NavierStokes3D.KatoLocalWitness.Tpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.KatoLocalWitness.init} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.KatoLocalWitness.pde} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.KatoLocalWitness.phys} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.KatoLocalWitness.smooth} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_eq_top_iff_forall_lt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_eq_top_of_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_eq_top_of_katoRestartTime} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_eq_top_of_unbounded_existenceTimes} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_eq_top_of_uniform_restart} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_pos_of_exists_smooth_solution} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_pos_of_kato_witness} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.Tstar_zero_eq_top} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.VorticityTransportRegularity.pressureC2} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.VorticityTransportRegularity.spaceC1} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.VorticityTransportRegularity.spaceC2} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.VorticityTransportRegularity.spaceC3} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.VorticityTransportRegularity.spacetimeC2} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.beale_kato_majda} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.beale_kato_majda_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.beale_kato_majda_scaffold_integrability_unused} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.bkm_criterion_without_integrability_not_top} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.contDiffAt_directionalCoord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_difference} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_energy_pairing_vanishes} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_eq_sum_directional} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_norm_le} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_norm_le_of_CZ} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.convective_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_add} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_add3} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_apply} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_convective} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_convective_div_free} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_gradient} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_laplacian} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_time_deriv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.curl_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.cyclicLiePairing_expand} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.deriv_euclidean_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.deriv_prod_fst_slice} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_convective_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_coord_of_differentiableAt_field} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_curl} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_curl_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_directionalCoord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_half_norm_sq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_of_contDiffAt_coords} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_pressureGradient_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.differentiableAt_time_deriv_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.directionalCoord_convective} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.directionalCoord_curl} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.directionalCoord_laplacian} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.directionalCoord_pressureGradient} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.directionalCoord_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.directionalCoord_symm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_add} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_add_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_const} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_curl} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_of_eq_curl} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_smul} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_smul_field} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.div_zero_field} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.energy_zero_of_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.energy_zero_of_gronwall_Icc} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.eq_of_l2_energy_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.eq_zero_of_isPhysicalNSSolution_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.eq_zero_of_isPhysicalNSSolution_zero_all} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.ereal_eq_top_of_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.exists_mem_existenceTimes_gt_of_lt_Tstar} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.fderiv_apply_fderiv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.fderiv_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.fderiv_directionalCoord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.fderiv_field_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.fderiv_prod_snd_slice} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.gradient_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.inner_convective_eq_inner_grad_half_norm_sq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.inner_convective_le_strain} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.inner_convective_product_rule} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.inner_self_convective_eq_inner_grad_half_norm_sq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.integration_by_parts_of_vanishing_flux} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.isPhysicalNSSolution_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.katoRestartTime_pos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.katoSobolevIndex_lt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.kato_Hs_bound_on_restart_interval} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.kato_ponce_implies_quadratic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.kato_ponce_of_uniform_vorticity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.laplacian_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.laplacian_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.le_Tstar_of_mem_existenceTimes} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.le_vorticity_sup_norm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.local_existence} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.mem_existenceTimes} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.mem_existenceTimes_add_of_kato_restart} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.mem_existenceTimes_of_kato_witness} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.mem_existenceTimes_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.navier_stokes_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.ns_cauchy_eq_of_energy_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.ns_cauchy_of_energy_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.ns_cauchy_on_Icc_of_energy_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.ns_momentum_difference} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.ns_pde_shift} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.one_add_log_le_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.parabolic_regularity_from_vorticity_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.pressureGradient_const} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.pressureGradient_sub} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.pressure_energy_pairing_vanishes} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.reciprocal_of_quadratic_growth} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.restart_of_kato_quantitative} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.smoothness_below_Tstar_of_uniqueness} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.smoothness_of_Tstar_top} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.smoothness_on_restart_interval} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.smul_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.strain_sup_le_of_CZ} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.stretching_enstrophy_di_at_spatial_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.stretching_inner_le} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.stretching_inner_le_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.stretching_pairing_le_at_spatial_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.stretching_quartic_le} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.sum_univ_fin3} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.time_deriv_const} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.time_deriv_shift} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.time_deriv_sub} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.time_space_mixed_partials} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.transport_inner_vanishes_of_grad_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.transported_energy_pairing_vanishes} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.transported_scalar_along_characteristic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.transported_scalar_maximum_principle} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.uniqueness_of_existence_times_of_energy_gronwall} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.vorticity_sup_norm_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.vorticity_transport} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.vorticity_transport_at} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.vorticity_transport_equation} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{NavierStokes3D.vorticity_transport_inner} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{gradient.congr_simp} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_with_energy} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.isZ3Periodic_iff_unit_shifts} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.library_huniq_unsatisfiable_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.repaired_hInt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.repaired_huniq_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.repaired_huniq_shift_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.stepField_not_physical} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.vorticity_sup_norm_zero_field} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.AttainedSpatialMaximum.attained} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.AttainedSpatialMaximum.upper_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.AttainedSpatialMaximum.vorticity_sup_norm_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.bddAbove_range_norm_of_attained_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.beltrami_amplitude_pos_and_bounded} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.beltrami_lamb_vector_cross3_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.bochner_laplacian_3d_identity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.concrete_bochner_polar_viscous_damping_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_convective_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_isPeriodicSmoothInitialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_isPeriodicSmoothSolution} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_isZ3Periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_laplacian_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constantin_fefferman_near_far_cutoff_bridge} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.first_remaining_gap_bochner_polar_damping_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.near_field_stretching_absorbed_by_viscous_direction_damping} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.nonzero_periodic_smooth_solution_exists} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.polar_pythagoras_3d_sum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.polar_pythagoras_directional_deriv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.unitCube_nonempty} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.vorticity_sup_norm_eq_of_isSpatialMax} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_periodic_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_periodic_finite_time_bound_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_periodic_tether_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_torus_direction_depletion} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.comparison_ode_ceiling} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constE0_initialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.cubic_comparison_field_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.cubic_comparison_field_neg_of_gt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.isPeriodicSmoothSolution_of_forall_horizon} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_isPhysicalNSSolution_of_constE0} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_periodicLocalExistenceOriginal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_periodicMaximalSolutionOriginal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicBKMContinuation_of_finiteTime_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicExistenceTimesOriginal_constE0} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicFiniteTimeBound_vacuous} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicFiniteTimeVorticityBound_of_uniform} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicGlobalOfTstarTop} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicTstar_eq_top_of_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.unmodified_max_rate_of_cubic_source} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.viscous_direction_dissipation_bridge} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.zero_isPeriodicSmoothInitialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.zero_isPeriodicSmoothSolutionOn} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_reduces_to_direction_curvature_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.bochner_leibniz_of_hasDerivAt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.hasDerivAt_half_norm_sq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.hasDerivAt_inner_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.hasDerivAt_polar} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.inner_deriv_zero_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.polar_pythagoras_of_hasDerivAt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.real_iSup_eq_zero_of_not_bddAbove} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shearU_hasDerivAt_z} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shearU_heat} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shearV_hasDerivAt_z} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shearV_heat} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shear_beltrami} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shear_convective_and_div_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shear_nonconstant} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.shear_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{Stage6.unit_direction_deriv_orthogonal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.aligned_vorticity_stretching_integrand_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.biot_savart_det_aligned_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.biot_savart_det_difference_identity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgersLinearStrain_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgersLinearStrain_div_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgersLinearStrain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgers_background_strain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.cross3_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.det3_self_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.linear_strain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.navier_stokes_vorticity_dt_scaling_exponent} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.t3_eq_sum_stdBasisVec} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.unnormalized_quartic_scaling_mismatch} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_continuousLinear_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_coord_diff_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_deriv_integral_unit_interval_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_linear_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_unit_shift} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\hline
+\end{longtable}}
 
 \begin{thebibliography}{9}
 \bibitem{Fefferman2006}
