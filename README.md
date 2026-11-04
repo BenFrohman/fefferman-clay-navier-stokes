@@ -119,3 +119,7 @@ See [`NAMING.md`](NAMING.md) for the canonical names (Frohmanian Tether Hypothes
 ## AI Assistance Disclosure
 
 Grok (xAI), via the Grok Bot assistant, provided scaffolding, drafting, and collaboration support on formalization, code, and papers in this repository. Benjamin Stanley Frohman is the sole author: he directed, reviewed, and is responsible for all of the work. Grok is not a coauthor.
+
+## Zenodo archive
+
+- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23867489.svg)](https://doi.org/10.5281/zenodo.23867489) Formalizing Fefferman's Official Periodic Navier-Stokes Problem (B) in Lean 4: Global Linear Strain Exclusion on T3, Biot-Savart Direction Depletion Identities, and Conditional Reductions via Beale-Kato-Majda — all versions: [10.5281/zenodo.23867489](https://doi.org/10.5281/zenodo.23867489); latest version: [10.5281/zenodo.23905347](https://doi.org/10.5281/zenodo.23905347)
