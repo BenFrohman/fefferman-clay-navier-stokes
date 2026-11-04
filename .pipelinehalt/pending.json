@@ -1,0 +1,21 @@
+{
+  "tool": "pipelinehalt",
+  "anchor": "/workspace/ph-runs/_out/fefferman-clay-navier-stokes/anchor.json",
+  "instructions": "Fill in `answer` for each question (start with yes/intentional or no/unintended, optionally followed by an explanation), then run `pipelinehalt answer --anchor <anchor> --from <this file>`. Blank answers stay open.",
+  "questions": [
+    {
+      "id": "43fe16ee1903",
+      "claimId": "theorem-1.1",
+      "kind": "silent",
+      "question": "Paper claim Theorem 1.1 (theorem-1.1) states: “For every viscosity $\\nu \\in \\mathbb{R}$ on the 3-torus $\\mathbb{T}^3 = \\mathbb{R}^3/\\mathbb{Z}^3$, \\textbf{(Q$_1$)} spatial $\\mathbb{Z}^3$-periodicity is equivalent to invariance under the three uni…”. No Lean declaration matching it was found among 21 candidates. Closest candidate: `clay_reduces_to_direction_curvature_bound` (score 0.10, below threshold 0.2). Is this claim intentionally not formalized, or which declaration should it map to?",
+      "answer": ""
+    },
+    {
+      "id": "e7f5ad81c345",
+      "claimId": "theorem-1.1",
+      "kind": "ambiguous",
+      "question": "Paper claim Theorem 1.1 (theorem-1.1) states: “For every viscosity $\\nu \\in \\mathbb{R}$ on the 3-torus $\\mathbb{T}^3 = \\mathbb{R}^3/\\mathbb{Z}^3$, \\textbf{(Q$_1$)} spatial $\\mathbb{Z}^3$-periodicity is equivalent to invariance under the three uni…”. Its title is “Master Product Theorem: \\texttt{fefferman\\_periodic\\_ns\\_exact\\_reduction\\_product\\_theorem}”, which does not appear to describe that statement. Is the title or the statement misworded?",
+      "answer": ""
+    }
+  ]
+}

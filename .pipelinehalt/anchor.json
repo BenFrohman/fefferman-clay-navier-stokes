@@ -1,0 +1,24 @@
+{
+  "title": "\\textbf{Formalizing Fefferman's Official Periodic Navier--Stokes Problem (B) in Lean 4:\\\\\nGlobal Linear Strain Exclusion on $\\mathbb{T",
+  "source": "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.tex",
+  "claims": [
+    {
+      "id": "theorem-1.1",
+      "number": "Theorem 1.1",
+      "statement": "For every viscosity $\\nu \\in \\mathbb{R}$ on the 3-torus $\\mathbb{T}^3 = \\mathbb{R}^3/\\mathbb{Z}^3$, \\textbf{(Q$_1$)} spatial $\\mathbb{Z}^3$-periodicity is equivalent to invariance under the three unit coordinate shifts $f(x+e_j)=f(x)$, and Fefferman's energy-bounded periodic statement implies his exact periodic statement ($\\mathrm{Clay\\_B\\_exact\\_with\\_energy}(\\nu) \\implies \\mathrm{Clay\\_B\\_exact}(\\nu)$); \\textbf{(Q$_2$)} every $\\mathbb{Z}^3$-periodic linear map $L : \\mathbb{R}^3 \\to \\mathbb{R}^3$ vanishes identically ($L = 0$), excluding any non-zero global linear Burgers background strain $\\mathrm{diag}(-\\alpha/2,-\\alpha/2,\\alpha)x$ ($\\alpha \\neq 0$) on $\\mathbb{T}^3$; \\textbf{(Q$_3$)} the Biot--Savart vortex-stretching determinant obeys $\\det(\\omega(y),z,\\omega(x)) = \\det(\\omega(y)-\\omega(x),z,\\omega(x))$ and vanishes under collinear alignment $\\omega(y)=c\\,\\omega(x)$, while under parabolic rescaling $u_\\lambda(x,t)=\\lambda u(\\lambda x,\\lambda^2 t)$ both cubic stretching $C_{\\mathrm{CZ}}|\\omega_\\lambda|^3$ and viscous direction-curvature dissipation $\\nu|\\omega_\\lambda|^2|\\nabla\\hat{\\xi}_\\lambda|^2$ scale homogeneously as $\\lambda^6$; \\textbf{(Q$_4$)} at a spatial maximum $x_{\\max}$ where $\\langle\\omega,(\\omega\\cdot\\nabla)u\\rangle \\le C_{\\mathrm{CZ}}M^3$, $\\nu\\langle\\omega,\\Delta\\omega\\rangle \\le -\\nu M^2|\\nabla\\hat{\\xi}|^2$, and high-set direction-curvature coercivity $|\\nabla\\hat{\\xi}(x_{\\max})|^2 \\ge c_{\\mathrm{dir}}M$ holds, the maximum vorticity rate satisfies $M'(t) \\le C_{\\mathrm{CZ}}M(t)^2 - (\\nu c_{\\mathrm{dir}})M(t)^3$, which forces the uniform Lyapunov ceiling $M(t) \\le \\max(M(0), C_{\\mathrm{CZ}}/(\\nu c_{\\mathrm{dir}}))$; and \\textbf{(Q$_5$)} whenever a periodic flow class satisfies the high-set direction-curvature depletion hypothesis $\\mathrm{PeriodicDirectionDepletionBound}(\\nu)$ and classical periodic Beale--Kato--Majda continuation $\\mathrm{PeriodicBKMContinuation}(\\nu)$, Fefferman's periodic statement $\\mathrm{Clay\\_B\\_exact}(\\nu)$ holds.",
+      "kind": "theorem",
+      "source": "paper/Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.tex:69",
+      "title": "Master Product Theorem: \\texttt{fefferman\\_periodic\\_ns\\_exact\\_reduction\\_product\\_theorem}"
+    }
+  ],
+  "clarifications": {
+    "e7f5ad81c345": {
+      "claimId": "theorem-1.1",
+      "kind": "ambiguous",
+      "question": "Paper claim Theorem 1.1 (theorem-1.1) states: “For every viscosity $\\nu \\in \\mathbb{R}$ on the 3-torus $\\mathbb{T}^3 = \\mathbb{R}^3/\\mathbb{Z}^3$, \\textbf{(Q$_1$)} spatial $\\mathbb{Z}^3$-periodicity is equivalent to invariance under the three uni…”. Its title is “Master Product Theorem: \\texttt{fefferman\\_periodic\\_ns\\_exact\\_reduction\\_product\\_theorem}”, which does not appear to describe that statement. Is the title or the statement misworded?",
+      "answer": "harmless wording: the title is the Lean declaration name fefferman_periodic_ns_exact_reduction_product_theorem, which exists (FeffermanClayNS/FinalProductTheorem.lean:447) and whose statement is the conjunction Q1 ∧ … ∧ Q5 that the paper lists.",
+      "verdict": "intentional",
+      "answeredAt": "2026-11-03T19:55:58.180Z"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "note": "Hand-written by the PipelineHalt run of 2026-11-03 from the Lean name the paper cites in its theorem title. It pairs claims with declarations; it does not assert that the meanings match.",
+  "claims": {
+    "theorem-1.1": { "lean": ["fefferman_periodic_ns_exact_reduction_product_theorem"], "note": "Cited in the theorem title (paper/...Regularity_2026.tex)." }
+  }
+}
