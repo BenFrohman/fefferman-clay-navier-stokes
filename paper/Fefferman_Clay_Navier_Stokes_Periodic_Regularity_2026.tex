@@ -49,15 +49,18 @@ Global Linear Strain Exclusion on $\mathbb{T}^3$, Biot--Savart Direction Depleti
 ORCID: \href{https://orcid.org/0009-0006-7068-3718}{0009-0006-7068-3718}\\
 \texttt{frohmanbenjamin@gmail.com}}
 
-\date{October 27, 2026}
+\date{October 27, 2026; revised November 11, 2026 (v1.5.0 erratum)}
 
 \usepackage{url}
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We present a self-contained Lean~4 formalization (\texttt{leanprover/lean4:v4.30.0-rc1}, Mathlib~4, 224 theorem/lemma declarations in source across 7 modules with zero \texttt{sorry} and zero non-standard axioms outside \texttt{[propext, Classical.choice, Quot.sound]}) of Charles~L. Fefferman's official periodic 3D incompressible Navier--Stokes problem statement (\emph{Existence and Smoothness of the Navier--Stokes Equation}, Clay Mathematics Institute, 2006, Statement~(B) on $\mathbb{R}^3/\mathbb{Z}^3$) together with unconditional geometric/kinematic identities, spatial-maximum Bochner--polar reduction, and explicit \textbf{conditional reductions} to Beale--Kato--Majda continuation. In \texttt{FeffermanClayNS/FinalProductTheorem.lean}, all five unconditionally proved components are packaged into the single 5-conjunct master product theorem \texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem} ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$).
+We present a self-contained Lean~4 formalization (\texttt{leanprover/lean4:v4.30.0-rc1}, Mathlib~4, 236 theorem/lemma declarations in source across 7 modules with zero \texttt{sorry} and zero non-standard axioms outside \texttt{[propext, Classical.choice, Quot.sound]}) of Charles~L. Fefferman's official periodic 3D incompressible Navier--Stokes problem statement (\emph{Existence and Smoothness of the Navier--Stokes Equation}, Clay Mathematics Institute, 2006, Statement~(B) on $\mathbb{R}^3/\mathbb{Z}^3$) together with unconditional geometric/kinematic identities, spatial-maximum Bochner--polar reduction, and explicit \textbf{conditional reductions} to Beale--Kato--Majda continuation. In \texttt{FeffermanClayNS/FinalProductTheorem.lean}, five proved components (Q$_1$--Q$_3$ unconditional; Q$_4$ and Q$_5$ implications from stated hypotheses) are packaged into the single 5-conjunct master product theorem \texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem} ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$).
 \end{abstract}
+
+{\sloppy\renewcommand{\UrlBreaks}{\do\_\do\.}\paragraph{Erratum (v1.5.0, November 11, 2026).} In v1.0--v1.4 the open hypothesis of Q$_5$, namely \path{PeriodicDirectionDepletionBound} $\nu$, required a two-sided derivative (\path{DifferentiableAt}) of $M(t)=\|\omega(t)\|_\infty$ at every $t\in[0,T]$, including $t=0$. But the solution predicate \path{IsPeriodicSmoothSolutionOn} does not constrain $u(t)$ for $t<0$, so the path \path{jumpPath}, equal to the zero solution on $[0,\infty)$ and to a linear shear with nonzero constant vorticity for $t<0$, is a solution on $[0,1]$ whose $M$ jumps at $0$. The kernel-checked theorem \path{old_periodicDirectionDepletionBound_unsatisfiable} proves $\neg$\,\path{PeriodicDirectionDepletionBoundOriginal}~$\nu$ for every $\nu$ (the old form is kept under that name). Hence Q$_5$ and \path{clay_B_exact_of_torus_direction_depletion} were vacuously true in v1.0--v1.4. From v1.5.0 the hypothesis requires continuity of $M$ on $[0,T]$ and a right derivative $d$ at each $s\in[0,T)$ with $d\le C_{\mathrm{CZ}}M(s)^2-\kappa''M(s)^3$; the ODE ceiling is \path{comparison_ode_ceiling_right}. The regression \path{jumpPath_oneSided_depletion_clause} shows the counterexample path satisfies the corrected trajectory clause; it does not show the corrected hypothesis holds in general, which remains open. All statements below refer to the corrected definition. Nothing here resolves the Clay problem.\par}
+
 
 \tableofcontents
 
@@ -67,7 +70,7 @@ In his official Clay Mathematics Institute problem description \cite{Fefferman20
 
 \subsection{Single-Sentence English Prose Statement}
 \begin{theorem}[Master Product Theorem: \texttt{fefferman\_periodic\_ns\_exact\_reduction\_product\_theorem}]
-For every viscosity $\nu \in \mathbb{R}$ on the 3-torus $\mathbb{T}^3 = \mathbb{R}^3/\mathbb{Z}^3$, \textbf{(Q$_1$)} spatial $\mathbb{Z}^3$-periodicity is equivalent to invariance under the three unit coordinate shifts $f(x+e_j)=f(x)$, and Fefferman's energy-bounded periodic statement implies his exact periodic statement ($\mathrm{Clay\_B\_exact\_with\_energy}(\nu) \implies \mathrm{Clay\_B\_exact}(\nu)$); \textbf{(Q$_2$)} every $\mathbb{Z}^3$-periodic linear map $L : \mathbb{R}^3 \to \mathbb{R}^3$ vanishes identically ($L = 0$), excluding any non-zero global linear Burgers background strain $\mathrm{diag}(-\alpha/2,-\alpha/2,\alpha)x$ ($\alpha \neq 0$) on $\mathbb{T}^3$; \textbf{(Q$_3$)} the Biot--Savart vortex-stretching determinant obeys $\det(\omega(y),z,\omega(x)) = \det(\omega(y)-\omega(x),z,\omega(x))$ and vanishes under collinear alignment $\omega(y)=c\,\omega(x)$, while under parabolic rescaling $u_\lambda(x,t)=\lambda u(\lambda x,\lambda^2 t)$ both cubic stretching $C_{\mathrm{CZ}}|\omega_\lambda|^3$ and viscous direction-curvature dissipation $\nu|\omega_\lambda|^2|\nabla\hat{\xi}_\lambda|^2$ scale homogeneously as $\lambda^6$; \textbf{(Q$_4$)} at a spatial maximum $x_{\max}$ where $\langle\omega,(\omega\cdot\nabla)u\rangle \le C_{\mathrm{CZ}}M^3$, $\nu\langle\omega,\Delta\omega\rangle \le -\nu M^2|\nabla\hat{\xi}|^2$, and high-set direction-curvature coercivity $|\nabla\hat{\xi}(x_{\max})|^2 \ge c_{\mathrm{dir}}M$ holds, the maximum vorticity rate satisfies $M'(t) \le C_{\mathrm{CZ}}M(t)^2 - (\nu c_{\mathrm{dir}})M(t)^3$, which forces the uniform Lyapunov ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/(\nu c_{\mathrm{dir}}))$; and \textbf{(Q$_5$)} whenever a periodic flow class satisfies the high-set direction-curvature depletion hypothesis $\mathrm{PeriodicDirectionDepletionBound}(\nu)$ and classical periodic Beale--Kato--Majda continuation $\mathrm{PeriodicBKMContinuation}(\nu)$, Fefferman's periodic statement $\mathrm{Clay\_B\_exact}(\nu)$ holds.
+For every viscosity $\nu \in \mathbb{R}$ on the 3-torus $\mathbb{T}^3 = \mathbb{R}^3/\mathbb{Z}^3$, \textbf{(Q$_1$)} spatial $\mathbb{Z}^3$-periodicity is equivalent to invariance under the three unit coordinate shifts $f(x+e_j)=f(x)$, and Fefferman's energy-bounded periodic statement implies his exact periodic statement ($\mathrm{Clay\_B\_exact\_with\_energy}(\nu) \implies \mathrm{Clay\_B\_exact}(\nu)$); \textbf{(Q$_2$)} every $\mathbb{Z}^3$-periodic linear map $L : \mathbb{R}^3 \to \mathbb{R}^3$ vanishes identically ($L = 0$), excluding any non-zero global linear Burgers background strain $\mathrm{diag}(-\alpha/2,-\alpha/2,\alpha)x$ ($\alpha \neq 0$) on $\mathbb{T}^3$; \textbf{(Q$_3$)} the Biot--Savart vortex-stretching determinant obeys $\det(\omega(y),z,\omega(x)) = \det(\omega(y)-\omega(x),z,\omega(x))$ and vanishes under collinear alignment $\omega(y)=c\,\omega(x)$, while under parabolic rescaling $u_\lambda(x,t)=\lambda u(\lambda x,\lambda^2 t)$ both cubic stretching $C_{\mathrm{CZ}}|\omega_\lambda|^3$ and viscous direction-curvature dissipation $\nu|\omega_\lambda|^2|\nabla\hat{\xi}_\lambda|^2$ scale homogeneously as $\lambda^6$; \textbf{(Q$_4$)} at a spatial maximum $x_{\max}$ where $\langle\omega,(\omega\cdot\nabla)u\rangle \le C_{\mathrm{CZ}}M^3$, $\nu\langle\omega,\Delta\omega\rangle \le -\nu M^2|\nabla\hat{\xi}|^2$, and high-set direction-curvature coercivity $|\nabla\hat{\xi}(x_{\max})|^2 \ge c_{\mathrm{dir}}M$ holds, the maximum vorticity rate satisfies $M'(t) \le C_{\mathrm{CZ}}M(t)^2 - (\nu c_{\mathrm{dir}})M(t)^3$, which forces the uniform Lyapunov ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/(\nu c_{\mathrm{dir}}))$; and \textbf{(Q$_5$)} whenever a periodic flow class satisfies the high-set direction-curvature depletion hypothesis $\mathrm{PeriodicDirectionDepletionBound}(\nu)$ (one-sided form, v1.5.0) and classical periodic Beale--Kato--Majda continuation $\mathrm{PeriodicBKMContinuation}(\nu)$, Fefferman's periodic statement $\mathrm{Clay\_B\_exact}(\nu)$ holds.
 \end{theorem}
 
 \subsection{Exact Mathematical Product Form ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$)}
@@ -85,7 +88,7 @@ For every viscosity $\nu \in \mathbb{R}$ on the 3-torus $\mathbb{T}^3 = \mathbb{
 
 \begin{table}[htbp]
 \centering
-\caption{Summary of Unconditionally Proved Theorems vs.\ Open Analytic Hypotheses in \texttt{FeffermanClayNS} (224 theorem/lemma declarations, 0 \texttt{sorry}).}
+\caption{Summary of Unconditionally Proved Theorems vs.\ Open Analytic Hypotheses in \texttt{FeffermanClayNS} (236 theorem/lemma declarations, 0 \texttt{sorry}).}
 \label{tab:status}
 \small
 \begin{tabular}{p{0.36\textwidth}p{0.18\textwidth}p{0.38\textwidth}}
@@ -100,30 +103,32 @@ For every viscosity $\nu \in \mathbb{R}$ on the 3-torus $\mathbb{T}^3 = \mathbb{
 \addlinespace
 \texttt{biot\_savart\_det\_aligned\_eq\_zero}, \texttt{aligned\_vorticity\_stretching\_integrand\_zero}, \texttt{biot\_savart\_det\_difference\_identity} & \textbf{PROVED} (Unconditional) & Exact pointwise vanishing of $\det(\omega(y), z, \omega(x))$ when $\omega(y) = c\,\omega(x)$, reducing the stretching kernel to direction increments $\omega(y) - \omega(x)$. \\
 \addlinespace
-\texttt{first\_remaining\_gap\_bochner\_polar\_damping\_at\_max}, \texttt{scale\_invariant\_cubic\_rate\_of\_direction\_coercivity}, \texttt{comparison\_ode\_ceiling} & \textbf{PROVED} (Unconditional) & Spatial-maximum Bochner--polar reduction from $|\nabla \hat{\xi}|^2 \ge c_{\mathrm{dir}} |\omega|$ to $M' \le C_{\mathrm{CZ}} M^2 - \kappa'' M^3$ and ODE comparison ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$. \\
+\texttt{first\_remaining\_gap\_bochner\_polar\_damping\_at\_max}, \texttt{scale\_invariant\_cubic\_rate\_of\_direction\_coercivity}, \texttt{comparison\_ode\_ceiling}, \texttt{comparison\_ode\_ceiling\_right} & \textbf{PROVED} (Unconditional) & Spatial-maximum Bochner--polar reduction from $|\nabla \hat{\xi}|^2 \ge c_{\mathrm{dir}} |\omega|$ to $M' \le C_{\mathrm{CZ}} M^2 - \kappa'' M^3$ and ODE comparison ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$. \\
 \addlinespace
 \texttt{clay\_B\_exact\_of\_periodic\_tether\_bound}, \texttt{clay\_B\_exact\_of\_torus\_direction\_depletion} & \textbf{PROVED CONDITIONAL REDUCTIONS} & Conditional theorems proving that \emph{if} the open direction-depletion/tether hypothesis and BKM continuation hold, then \texttt{Clay\_B\_exact~$\nu$} follows. \\
 \addlinespace
 \texttt{periodicTstar\_eq\_top\_of\_bkm}, \texttt{periodicGlobalOfTstarTop}, \texttt{clay\_B\_exact\_of\_periodic\_bkm} & \textbf{PROVED CONDITIONAL REDUCTION} & Smooth solutions on $[0,T]$ carry no $L^2(\mathbb{R}^3)$ clause (it fails for every nonzero periodic field; the earlier definitions, kept with suffix \texttt{Original}, made \texttt{PeriodicLocalExistence} and \texttt{PeriodicMaximalSolution} false, as proved by \texttt{not\_periodicLocalExistenceOriginal}, \texttt{not\_periodicMaximalSolutionOriginal}), and maximality is required only for $0<T$. With $T^*=\sup\{T : \text{a periodic smooth solution exists on } [0,T]\}$ in $\overline{\mathbb{R}}$: \texttt{PeriodicLocalExistence}, \texttt{PeriodicMaximalSolution}, \texttt{PeriodicBKMCriterion} (classical, not formalized; the global step \texttt{periodicGlobalOfTstarTop} is proved) and \texttt{PeriodicBKMIntegrability} (OPEN: $\int_0^T\|\omega\|_\infty<\infty$ for every $T$ along the maximal solution) $\Rightarrow T^*=\infty \Rightarrow$ \texttt{Clay\_B\_exact}. \\
 \addlinespace
 \texttt{periodicFiniteTimeBound\_vacuous}, \texttt{periodicFiniteTimeVorticityBound\_of\_uniform}, \texttt{periodicBKMContinuation\_of\_finiteTime\_scaffold}, \texttt{clay\_B\_exact\_of\_periodic\_finite\_time\_bound\_scaffold} & \textbf{PROVED (SCAFFOLDING)} & The vorticity-bound Props quantify only over solutions already existing on $[0,T]$ and hold with $C=0$ where none exists, so in these reductions the continuation hypothesis carries all of Statement (B). \\
+\addlinespace
+\texttt{old\_periodicDirectionDepletionBound\_unsatisfiable}, \texttt{jumpPath\_oneSided\_depletion\_clause} & \textbf{PROVED (v1.5.0 erratum)} & The v1.0--v1.4 two-sided form is false for every $\nu$; the counterexample path satisfies the corrected one-sided clause. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \section{Verbatim Lean 4 Kernel Audit and Cryptographic Attestation}
 
-A comment-aware count of \texttt{theorem}/\texttt{lemma} declaration headers in the Lean sources (the \texttt{python3} command in the repository README) gives 224 declarations across 7 modules. \texttt{AxiomAudit.lean} audits 231 names (those 224 theorem/lemma declarations together with structure fields and definitions). The titan audit reports more because it counts compiled/generated constants. The master product theorem depends only on the standard axioms \texttt{[propext, Classical.choice, Quot.sound]}.
+A comment-aware count of \texttt{theorem}/\texttt{lemma} declaration headers in the Lean sources (the \texttt{python3} command in the repository README) gives 236 declarations across 7 modules. \texttt{AxiomAudit.lean} audits 243 names (those 236 theorem/lemma declarations together with structure fields and definitions). The titan audit reports more because it counts compiled/generated constants. The master product theorem depends only on the standard axioms \texttt{[propext, Classical.choice, Quot.sound]}.
 
 \begin{lstlisting}[language=Lean4,caption={Source \texttt{theorem}/\texttt{lemma} declaration counts in \texttt{fefferman-clay-navier-stokes} (not a titan-audit or AxiomAudit total).}]
 FeffermanClayNS.Defs: theorems=131
 FeffermanClayNS.FeffermanStatements: theorems=10
 FeffermanClayNS.FinalProductTheorem: theorems=21
-FeffermanClayNS.HighSetDepletionAndBKM: theorems=26
+FeffermanClayNS.HighSetDepletionAndBKM: theorems=38
 FeffermanClayNS.MainTheorem: theorems=1
 FeffermanClayNS.Stage6Calculus: theorems=16
 FeffermanClayNS.TorusStrainExclusion: theorems=19
-TOTAL theorems=224
+TOTAL theorems=236
 'FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem' depends on axioms: [propext, Classical.choice, Quot.sound]
 \end{lstlisting}
 
@@ -135,23 +140,110 @@ The formal development was machine-checked as follows.
 {\raggedright
 \begin{itemize}
 \item Repository:\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes}}
-\item Verified commit:\\ {\footnotesize\texttt{1d5e04eb88727ba0400a0faa8cd3f0b4333d773d}}
+\item Verified commit:\\ {\footnotesize\texttt{8c40f83d7d8b52b2141506063952e2ebb3ed425a}}
 \item Lean toolchain: \texttt{leanprover/lean4:v4.30.0-rc1}
 \item Mathlib: tag \texttt{v4.30.0-rc1}, commit (from \texttt{lake-manifest.json})\\ {\footnotesize\texttt{0c154d67103f74be3a0f2c509f72ccbf5be9f2a7}}
-\item Continuous integration run (build, axiom audit, \texttt{sorry}/\texttt{axiom} scan; passed):\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/runs/41574094256}}
-\item SHA-256 of the GitHub source tarball of the verified commit, downloaded twice with identical result:\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes/archive/1d5e04eb88727ba0400a0faa8cd3f0b4333d773d.tar.gz}}\\
-{\footnotesize\texttt{bd4580341fe2206704b2be63c25d8273894346bd44051f60909b41ab8f3615f9}}
+\item Continuous integration run (build, axiom audit, \texttt{sorry}/\texttt{axiom} scan; passed):\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/runs/43090450926}}
+\item SHA-256 of the GitHub source tarball of the verified commit, downloaded twice with identical result:\\ {\footnotesize\url{https://github.com/BenFrohman/fefferman-clay-navier-stokes/archive/8c40f83d7d8b52b2141506063952e2ebb3ed425a.tar.gz}}\\
+{\footnotesize\texttt{6519b0aef51e3d31791f0ea449445e224f2eb9893f1d2997f6887ebcc191f1e2}}
 \end{itemize}\par}
 
-The tarball hash refers to the verified commit rather than to a release tag, since a document cannot contain the hash of an archive that includes itself. The Lean sources are unchanged between that commit and the release tag.
+The tarball hash refers to the verified commit rather than to a release tag, since a document cannot contain the hash of an archive that includes itself. The Lean sources are unchanged between that commit and the commit archived on Zenodo for v1.5.0.
 
-\textbf{The development contains no \texttt{sorry} and no user-declared axioms.} \texttt{AxiomAudit.lean} audits the 231 names listed below, of which 224 are theorem or lemma declarations in source; the remaining names are structure fields and definitions. Every one of these 231 names depends only on Lean's standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (or on none). The table is the verbatim output of \texttt{lake env lean AxiomAudit.lean} (\texttt{\#print axioms}) on the verified commit.
+\textbf{The development contains no \texttt{sorry} and no user-declared axioms.} \texttt{AxiomAudit.lean} audits the 243 names listed below, of which 236 are theorem or lemma declarations in source; the remaining names are structure fields and definitions. Every one of these 243 names depends only on Lean's standard axioms \texttt{propext}, \texttt{Classical.choice} and \texttt{Quot.sound} (or on none). The table is the verbatim output of \texttt{lake env lean AxiomAudit.lean} (\texttt{\#print axioms}) on the verified commit.
 
 {\footnotesize
 \begin{longtable}{p{0.55\linewidth}p{0.38\linewidth}}
 \hline
 Lean declaration & \texttt{\#print axioms} \\
 \hline\endhead
+\path{FeffermanClayNS.AttainedSpatialMaximum.attained} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.AttainedSpatialMaximum.upper_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.AttainedSpatialMaximum.vorticity_sup_norm_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.aligned_vorticity_stretching_integrand_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.bddAbove_range_norm_of_attained_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.beltrami_amplitude_pos_and_bounded} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.beltrami_lamb_vector_cross3_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.biot_savart_det_aligned_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.biot_savart_det_difference_identity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.bochner_laplacian_3d_identity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgersLinearStrain_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgersLinearStrain_div_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgersLinearStrain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.burgers_background_strain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_periodic_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_periodic_finite_time_bound_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_periodic_tether_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_torus_direction_depletion} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_B_exact_of_with_energy} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.clay_reduces_to_direction_curvature_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.comparison_ode_ceiling} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.comparison_ode_ceiling_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.concrete_bochner_polar_viscous_damping_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constE0_initialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_convective_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_isPeriodicSmoothInitialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_isPeriodicSmoothSolution} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_isZ3Periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_laplacian_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constVelocity_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.constantin_fefferman_near_far_cutoff_bridge} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.cross3_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.cubic_comparison_field_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.cubic_comparison_field_neg_of_gt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.curl_shearField} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.curl_shearField_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.det3_self_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.directionalCoord_clm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.directionalCoord_shearField} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.first_remaining_gap_bochner_polar_damping_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.isPeriodicSmoothSolution_of_forall_horizon} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.isZ3Periodic_iff_unit_shifts} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.jumpPath_isPeriodicSmoothSolutionOn} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.jumpPath_of_nonneg} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.jumpPath_oneSided_depletion_clause} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.jumpPath_sup_norm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.library_huniq_unsatisfiable_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.linear_strain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.navier_stokes_vorticity_dt_scaling_exponent} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.near_field_stretching_absorbed_by_viscous_direction_damping} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.nonzero_periodic_smooth_solution_exists} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_differentiableAt_jump} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_isPhysicalNSSolution_of_constE0} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_periodicLocalExistenceOriginal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.not_periodicMaximalSolutionOriginal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.old_periodicDirectionDepletionBound_unsatisfiable} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicBKMContinuation_of_finiteTime_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicExistenceTimesOriginal_constE0} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicFiniteTimeBound_vacuous} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicFiniteTimeVorticityBound_of_uniform} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicGlobalOfTstarTop} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.periodicTstar_eq_top_of_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.polar_pythagoras_3d_sum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.polar_pythagoras_directional_deriv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.repaired_hInt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.repaired_huniq_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.repaired_huniq_shift_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.stepField_not_physical} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.t3_eq_sum_stdBasisVec} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.unitCube_nonempty} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.unmodified_max_rate_of_cubic_source} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.unnormalized_quartic_scaling_mismatch} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.viscous_direction_dissipation_bridge} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.vorticity_sup_norm_eq_of_isSpatialMax} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.vorticity_sup_norm_shearField_pos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.vorticity_sup_norm_zero_field} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_continuousLinear_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_coord_diff_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_deriv_integral_unit_interval_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_linear_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.z3_periodic_unit_shift} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.zero_isPeriodicSmoothInitialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{FeffermanClayNS.zero_isPeriodicSmoothSolutionOn} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{NavierStokes3D.KatoLocalWitness.Tpos} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{NavierStokes3D.KatoLocalWitness.init} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{NavierStokes3D.KatoLocalWitness.pde} & \texttt{[propext, Classical.choice, Quot.sound]} \\
@@ -291,63 +383,6 @@ Lean declaration & \texttt{\#print axioms} \\
 \path{NavierStokes3D.vorticity_transport_at} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{NavierStokes3D.vorticity_transport_equation} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{NavierStokes3D.vorticity_transport_inner} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{gradient.congr_simp} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.clay_B_exact_of_with_energy} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.isZ3Periodic_iff_unit_shifts} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.library_huniq_unsatisfiable_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.repaired_hInt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.repaired_huniq_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.repaired_huniq_shift_at_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.stepField_not_physical} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.vorticity_sup_norm_zero_field} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.AttainedSpatialMaximum.attained} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.AttainedSpatialMaximum.upper_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.AttainedSpatialMaximum.vorticity_sup_norm_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.bddAbove_range_norm_of_attained_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.beltrami_amplitude_pos_and_bounded} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.beltrami_lamb_vector_cross3_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.bochner_laplacian_3d_identity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.concrete_bochner_polar_viscous_damping_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constVelocity_convective_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constVelocity_isPeriodicSmoothInitialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constVelocity_isPeriodicSmoothSolution} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constVelocity_isZ3Periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constVelocity_laplacian_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constVelocity_ne_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constantin_fefferman_near_far_cutoff_bridge} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.fefferman_periodic_ns_exact_reduction_product_theorem} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.first_remaining_gap_bochner_polar_damping_at_max} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.near_field_stretching_absorbed_by_viscous_direction_damping} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.nonzero_periodic_smooth_solution_exists} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.polar_pythagoras_3d_sum} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.polar_pythagoras_directional_deriv} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.unitCube_nonempty} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.vorticity_sup_norm_eq_of_isSpatialMax} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.clay_B_exact_of_periodic_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.clay_B_exact_of_periodic_finite_time_bound_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.clay_B_exact_of_periodic_tether_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.clay_B_exact_of_torus_direction_depletion} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.comparison_ode_ceiling} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.constE0_initialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.cubic_comparison_field_eq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.cubic_comparison_field_neg_of_gt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.isPeriodicSmoothSolution_of_forall_horizon} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.not_isPhysicalNSSolution_of_constE0} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.not_periodicLocalExistenceOriginal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.not_periodicMaximalSolutionOriginal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicBKMContinuation_of_finiteTime_scaffold} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicExistenceTimesOriginal_constE0} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicFiniteTimeBound_vacuous} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicFiniteTimeVorticityBound_of_uniform} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicGlobalOfTstarTop} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicTetherClosingBound_of_directionDepletion} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.periodicTstar_eq_top_of_bkm} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.scale_invariant_cubic_rate_of_direction_coercivity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.unmodified_max_rate_of_cubic_source} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.viscous_direction_dissipation_bridge} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.zero_isPeriodicSmoothInitialData} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.zero_isPeriodicSmoothSolutionOn} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.clay_reduces_to_direction_curvature_bound} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{Stage6.bochner_leibniz_of_hasDerivAt} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{Stage6.hasDerivAt_half_norm_sq} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{Stage6.hasDerivAt_inner_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
@@ -364,25 +399,7 @@ Lean declaration & \texttt{\#print axioms} \\
 \path{Stage6.shear_nonconstant} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{Stage6.shear_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \path{Stage6.unit_direction_deriv_orthogonal} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.aligned_vorticity_stretching_integrand_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.biot_savart_det_aligned_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.biot_savart_det_difference_identity} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.burgersLinearStrain_coord} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.burgersLinearStrain_div_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.burgersLinearStrain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.burgers_background_strain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.cross3_self} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.det3_self_right} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.linear_strain_not_z3_periodic} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.navier_stokes_scaling_homogeneity_deg6} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.navier_stokes_vorticity_dt_scaling_exponent} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.t3_eq_sum_stdBasisVec} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.unnormalized_quartic_scaling_mismatch} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.z3_periodic_continuousLinear_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.z3_periodic_coord_diff_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.z3_periodic_deriv_integral_unit_interval_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.z3_periodic_linear_eq_zero} & \texttt{[propext, Classical.choice, Quot.sound]} \\
-\path{FeffermanClayNS.z3_periodic_unit_shift} & \texttt{[propext, Classical.choice, Quot.sound]} \\
+\path{gradient.congr_simp} & \texttt{[propext, Classical.choice, Quot.sound]} \\
 \hline
 \end{longtable}}
 

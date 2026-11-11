@@ -3,9 +3,9 @@
 [![certify.yml](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml/badge.svg?branch=main)](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml)
 
 **Author:** Benjamin Stanley Frohman ([ORCID: 0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))  
-**Zenodo DOI (v1.1.0):** [`10.5281/zenodo.23717083`](https://doi.org/10.5281/zenodo.23717083) | **Concept DOI:** [`10.5281/zenodo.23652840`](https://doi.org/10.5281/zenodo.23652840) | **v1.0.0 DOI:** [`10.5281/zenodo.23652841`](https://doi.org/10.5281/zenodo.23652841)  
+**Zenodo DOI (v1.5.0):** [`10.5281/zenodo.24144846`](https://doi.org/10.5281/zenodo.24144846) | **Concept DOI:** [`10.5281/zenodo.23652840`](https://doi.org/10.5281/zenodo.23652840) | **v1.0.0 DOI:** [`10.5281/zenodo.23652841`](https://doi.org/10.5281/zenodo.23652841)  
 **License:** Apache-2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)  
-**Toolchain:** `leanprover/lean4:v4.30.0-rc1` + Mathlib 4 (`2643` build jobs, **224 theorem/lemma declarations in source at commit `34e5a7f`**, **0 `sorry`**, **0 non-standard axioms**)  
+**Toolchain:** `leanprover/lean4:v4.30.0-rc1` + Mathlib 4 (`2650` build jobs, **236 theorem/lemma declarations in source; Lean sources as of commit `8c40f83`**, **0 `sorry`**, **0 non-standard axioms**)  
 **Paper PDF:** [`Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf`](Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf)
 
 ---
@@ -43,6 +43,17 @@ $$\begin{aligned}
 
 ---
 
+## Erratum (v1.5.0): the v1.0–v1.4 `PeriodicDirectionDepletionBound` was unsatisfiable
+
+In v1.0–v1.4, `PeriodicDirectionDepletionBound ν` required `DifferentiableAt` (a two-sided derivative) of `M(t) = ‖ω(t)‖_∞` at every `t ∈ [0, T]`, including `t = 0`. `IsPeriodicSmoothSolutionOn` does not constrain `u t` for `t < 0`, so a path that equals the zero solution on `[0, ∞)` and a linear shear for `t < 0` (`jumpPath`) is a valid solution on `[0, 1]` whose `M` jumps at `0`. The kernel-checked theorem `old_periodicDirectionDepletionBound_unsatisfiable : ¬ PeriodicDirectionDepletionBoundOriginal ν` (every `ν`) shows the old hypothesis is false, so Q₅ and `clay_B_exact_of_torus_direction_depletion` were vacuously true in v1.0–v1.4.
+
+From v1.5.0 the hypothesis asks for continuity of `M` on `[0, T]` and a right derivative (`HasDerivWithinAt … (Set.Ici s) s`) at each `s ∈ [0, T)` bounded by `C_CZ M² − κ'' M³`. The ODE ceiling is now `comparison_ode_ceiling_right`. The regression `jumpPath_oneSided_depletion_clause` checks that the counterexample path satisfies the corrected trajectory clause. This only shows the corrected form is not refuted by the same path; whether `PeriodicDirectionDepletionBound ν` holds for all smooth periodic data is open. The old form is kept as `PeriodicDirectionDepletionBoundOriginal`. All results remain conditional; nothing here resolves the Clay problem.
+
+
+**Stale certificates.** `audit/TITAN_AUDIT_CERTIFICATE.json`, `audit/TITAN_AUDIT_REPORT.md`, `audit/SEALGUARD_CLASSIFIED_MANIFEST.json`, `audit/report.*` and `PROVENANCE_MERKLE_ROOT.json` were generated on 2026-10-30 for earlier sources. They do not certify the v1.5.0 sources. The verification for v1.5.0 is the `certify.yml` CI run (build, `AxiomAudit.lean`, sorry/axiom scan) on the commit named above.
+
+---
+
 ## Scope & Scientific Honesty Notice
 
 The named `Prop` `NavierStokes3D.PointwiseStrainSupBound u ω C x` (`Defs.lean`, $\|\nabla u(x)\|\le C\|\omega\|_\infty$) is false in general: Calderón–Zygmund fails at $p=\infty$. `strain_sup_le_of_CZ`, `convective_norm_le_of_CZ`, `stretching_inner_le`, `stretching_inner_le_at_max` and `stretching_quartic_le` take it as a hypothesis, so they are conditional on a bound that is false in general.
@@ -53,14 +64,14 @@ This repository has `0 sorry` and `0 custom axioms`. Q₁–Q₃ are uncondition
 
 ---
 
-## Modules (224 theorem/lemma declarations in source at commit `34e5a7f`, `0 sorry`)
+## Modules (236 theorem/lemma declarations in source; Lean sources as of commit `8c40f83`, `0 sorry`)
 
 | Module | Declaration | Status | Description |
 |---|---|---|---|
 | `FinalProductTheorem.lean` | `fefferman_periodic_ns_exact_reduction_product_theorem`, `vorticity_sup_norm_eq_of_isSpatialMax`, `polar_pythagoras_3d_sum`, `bochner_laplacian_3d_identity`, `concrete_bochner_polar_viscous_damping_at_max`, `nonzero_periodic_smooth_solution_exists`, `beltrami_lamb_vector_cross3_zero`, `near_field_stretching_absorbed_by_viscous_direction_damping`, `constantin_fefferman_near_far_cutoff_bridge` | **PROVED (21 theorems; Q₅ conditional on `PeriodicDirectionDepletionBound ν` and `PeriodicBKMContinuation ν`)** | Master 5-conjunct product theorem ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$), Stage 2 `BddAbove`/`sSup` pinning at attained spatial maxima, Stage 3 concrete 3D vector Bochner & polar Pythagoras identities, Stage 4 non-zero smooth periodic flow inhabitation & Beltrami Lamb-vector vanishing, and Stage 5 Constantin–Fefferman near/far Biot–Savart cutoff bridge. |
 | `FeffermanStatements.lean` | `Clay_B_exact ν`, `isZ3Periodic_iff_unit_shifts`, `clay_B_exact_of_with_energy`, `library_huniq_unsatisfiable_at_zero`, `stepField_not_physical`, `repaired_hInt`, `repaired_huniq_at_zero` | **PROVED (Unconditional, 10 theorems)** | Verbatim Lean 4 encoding of Fefferman (2006) Statement (B) on $\mathbb{R}^3/\mathbb{Z}^3$, unit-shift equivalence, energy reduction, and step-jump exclusion. |
 | `TorusStrainExclusion.lean` | `z3_periodic_linear_eq_zero`, `burgersLinearStrain_not_z3_periodic`, `biot_savart_det_aligned_eq_zero`, `aligned_vorticity_stretching_integrand_zero`, `biot_savart_det_difference_identity`, `navier_stokes_scaling_homogeneity_deg6`, `unnormalized_quartic_scaling_mismatch` | **PROVED (Unconditional, 19 theorems)** | Global linear strain exclusion on $\mathbb{T}^3$, Biot–Savart direction-difference determinant identity, and $\lambda^6$ parabolic scaling homogeneity. |
-| `HighSetDepletionAndBKM.lean` | `unmodified_max_rate_of_cubic_source`, `viscous_direction_dissipation_bridge`, `scale_invariant_cubic_rate_of_direction_coercivity`, `comparison_ode_ceiling`, `periodicTetherClosingBound_of_directionDepletion`, `clay_B_exact_of_periodic_tether_bound`, `clay_B_exact_of_torus_direction_depletion`, `periodicFiniteTimeVorticityBound_of_uniform`, `periodicBKMContinuation_of_finiteTime_scaffold`, `clay_B_exact_of_periodic_finite_time_bound_scaffold`, `periodicFiniteTimeBound_vacuous`, `periodicTstar_eq_top_of_bkm`, `periodicGlobalOfTstarTop`, `clay_B_exact_of_periodic_bkm`, `not_periodicLocalExistenceOriginal`, `not_periodicMaximalSolutionOriginal` | **PROVED (26 theorem/lemma declarations: 24 theorems, 2 lemmas; the `clay_B_exact_of_*` reductions are conditional on their stated hypotheses; `clay_B_exact_of_periodic_bkm` is the one where the open input, `PeriodicBKMIntegrability`, is what yields T* = ⊤)** | Reduction from direction-curvature coercivity to $M' \le C_{\mathrm{CZ}}M^2 - \kappa'' M^3$, first-exit-time ODE ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$, and conditional reductions to `Clay_B_exact ν`. |
+| `HighSetDepletionAndBKM.lean` | `unmodified_max_rate_of_cubic_source`, `viscous_direction_dissipation_bridge`, `scale_invariant_cubic_rate_of_direction_coercivity`, `comparison_ode_ceiling`, `periodicTetherClosingBound_of_directionDepletion`, `clay_B_exact_of_periodic_tether_bound`, `clay_B_exact_of_torus_direction_depletion`, `periodicFiniteTimeVorticityBound_of_uniform`, `periodicBKMContinuation_of_finiteTime_scaffold`, `clay_B_exact_of_periodic_finite_time_bound_scaffold`, `periodicFiniteTimeBound_vacuous`, `periodicTstar_eq_top_of_bkm`, `periodicGlobalOfTstarTop`, `clay_B_exact_of_periodic_bkm`, `not_periodicLocalExistenceOriginal`, `not_periodicMaximalSolutionOriginal`, `comparison_ode_ceiling_right`, `old_periodicDirectionDepletionBound_unsatisfiable`, `jumpPath_oneSided_depletion_clause` | **PROVED (38 theorem/lemma declarations; the `clay_B_exact_of_*` reductions are conditional on their stated hypotheses; `clay_B_exact_of_periodic_bkm` is the one where the open input, `PeriodicBKMIntegrability`, is what yields T* = ⊤)** | Reduction from direction-curvature coercivity to $M' \le C_{\mathrm{CZ}}M^2 - \kappa'' M^3$, first-exit-time ODE ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$, and conditional reductions to `Clay_B_exact ν`. |
 | `MainTheorem.lean` | `clay_reduces_to_direction_curvature_bound` | **PROVED (1 theorem; conditional on `PeriodicBKMContinuation ν` and `DirectionCurvatureBound ν`)** | Reduction of `Clay_B_exact ν` to the named open estimate. |
 | `Stage6Calculus.lean` | Bochner and polar Pythagoras from `HasDerivAt`, shear Beltrami mode | **PROVED (Unconditional, 16 theorems)** | Calculus identities along coordinate lines. |
 | `Defs.lean` | Foundational 3D Navier–Stokes operators, vorticity, strain, and Sobolev definitions | **PROVED (Unconditional, 131 theorems)** | Complete differential/kinematic infrastructure with zero `sorry`. |
@@ -69,17 +80,17 @@ This repository has `0 sorry` and `0 custom axioms`. Q₁–Q₃ are uncondition
 
 ## Theorem and lemma counts on current `main`
 
-224 theorem/lemma declarations in source at commit `34e5a7f` (Lean sources unchanged since `4cb2150`); the titan audit reports more because it counts compiled/generated constants. This replaces a stale boxed `AxiomAudit.lean` summary, and corrects a 225 count that had included one comment line in `Defs.lean`.
+236 theorem/lemma declarations in source; Lean sources as of commit `8c40f83` (v1.5.0 erratum, 12 new declarations in `HighSetDepletionAndBKM.lean`); `AxiomAudit.lean` audits 243 names; the titan audit reports more because it counts compiled/generated constants. This replaces a stale boxed `AxiomAudit.lean` summary, and corrects a 225 count that had included one comment line in `Defs.lean`.
 
 ```text
 FeffermanClayNS.Defs: 131
 FeffermanClayNS.FeffermanStatements: 10
 FeffermanClayNS.FinalProductTheorem: 21
-FeffermanClayNS.HighSetDepletionAndBKM: 26
+FeffermanClayNS.HighSetDepletionAndBKM: 38
 FeffermanClayNS.MainTheorem: 1
 FeffermanClayNS.Stage6Calculus: 16
 FeffermanClayNS.TorusStrainExclusion: 19
-TOTAL: 224
+TOTAL: 236
 ```
 
 Reproducible count (strips `--` line comments and nested `/-` `-/` block comments, then counts `theorem`/`lemma` headers, including after modifiers such as `private`/`protected`/`@[simp]`):
