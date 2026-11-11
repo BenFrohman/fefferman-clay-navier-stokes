@@ -185,6 +185,17 @@ import FeffermanClayNS.TorusStrainExclusion
 #print axioms FeffermanClayNS.clay_B_exact_of_periodic_tether_bound
 #print axioms FeffermanClayNS.clay_B_exact_of_torus_direction_depletion
 #print axioms FeffermanClayNS.comparison_ode_ceiling
+#print axioms FeffermanClayNS.comparison_ode_ceiling_right
+#print axioms FeffermanClayNS.directionalCoord_clm
+#print axioms FeffermanClayNS.curl_shearField
+#print axioms FeffermanClayNS.curl_shearField_ne_zero
+#print axioms FeffermanClayNS.vorticity_sup_norm_shearField_pos
+#print axioms FeffermanClayNS.jumpPath_of_nonneg
+#print axioms FeffermanClayNS.jumpPath_isPeriodicSmoothSolutionOn
+#print axioms FeffermanClayNS.jumpPath_sup_norm
+#print axioms FeffermanClayNS.not_differentiableAt_jump
+#print axioms FeffermanClayNS.old_periodicDirectionDepletionBound_unsatisfiable
+#print axioms FeffermanClayNS.jumpPath_oneSided_depletion_clause
 #print axioms FeffermanClayNS.constE0_initialData
 #print axioms FeffermanClayNS.cubic_comparison_field_eq
 #print axioms FeffermanClayNS.cubic_comparison_field_neg_of_gt

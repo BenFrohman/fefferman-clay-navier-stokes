@@ -25,7 +25,7 @@ This module formalizes the **conditional** analytic reduction chain on `𝕋³ =
    When viscous direction-gradient dissipation `-ν M² ‖∇ξ‖²` satisfies a high-vorticity coercivity
    estimate on `𝕋³`, it yields a cubic comparison differential inequality.
 
-2. **Cubic Comparison ODE Ceiling (`comparison_ode_ceiling`):**
+2. **Cubic Comparison ODE Ceiling (`comparison_ode_ceiling`, one-sided `comparison_ode_ceiling_right`):**
    Unconditional proof (via `image_le_of_deriv_right_lt_deriv_boundary`) that any differentiable
    trajectory `M : ℝ → ℝ` on `[0, T]` satisfying `deriv M t ≤ C_CZ * M(t)² - κ'' * M(t)³` with
    `C_CZ > 0` and `κ'' > 0` is uniformly bounded by `Y = max (M 0) (C_CZ / κ'')`.
@@ -174,6 +174,44 @@ public theorem comparison_ode_ceiling
       hMC hMW hM0 hB hcontact
   exact hle ⟨ht.1, le_rfl⟩
 
+/-- **One-sided cubic comparison ceiling (`comparison_ode_ceiling_right`):**
+If `M` is continuous on `[0, T]` and at every `s ∈ [0, T)` has a right derivative `d` with
+`d ≤ C_CZ * M(s)² - κ'' * M(s)³` (`C_CZ, κ'' > 0`), then `M t ≤ max (M 0) (C_CZ / κ'')` on `[0, T]`.
+Only values of `M` on `[0, T]` are used. -/
+public theorem comparison_ode_ceiling_right
+    (M : ℝ → ℝ) (T C_CZ κ'' : ℝ)
+    (hC_pos : 0 < C_CZ) (hκ_pos : 0 < κ'')
+    (hM_cont : ContinuousOn M (Set.Icc (0 : ℝ) T))
+    (hODE : ∀ s ∈ Set.Ico (0 : ℝ) T, ∃ d : ℝ,
+      HasDerivWithinAt M d (Set.Ici s) s ∧ d ≤ C_CZ * (M s) ^ 2 - κ'' * (M s) ^ 3) :
+    ∀ t ∈ Set.Icc (0 : ℝ) T, M t ≤ max (M 0) (C_CZ / κ'') := by
+  intro t ht
+  choose! d hd hdle using hODE
+  set Y := max (M 0) (C_CZ / κ'')
+  refine le_of_forall_pos_le_add fun ε hε => ?_
+  have hbarrier : C_CZ / κ'' < Y + ε :=
+    lt_of_le_of_lt (le_max_right (M 0) (C_CZ / κ'')) (lt_add_of_pos_right _ hε)
+  have hM0 : M 0 ≤ Y + ε :=
+    (le_max_left (M 0) (C_CZ / κ'')).trans (le_add_of_nonneg_right hε.le)
+  have hMC : ContinuousOn M (Set.Icc (0 : ℝ) t) :=
+    hM_cont.mono (Set.Icc_subset_Icc_right ht.2)
+  have hMW : ∀ x ∈ Set.Ico (0 : ℝ) t, HasDerivWithinAt M (d x) (Set.Ici x) x := fun x hx =>
+    hd x ⟨hx.1, lt_of_lt_of_le hx.2 ht.2⟩
+  have hB : ∀ x, HasDerivAt (fun _ : ℝ => Y + ε) (0 : ℝ) x := fun x =>
+    hasDerivAt_const x (Y + ε)
+  have hcontact : ∀ x ∈ Set.Ico (0 : ℝ) t, M x = Y + ε → d x < 0 := by
+    intro x hx hxeq
+    have hneg : C_CZ * (Y + ε) ^ 2 - κ'' * (Y + ε) ^ 3 < 0 :=
+      cubic_comparison_field_neg_of_gt hC_pos hκ_pos hbarrier
+    have hdot := hdle x ⟨hx.1, lt_of_lt_of_le hx.2 ht.2⟩
+    rw [hxeq] at hdot
+    linarith
+  have hle :=
+    image_le_of_deriv_right_lt_deriv_boundary (f := M) (f' := d)
+      (a := 0) (b := t) (B := fun _ => Y + ε) (B' := fun _ => (0 : ℝ))
+      hMC hMW hM0 hB hcontact
+  exact hle ⟨ht.1, le_rfl⟩
+
 /-! ## Conditional Periodic Hypotheses & Conditional Reductions to `Clay_B_exact`
 
 **Honesty & Scope Notice:**
@@ -182,13 +220,35 @@ analytic hypotheses on the periodic 3-torus `𝕋³ = ℝ³ / ℤ³`. They are d
 passed explicitly as hypotheses to the conditional reduction theorems
 `clay_B_exact_of_periodic_tether_bound` and `clay_B_exact_of_torus_direction_depletion`. -/
 
-/-- **Conditional Hypothesis 1a (`PeriodicDirectionDepletionBound` — OPEN):**
+/-- **Conditional Hypothesis 1a (`PeriodicDirectionDepletionBound` — OPEN, corrected in v1.5.0):**
 For every smooth, divergence-free, `ℤ³`-periodic initial datum `u₀`, there exist positive
 constants `C_CZ, κ'' > 0` such that along any local-in-time periodic smooth solution `(u, p)` on
-`[0, T] × (ℝ³ / ℤ³)`, the spatial supremum of vorticity `M(t) = ‖ω(t)‖_∞` is differentiable on
-`[0, T]` and obeys the cubic direction-depletion differential inequality
-`deriv M t ≤ C_CZ * M(t)² - κ'' * M(t)³`. -/
+`[0, T] × (ℝ³ / ℤ³)`, the spatial supremum of vorticity `M(t) = ‖ω(t)‖_∞` is continuous on
+`[0, T]` and, at every `s ∈ [0, T)`, has a right derivative `d` (`HasDerivWithinAt … (Set.Ici s) s`)
+with `d ≤ C_CZ * M(s)² - κ'' * M(s)³`.
+
+The hypothesis only reads `M` on `[0, T]`, the interval on which `IsPeriodicSmoothSolutionOn`
+constrains `u`. The v1.0–v1.4 form (kept below as `PeriodicDirectionDepletionBoundOriginal`) asked
+for a two-sided derivative at every `t ∈ [0, T]`, including the endpoints, and is unsatisfiable
+(`old_periodicDirectionDepletionBound_unsatisfiable`). -/
 @[expose] public def PeriodicDirectionDepletionBound (ν : ℝ) : Prop :=
+  ∀ u₀ : VelocityField,
+    IsPeriodicSmoothInitialData u₀ →
+    ∃ C_CZ κ'' : ℝ, 0 < C_CZ ∧ 0 < κ'' ∧
+      ∀ (T : ℝ) (u : TimeDependentVelocity) (p : TimeDependentPressure),
+        IsPeriodicSmoothSolutionOn ν u₀ (fun _ _ => 0) T u p →
+        ContinuousOn (fun s => vorticity_sup_norm (vorticity (u s))) (Set.Icc (0 : ℝ) T) ∧
+        (∀ s ∈ Set.Ico (0 : ℝ) T, ∃ d : ℝ,
+          HasDerivWithinAt (fun τ => vorticity_sup_norm (vorticity (u τ))) d (Set.Ici s) s ∧
+            d ≤ C_CZ * (vorticity_sup_norm (vorticity (u s))) ^ 2 -
+              κ'' * (vorticity_sup_norm (vorticity (u s))) ^ 3)
+
+/-- **Scaffolding (unsatisfiable):** the v1.0–v1.4 form of `PeriodicDirectionDepletionBound`,
+with a two-sided derivative at every `t ∈ [0, T]`. A solution on `[0, T]` is unconstrained for
+`t < 0`, so the derivative at `t = 0` can always be destroyed; see
+`old_periodicDirectionDepletionBound_unsatisfiable`. Every implication from this hypothesis was
+vacuously true. -/
+@[expose] public def PeriodicDirectionDepletionBoundOriginal (ν : ℝ) : Prop :=
   ∀ u₀ : VelocityField,
     IsPeriodicSmoothInitialData u₀ →
     ∃ C_CZ κ'' : ℝ, 0 < C_CZ ∧ 0 < κ'' ∧
@@ -232,10 +292,10 @@ public theorem periodicTetherClosingBound_of_directionDepletion (ν : ℝ)
     le_trans (le_of_lt (div_pos hC_pos hκ_pos)) (le_max_right _ _)
   refine ⟨Y, hY_nonneg, ?_⟩
   intro T u p hsol t ht
-  obtain ⟨hdiff, hode⟩ := htraj T u p hsol
+  obtain ⟨hcont, hode⟩ := htraj T u p hsol
   have hu0_eq : u 0 = u₀ := funext hsol.2.2.2.2.2.2.2
-  have hceil := comparison_ode_ceiling
-    (fun s => vorticity_sup_norm (vorticity (u s))) T C_CZ κ'' hC_pos hκ_pos hdiff hode t ht
+  have hceil := comparison_ode_ceiling_right
+    (fun s => vorticity_sup_norm (vorticity (u s))) T C_CZ κ'' hC_pos hκ_pos hcont hode t ht
   simpa [Y, hu0_eq] using hceil
 
 /-- **Conditional Hypothesis 2 (`PeriodicBKMContinuation` — Classical PDE Input):**
@@ -575,5 +635,125 @@ public theorem not_periodicMaximalSolutionOriginal (ν : ℝ) (hν : 0 < ν) :
   have hlt : ((-1 : ℝ) : EReal) < periodicTstarOriginal ν 0 :=
     lt_of_lt_of_le (EReal.coe_lt_coe_iff.2 (by norm_num)) (le_sSup hmem)
   exact absurd (hmax (-1) hlt).1.1 (by norm_num)
+
+
+/-! ### v1.5.0 erratum: the two-sided-derivative hypothesis was unsatisfiable
+
+`PeriodicDirectionDepletionBoundOriginal` (the v1.0–v1.4 `PeriodicDirectionDepletionBound`) asked
+for `DifferentiableAt` of `M(t) = ‖ω(t)‖_∞` at `t = 0`. `IsPeriodicSmoothSolutionOn` says nothing
+about `u t` for `t < 0`. The path `jumpPath` is zero on `[0, ∞)` (so it solves from zero data on
+`[0, 1]`) and equals a linear shear with nonzero constant vorticity for `t < 0`, so `M` jumps at
+`0`. Hence the old hypothesis fails for every `ν`, and the old main implication was vacuous. -/
+
+/-- The linear shear `x ↦ x₀ e₁` as a continuous linear map. -/
+public noncomputable def shearCLM : T3 →L[ℝ] T3 :=
+  (EuclideanSpace.proj (0 : Fin 3)).smulRight (EuclideanSpace.single (1 : Fin 3) (1 : ℝ))
+
+/-- The linear shear `x ↦ x₀ e₁` as a velocity field. -/
+public noncomputable def shearField : VelocityField := fun y => shearCLM y
+
+/-- Directional coordinates of a continuous linear field do not depend on the base point. -/
+public theorem directionalCoord_clm (L : T3 →L[ℝ] T3) (comp dir : Fin 3) (x : T3) :
+    directionalCoord (fun y => L y) comp dir x = L (EuclideanSpace.single dir 1) comp := by
+  unfold directionalCoord
+  have hfun : (fun y => L y comp) = ⇑((EuclideanSpace.proj comp).comp L) := by
+    funext y
+    simp
+  rw [hfun, ContinuousLinearMap.fderiv]
+  simp
+
+public theorem curl_shearField (x : T3) : curl shearField x = curl shearField 0 := by
+  simp only [curl, shearField, directionalCoord_clm]
+
+public theorem curl_shearField_ne_zero : curl shearField 0 ≠ 0 := by
+  intro h
+  have h2 := congrArg (fun v : EuclideanSpace ℝ (Fin 3) => v 2) h
+  simp [curl, shearField, directionalCoord_clm, shearCLM] at h2
+
+public theorem vorticity_sup_norm_shearField_pos :
+    0 < vorticity_sup_norm (vorticity shearField) := by
+  have h : (fun x : T3 => ‖vorticity shearField x‖) = fun _ => ‖curl shearField 0‖ := by
+    funext x
+    simp only [vorticity]
+    rw [curl_shearField x]
+  unfold vorticity_sup_norm
+  rw [h, ciSup_const]
+  exact norm_pos_iff.2 curl_shearField_ne_zero
+
+/-- Zero on `[0, ∞)`, the shear `shearField` for `t < 0`. -/
+public noncomputable def jumpPath : TimeDependentVelocity :=
+  fun s => if s < 0 then shearField else 0
+
+public theorem jumpPath_of_nonneg {s : ℝ} (hs : 0 ≤ s) : jumpPath s = 0 := by
+  simp [jumpPath, not_lt.2 hs]
+
+/-- `jumpPath` solves on `[0, 1]` from zero data: it agrees with the zero solution there. -/
+public theorem jumpPath_isPeriodicSmoothSolutionOn (ν : ℝ) :
+    IsPeriodicSmoothSolutionOn ν 0 (fun _ _ => 0) 1 jumpPath (fun _ => 0) := by
+  obtain ⟨h1, h2, h3, h4, h5, h6, h7, _h8⟩ := zero_isPeriodicSmoothSolutionOn ν
+  refine ⟨h1, fun t ht => ?_, h3, ?_, h5, fun t ht x => ?_, fun t ht x => ?_, fun x => ?_⟩
+  · rw [jumpPath_of_nonneg ht.1]
+    exact h2 t ht
+  · exact h4.congr fun q hq => by simp [jumpPath_of_nonneg hq.1.1]
+  · have hEq : Set.EqOn (fun s => jumpPath s x) (fun s => (fun _ => (0 : VelocityField)) s x)
+        (Set.Icc (0 : ℝ) 1) := fun s hs => by simp [jumpPath_of_nonneg hs.1]
+    rw [derivWithin_congr hEq (hEq ht), jumpPath_of_nonneg ht.1]
+    exact h6 t ht x
+  · rw [jumpPath_of_nonneg ht.1]
+    exact h7 t ht x
+  · rw [jumpPath_of_nonneg le_rfl]
+
+public theorem jumpPath_sup_norm :
+    (fun s => vorticity_sup_norm (vorticity (jumpPath s))) =
+      fun s => if s < 0 then vorticity_sup_norm (vorticity shearField) else 0 := by
+  funext s
+  by_cases hs : s < 0
+  · simp [jumpPath, hs]
+  · rw [if_neg hs, jumpPath_of_nonneg (not_lt.1 hs)]
+    exact vorticity_sup_norm_zero_field
+
+/-- A real function equal to `m ≠ 0` on `(-∞, 0)` and to `0` on `[0, ∞)` is not differentiable
+at `0`. -/
+public theorem not_differentiableAt_jump (m : ℝ) (hm : m ≠ 0) :
+    ¬ DifferentiableAt ℝ (fun s : ℝ => if s < 0 then m else 0) 0 := by
+  intro hd
+  have hc := hd.continuousAt.tendsto.mono_left (nhdsWithin_le_nhds (s := Set.Iio (0 : ℝ)))
+  have heq : (fun _ : ℝ => m) =ᶠ[𝓝[<] (0 : ℝ)] fun s : ℝ => if s < 0 then m else 0 :=
+    eventually_nhdsWithin_of_forall fun s hs => (if_pos hs).symm
+  have h2 : Tendsto (fun s : ℝ => if s < 0 then m else 0) (𝓝[<] (0 : ℝ)) (𝓝 m) :=
+    tendsto_const_nhds.congr' heq
+  have h3 := tendsto_nhds_unique hc h2
+  simp only [lt_irrefl, if_false] at h3
+  exact hm h3.symm
+
+/-- **Proved (v1.5.0 erratum):** the v1.0–v1.4 hypothesis `PeriodicDirectionDepletionBoundOriginal ν`
+is false for every `ν`. Every theorem that assumed it was vacuously true. -/
+public theorem old_periodicDirectionDepletionBound_unsatisfiable (ν : ℝ) :
+    ¬ PeriodicDirectionDepletionBoundOriginal ν := by
+  intro h
+  obtain ⟨_C, _κ, -, -, htraj⟩ := h 0 zero_isPeriodicSmoothInitialData
+  obtain ⟨hdiff, -⟩ := htraj 1 jumpPath (fun _ => 0) (jumpPath_isPeriodicSmoothSolutionOn ν)
+  have h0 := hdiff 0 ⟨le_rfl, zero_le_one⟩
+  rw [jumpPath_sup_norm] at h0
+  exact not_differentiableAt_jump _ (ne_of_gt vorticity_sup_norm_shearField_pos) h0
+
+/-- **Proved (regression):** the trajectory clause of the corrected
+`PeriodicDirectionDepletionBound` holds for `jumpPath` on every `[0, T]`, for any constants.
+The corrected hypothesis is not refuted by values off `[0, T]`. -/
+public theorem jumpPath_oneSided_depletion_clause (T C_CZ κ'' : ℝ) :
+    ContinuousOn (fun s => vorticity_sup_norm (vorticity (jumpPath s))) (Set.Icc (0 : ℝ) T) ∧
+    (∀ s ∈ Set.Ico (0 : ℝ) T, ∃ d : ℝ,
+      HasDerivWithinAt (fun τ => vorticity_sup_norm (vorticity (jumpPath τ))) d (Set.Ici s) s ∧
+        d ≤ C_CZ * (vorticity_sup_norm (vorticity (jumpPath s))) ^ 2 -
+          κ'' * (vorticity_sup_norm (vorticity (jumpPath s))) ^ 3) := by
+  have hz : ∀ τ : ℝ, 0 ≤ τ → vorticity_sup_norm (vorticity (jumpPath τ)) = 0 := fun τ hτ => by
+    rw [jumpPath_of_nonneg hτ]
+    exact vorticity_sup_norm_zero_field
+  refine ⟨?_, fun s hs => ⟨0, ?_, ?_⟩⟩
+  · exact continuousOn_const.congr fun τ hτ => hz τ hτ.1
+  · exact (hasDerivWithinAt_const s (Set.Ici s) (0 : ℝ)).congr
+      (fun τ hτ => hz τ (le_trans hs.1 hτ)) (hz s hs.1)
+  · rw [hz s hs.1]
+    simp
 
 end FeffermanClayNS

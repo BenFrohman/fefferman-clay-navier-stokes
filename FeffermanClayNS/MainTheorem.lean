@@ -26,7 +26,9 @@ namespace FeffermanClayNS
 
 /-- **The single named open estimate (conjecture).** The high-set direction-curvature /
 cubic depletion bound `M' ≤ C_CZ M² − κ'' M³` for `M(t) = ‖ω(t)‖_∞` along every local periodic
-smooth Navier–Stokes solution. OPEN. -/
+smooth Navier–Stokes solution on `[0, T]`, with `M` continuous on `[0, T]` and `M'` a right
+derivative at each `s ∈ [0, T)`. OPEN. Before v1.5.0 this used a two-sided derivative on `[0, T]`,
+which is unsatisfiable (`old_periodicDirectionDepletionBound_unsatisfiable`). -/
 abbrev DirectionCurvatureBound (ν : ℝ) : Prop := PeriodicDirectionDepletionBound ν
 
 /-- **Main Theorem (proved reduction).** -/
