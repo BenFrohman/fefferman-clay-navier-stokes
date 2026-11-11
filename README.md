@@ -5,7 +5,7 @@
 **Author:** Benjamin Stanley Frohman ([ORCID: 0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))  
 **Zenodo DOI (v1.1.0):** [`10.5281/zenodo.23717083`](https://doi.org/10.5281/zenodo.23717083) | **Concept DOI:** [`10.5281/zenodo.23652840`](https://doi.org/10.5281/zenodo.23652840) | **v1.0.0 DOI:** [`10.5281/zenodo.23652841`](https://doi.org/10.5281/zenodo.23652841)  
 **License:** Apache-2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)  
-**Toolchain:** `leanprover/lean4:v4.30.0-rc1` + Mathlib 4 (`2643` build jobs, **225 theorems and lemmas across 7 modules**, **0 `sorry`**, **0 non-standard axioms**)  
+**Toolchain:** `leanprover/lean4:v4.30.0-rc1` + Mathlib 4 (`2643` build jobs, **224 theorem/lemma declarations in source at commit `34e5a7f`**, **0 `sorry`**, **0 non-standard axioms**)  
 **Paper PDF:** [`Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf`](Fefferman_Clay_Navier_Stokes_Periodic_Regularity_2026.pdf)
 
 ---
@@ -53,33 +53,68 @@ This repository has `0 sorry` and `0 custom axioms`. Q₁–Q₃ are uncondition
 
 ---
 
-## Modules (`225 theorems and lemmas`, `0 sorry`)
+## Modules (224 theorem/lemma declarations in source at commit `34e5a7f`, `0 sorry`)
 
 | Module | Declaration | Status | Description |
 |---|---|---|---|
 | `FinalProductTheorem.lean` | `fefferman_periodic_ns_exact_reduction_product_theorem`, `vorticity_sup_norm_eq_of_isSpatialMax`, `polar_pythagoras_3d_sum`, `bochner_laplacian_3d_identity`, `concrete_bochner_polar_viscous_damping_at_max`, `nonzero_periodic_smooth_solution_exists`, `beltrami_lamb_vector_cross3_zero`, `near_field_stretching_absorbed_by_viscous_direction_damping`, `constantin_fefferman_near_far_cutoff_bridge` | **PROVED (21 theorems; Q₅ conditional on `PeriodicDirectionDepletionBound ν` and `PeriodicBKMContinuation ν`)** | Master 5-conjunct product theorem ($Q_1(\nu) \wedge Q_2 \wedge Q_3 \wedge Q_4 \wedge Q_5(\nu)$), Stage 2 `BddAbove`/`sSup` pinning at attained spatial maxima, Stage 3 concrete 3D vector Bochner & polar Pythagoras identities, Stage 4 non-zero smooth periodic flow inhabitation & Beltrami Lamb-vector vanishing, and Stage 5 Constantin–Fefferman near/far Biot–Savart cutoff bridge. |
 | `FeffermanStatements.lean` | `Clay_B_exact ν`, `isZ3Periodic_iff_unit_shifts`, `clay_B_exact_of_with_energy`, `library_huniq_unsatisfiable_at_zero`, `stepField_not_physical`, `repaired_hInt`, `repaired_huniq_at_zero` | **PROVED (Unconditional, 10 theorems)** | Verbatim Lean 4 encoding of Fefferman (2006) Statement (B) on $\mathbb{R}^3/\mathbb{Z}^3$, unit-shift equivalence, energy reduction, and step-jump exclusion. |
 | `TorusStrainExclusion.lean` | `z3_periodic_linear_eq_zero`, `burgersLinearStrain_not_z3_periodic`, `biot_savart_det_aligned_eq_zero`, `aligned_vorticity_stretching_integrand_zero`, `biot_savart_det_difference_identity`, `navier_stokes_scaling_homogeneity_deg6`, `unnormalized_quartic_scaling_mismatch` | **PROVED (Unconditional, 19 theorems)** | Global linear strain exclusion on $\mathbb{T}^3$, Biot–Savart direction-difference determinant identity, and $\lambda^6$ parabolic scaling homogeneity. |
-| `HighSetDepletionAndBKM.lean` | `unmodified_max_rate_of_cubic_source`, `viscous_direction_dissipation_bridge`, `scale_invariant_cubic_rate_of_direction_coercivity`, `comparison_ode_ceiling`, `periodicTetherClosingBound_of_directionDepletion`, `clay_B_exact_of_periodic_tether_bound`, `clay_B_exact_of_torus_direction_depletion`, `periodicFiniteTimeVorticityBound_of_uniform`, `periodicBKMContinuation_of_finiteTime_scaffold`, `clay_B_exact_of_periodic_finite_time_bound_scaffold`, `periodicFiniteTimeBound_vacuous`, `periodicTstar_eq_top_of_bkm`, `periodicGlobalOfTstarTop`, `clay_B_exact_of_periodic_bkm`, `not_periodicLocalExistenceOriginal`, `not_periodicMaximalSolutionOriginal` | **PROVED (26 theorems; the `clay_B_exact_of_*` reductions are conditional on their stated hypotheses; `clay_B_exact_of_periodic_bkm` is the one where the open input, `PeriodicBKMIntegrability`, is what yields T* = ⊤)** | Reduction from direction-curvature coercivity to $M' \le C_{\mathrm{CZ}}M^2 - \kappa'' M^3$, first-exit-time ODE ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$, and conditional reductions to `Clay_B_exact ν`. |
+| `HighSetDepletionAndBKM.lean` | `unmodified_max_rate_of_cubic_source`, `viscous_direction_dissipation_bridge`, `scale_invariant_cubic_rate_of_direction_coercivity`, `comparison_ode_ceiling`, `periodicTetherClosingBound_of_directionDepletion`, `clay_B_exact_of_periodic_tether_bound`, `clay_B_exact_of_torus_direction_depletion`, `periodicFiniteTimeVorticityBound_of_uniform`, `periodicBKMContinuation_of_finiteTime_scaffold`, `clay_B_exact_of_periodic_finite_time_bound_scaffold`, `periodicFiniteTimeBound_vacuous`, `periodicTstar_eq_top_of_bkm`, `periodicGlobalOfTstarTop`, `clay_B_exact_of_periodic_bkm`, `not_periodicLocalExistenceOriginal`, `not_periodicMaximalSolutionOriginal` | **PROVED (26 theorem/lemma declarations: 24 theorems, 2 lemmas; the `clay_B_exact_of_*` reductions are conditional on their stated hypotheses; `clay_B_exact_of_periodic_bkm` is the one where the open input, `PeriodicBKMIntegrability`, is what yields T* = ⊤)** | Reduction from direction-curvature coercivity to $M' \le C_{\mathrm{CZ}}M^2 - \kappa'' M^3$, first-exit-time ODE ceiling $M(t) \le \max(M(0), C_{\mathrm{CZ}}/\kappa'')$, and conditional reductions to `Clay_B_exact ν`. |
 | `MainTheorem.lean` | `clay_reduces_to_direction_curvature_bound` | **PROVED (1 theorem; conditional on `PeriodicBKMContinuation ν` and `DirectionCurvatureBound ν`)** | Reduction of `Clay_B_exact ν` to the named open estimate. |
 | `Stage6Calculus.lean` | Bochner and polar Pythagoras from `HasDerivAt`, shear Beltrami mode | **PROVED (Unconditional, 16 theorems)** | Calculus identities along coordinate lines. |
-| `Defs.lean` | Foundational 3D Navier–Stokes operators, vorticity, strain, and Sobolev definitions | **PROVED (Unconditional, 132 theorems)** | Complete differential/kinematic infrastructure with zero `sorry`. |
+| `Defs.lean` | Foundational 3D Navier–Stokes operators, vorticity, strain, and Sobolev definitions | **PROVED (Unconditional, 131 theorems)** | Complete differential/kinematic infrastructure with zero `sorry`. |
 
 ---
 
 ## Theorem and lemma counts on current `main`
 
-Source count of `theorem` and `lemma` declarations in the 7 modules (commit `4cb2150`). This replaces a stale boxed `AxiomAudit.lean` summary whose total no longer matched the source.
+224 theorem/lemma declarations in source at commit `34e5a7f` (Lean sources unchanged since `4cb2150`); the titan audit reports more because it counts compiled/generated constants. This replaces a stale boxed `AxiomAudit.lean` summary, and corrects a 225 count that had included one comment line in `Defs.lean`.
 
 ```text
-FeffermanClayNS.Defs: 132
+FeffermanClayNS.Defs: 131
 FeffermanClayNS.FeffermanStatements: 10
 FeffermanClayNS.FinalProductTheorem: 21
 FeffermanClayNS.HighSetDepletionAndBKM: 26
 FeffermanClayNS.MainTheorem: 1
 FeffermanClayNS.Stage6Calculus: 16
 FeffermanClayNS.TorusStrainExclusion: 19
-TOTAL: 225
+TOTAL: 224
+```
+
+Reproducible count (strips `--` line comments and nested `/-` `-/` block comments, then counts `theorem`/`lemma` headers, including after modifiers such as `private`/`protected`/`@[simp]`):
+
+```bash
+python3 -c 'import re,pathlib
+def strip(s):
+    o,i,n=[],0,len(s)
+    while i<n:
+        if s[i]=="\"":
+            o.append(s[i]); i+=1
+            while i<n:
+                if s[i]=="\\" and i+1<n: o+=[s[i],s[i+1]]; i+=2; continue
+                o.append(s[i]); i+=1
+                if o[-1]=="\"": break
+            continue
+        if s[i:i+2]=="/-":
+            d=1; i+=2
+            while i<n and d:
+                if s[i:i+2]=="/-": d+=1; i+=2
+                elif s[i:i+2]=="-/": d-=1; i+=2
+                else:
+                    if s[i]=="\n": o.append("\n")
+                    i+=1
+            continue
+        if s[i:i+2]=="--":
+            while i<n and s[i]!="\n": i+=1
+            continue
+        o.append(s[i]); i+=1
+    return "".join(o)
+pat=re.compile(r"(?m)^[ \t]*(?:@\[[^\]]*\]\s*)*(?:(?:public|private|protected|noncomputable|unsafe|partial)\s+)*(?:@\[[^\]]*\]\s*)*(?:(?:public|private|protected|noncomputable|unsafe|partial)\s+)*(theorem|lemma)\s+\S+")
+tot=0
+for p in sorted(pathlib.Path("FeffermanClayNS").glob("*.lean")):
+    n=len(pat.findall(strip(p.read_text()))); print(f"{p}: {n}"); tot+=n
+print("TOTAL:", tot)'
 ```
 
 Axiom dependencies of `fefferman_periodic_ns_exact_reduction_product_theorem` remain `[propext, Classical.choice, Quot.sound]`, as recorded in `AxiomAudit.lean`.
