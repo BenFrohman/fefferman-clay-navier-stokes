@@ -662,13 +662,17 @@ public theorem directionalCoord_clm (L : T3 →L[ℝ] T3) (comp dir : Fin 3) (x 
   rw [hfun, ContinuousLinearMap.fderiv]
   simp
 
+public theorem directionalCoord_shearField (comp dir : Fin 3) (x : T3) :
+    directionalCoord shearField comp dir x = shearCLM (EuclideanSpace.single dir 1) comp :=
+  directionalCoord_clm shearCLM comp dir x
+
 public theorem curl_shearField (x : T3) : curl shearField x = curl shearField 0 := by
-  simp only [curl, shearField, directionalCoord_clm]
+  simp only [curl, directionalCoord_shearField]
 
 public theorem curl_shearField_ne_zero : curl shearField 0 ≠ 0 := by
   intro h
   have h2 := congrArg (fun v : EuclideanSpace ℝ (Fin 3) => v 2) h
-  simp [curl, shearField, directionalCoord_clm, shearCLM] at h2
+  simp [curl, directionalCoord_shearField, shearCLM, ContinuousLinearMap.smulRight_apply] at h2
 
 public theorem vorticity_sup_norm_shearField_pos :
     0 < vorticity_sup_norm (vorticity shearField) := by

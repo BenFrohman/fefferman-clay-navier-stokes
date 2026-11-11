@@ -187,6 +187,7 @@ import FeffermanClayNS.TorusStrainExclusion
 #print axioms FeffermanClayNS.comparison_ode_ceiling
 #print axioms FeffermanClayNS.comparison_ode_ceiling_right
 #print axioms FeffermanClayNS.directionalCoord_clm
+#print axioms FeffermanClayNS.directionalCoord_shearField
 #print axioms FeffermanClayNS.curl_shearField
 #print axioms FeffermanClayNS.curl_shearField_ne_zero
 #print axioms FeffermanClayNS.vorticity_sup_norm_shearField_pos
