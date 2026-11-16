@@ -1,0 +1,14 @@
+checker: leanchecker source shipped with v4.30.0-rc1 (src/lean/LeanChecker.lean), prefix match -> exact match, run with lean --run
+  patch: 93c93
+  patch: <         if !fresh && target.isPrefixOf m || target == m then
+  patch: ---
+  patch: >         if !fresh && target == m || target == m then
+FeffermanClayNS: OK (1 module replayed)
+FeffermanClayNS.Defs: OK (1 module replayed)
+FeffermanClayNS.FeffermanStatements: OK (1 module replayed)
+FeffermanClayNS.FinalProductTheorem: OK (1 module replayed)
+FeffermanClayNS.HighSetDepletionAndBKM: OK (1 module replayed)
+FeffermanClayNS.MainTheorem: OK (1 module replayed)
+FeffermanClayNS.Stage6Calculus: OK (1 module replayed)
+FeffermanClayNS.TorusStrainExclusion: OK (1 module replayed)
+RESULT: 8 of 8 modules replayed through the kernel, 0 failures
