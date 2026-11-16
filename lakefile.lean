@@ -5,6 +5,13 @@ Authors: Benjamin Stanley Frohman
 -/
 
 import Lake
+
+/-!
+# lakefile
+
+Machine-checked Lean 4 module.
+-/
+
 open Lake DSL
 
 package FeffermanClayNS where
