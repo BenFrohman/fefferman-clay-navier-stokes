@@ -2,6 +2,10 @@
 
 [![certify.yml](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml/badge.svg?branch=main)](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/workflows/certify.yml)
 
+## Kernel certificate
+
+[certificates/CERTIFICATE.md](certificates/CERTIFICATE.md): commit `0576450`, `leanprover/lean4:v4.30.0-rc1`. `lake build` passes; the sorry/axiom scan finds 0 hits; **260 theorems depend only on `propext`, `Classical.choice`, `Quot.sound`**; 8 of 8 modules replayed through the kernel, 0 failures ([CI run](https://github.com/BenFrohman/fefferman-clay-navier-stokes/actions/runs/43937897224)).
+
 **Author:** Benjamin Stanley Frohman ([ORCID: 0009-0006-7068-3718](https://orcid.org/0009-0006-7068-3718))  
 **Zenodo DOI (v1.5.0):** [`10.5281/zenodo.24144846`](https://doi.org/10.5281/zenodo.24144846) | **Concept DOI:** [`10.5281/zenodo.23652840`](https://doi.org/10.5281/zenodo.23652840) | **v1.0.0 DOI:** [`10.5281/zenodo.23652841`](https://doi.org/10.5281/zenodo.23652841)  
 **License:** Apache-2.0 (`Copyright (c) 2026 Benjamin Stanley Frohman`)  
